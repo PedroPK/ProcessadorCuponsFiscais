@@ -1,0 +1,15 @@
+# Arquivos de dados
+*.pdf
+*.zip
+*.csv
+*.xlsx
+
+# Arquivos do sistema
+.DS_Store
+.vscode/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
