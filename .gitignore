@@ -3,6 +3,7 @@
 *.zip
 *.csv
 *.xlsx
+*.numbers
 
 # Arquivos do sistema
 .DS_Store
