@@ -1,15 +1,30 @@
 # 🛒 Monitor de Inflação Pessoal
 
-Uma ferramenta em Python para extrair dados de Cupons Fiscais (NFC-e) em PDF, criar um banco de dados histórico de compras e visualizar a evolução dos preços através de um Dashboard interativo.
+Uma ferramenta em Python para extrair dados de Notas Fiscais (NFC-e) — em formato **XML ou PDF** —, criar um banco de dados histórico de compras e visualizar a evolução dos preços através de um Dashboard interativo.
 
 ## 📋 Sobre o Projeto
 
 Este software resolve o problema de rastrear a "inflação real" do consumidor. Diferente dos índices oficiais (IPCA), que usam uma cesta de produtos genérica, este projeto calcula a inflação baseada **exatamente no que você compra**.
 
 **Funcionalidades:**
-* **Extração Inteligente:** Lê PDFs (soltos ou em ZIP) de Notas Fiscais Eletrônicas.
+* **Extração via XML (preferencial):** Lê diretamente o XML da NF-e (obtido pelo app de consulta de notas fiscais). Dados estruturados, precisos e sem necessidade de regex — inclui EAN, NCM, CNPJ e nome da loja.
+* **Extração via PDF (legado):** Continua suportando arquivos DANFE em PDF para notas mais antigas.
+* **Deduplicação automática:** Usa a **chave de acesso NF-e (44 dígitos)** para garantir que a mesma nota não seja contada duas vezes, mesmo que exista nos dois formatos ou duplicada dentro de um ZIP.
 * **Normalização de Nomes:** Usa algoritmos de similaridade (*Fuzzy Matching*) para identificar variações de nomes de produtos.
 * **Dashboard Interativo:** Painel visual para analisar variação de preços e Curva ABC (Pareto).
+
+### Comparativo XML vs PDF
+
+| | XML (NF-e) | PDF (DANFE) |
+|---|---|---|
+| Parsing | Zero regex, 100% confiável | Regex frágil, depende do layout |
+| Nome do produto | Exato (dado do sistema da loja) | Abreviado/truncado |
+| Código EAN (barcode) | ✅ | ❌ |
+| Código NCM (fiscal) | ✅ | ❌ |
+| Nome e CNPJ da loja | ✅ | ❌ |
+| Data/hora exata | ✅ ISO 8601 com timezone | Somente data, via regex |
+
+> **Recomendação:** sempre prefira baixar o XML da nota (disponível no app "NFC-e" ou pelo QR Code do cupom). O PDF só é necessário para notas antigas que você não tenha o XML.
 
 ---
 
@@ -18,13 +33,14 @@ Este software resolve o problema de rastrear a "inflação real" do consumidor. 
 ```text
 MEU_PROJETO/
 ├── src/
-│   ├── main.py              # Script principal de extração
-│   ├── criar_dicionario.py  # Script de normalização de nomes
-│   └── dashboard.py         # Interface visual (Streamlit)
+│   ├── processadorCuponsFiscais.py  # Script principal de extração
+│   ├── extratorXml.py               # Parser de NF-e XML (chamado pelo processador)
+│   ├── dicionario.py                # Script de normalização de nomes
+│   └── dashboard.py                 # Interface visual (Streamlit)
 ├── resources/
-│   ├── cfs/                 # COLOQUE SEUS PDFs AQUI (ou arquivos .zip)
-│   └── outputData/          # AQUI SERÃO GERADOS OS RESULTADOS (CSV e Excel)
-├── .venv/                   # Ambiente virtual Python (recomendado)
+│   ├── cfs/          # COLOQUE SEUS ARQUIVOS AQUI (.xml, .pdf ou .zip)
+│   └── outputData/   # AQUI SERÃO GERADOS OS RESULTADOS (CSV e Excel)
+├── .venv/            # Ambiente virtual Python (recomendado)
 └── README.md
 ```
 
@@ -59,28 +75,54 @@ Copie e cole este comando inteiro para baixar tudo o que o projeto precisa:
 pip install pdfplumber pandas openpyxl streamlit plotly thefuzz python-Levenshtein
 ```
 
+> **Nota:** o suporte a XML utiliza a biblioteca `xml.etree.ElementTree`, que já vem incluída no Python — nenhum pacote extra é necessário para isso.
+
 
 ## ▶️ Como Executar (Fluxo de Trabalho)
 Sempre que você tiver novas notas fiscais, siga esta ordem:
 
 ### 1️⃣ Colocar os Arquivos
-Pegue seus arquivos .pdf (ou arquivos .zip com vários PDFs dentro) e coloque na pasta:
+Pegue seus arquivos e coloque na pasta `resources/cfs/`. Os formatos aceitos são:
 
-```
-resources/cfs/
-````
+| Formato | Descrição |
+|---|---|
+| `.xml` | XML da NF-e — **formato preferencial**, máxima qualidade de dados |
+| `.pdf` | DANFE em PDF — suporte legado para notas antigas |
+| `.zip` | ZIP com XMLs e/ou PDFs. Se o ZIP contiver ambos, apenas os XMLs são usados |
+
+> **Como obter o XML:** leia o QR Code do cupom físico com o app de NFC-e do seu estado (ex.: app da SEFAZ), acesse a nota e baixe o XML. Você pode salvar vários XMLs num único ZIP.
 
 ### 2️⃣ Extrair os Dados (Bruto)
-Rode este comando para ler os PDFs e gerar o CSV inicial:
+Rode este comando para ler as notas e gerar o CSV inicial:
 
 ```Bash
 python3 src/processadorCuponsFiscais.py
 ````
 
 **O que faz:**
-- Lê arquivos PDF ou ZIP dentro de `resources/cfs/`
-- Extrai dados de produtos, preços e datas
+- Processa primeiro todos os ZIPs e XMLs avulsos, registrando a chave de acesso de cada nota
+- Em seguida processa os PDFs avulsos, **pulando automaticamente** qualquer nota cuja chave já foi lida via XML
+- Dentro de um ZIP com XMLs e PDFs, usa apenas os XMLs
 - Gera o arquivo `resources/outputData/minha_inflacao.csv`
+
+**Colunas geradas no CSV:**
+
+| Coluna | Preenchida por | Descrição |
+|---|---|---|
+| `data` | XML e PDF | Data da compra (dd/mm/yyyy) |
+| `loja` | XML | Nome fantasia ou razão social do emissor |
+| `cnpj` | XML | CNPJ do emissor |
+| `produto` | XML e PDF | Nome do produto |
+| `qtd` | XML e PDF | Quantidade |
+| `unidade` | XML e PDF | Unidade (PC, Kg, Un…) |
+| `preco_unit` | XML e PDF | Preço unitário |
+| `preco_total` | XML e PDF | Valor total do item |
+| `codigo` | XML e PDF | Código interno do produto na loja |
+| `ean` | XML | Código de barras EAN/GTIN |
+| `ncm` | XML | Código NCM (classificação fiscal) |
+| `chave_nfe` | XML | Chave de acesso NF-e de 44 dígitos |
+| `arquivo_origem` | XML e PDF | Nome do arquivo processado |
+| `categoria` | Dicionário | Categoria (após rodar o Passo 3) |
 
 ---
 
