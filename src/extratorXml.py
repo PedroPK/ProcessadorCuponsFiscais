@@ -54,6 +54,24 @@ def _parse_data(dh_emi: str | None) -> str:
         return dh_emi[:10]  # Fallback: apenas a parte da data
 
 
+def extrair_chave_do_xml(conteudo_xml: bytes | str) -> str | None:
+    """
+    Extrai apenas a chave de acesso NF-e (44 dígitos) do XML.
+    Retorna None se não encontrar.
+    """
+    if isinstance(conteudo_xml, bytes):
+        conteudo_xml = conteudo_xml.decode('utf-8', errors='replace')
+    try:
+        root = ET.fromstring(conteudo_xml)
+    except ET.ParseError:
+        return None
+    inf = root.find('.//' + _t('infNFe'))
+    if inf is None:
+        return None
+    id_attr = inf.get('Id', '')  # ex.: 'NFe26260306057223049189650130001286971130305212'
+    return id_attr.lstrip('NFe') if id_attr else None
+
+
 def extrair_itens_do_xml(conteudo_xml: bytes | str, nome_origem: str) -> list[dict]:
     """
     Extrai todos os itens de uma NF-e / NFC-e a partir do conteúdo XML.
@@ -70,7 +88,7 @@ def extrair_itens_do_xml(conteudo_xml: bytes | str, nome_origem: str) -> list[di
     list[dict]
         Lista de dicts, um por item da nota, com as chaves:
           data, produto, qtd, unidade, preco_unit, preco_total,
-          codigo, ean, ncm, loja, cnpj, arquivo_origem
+          codigo, ean, ncm, loja, cnpj, chave_nfe, arquivo_origem
     """
     if isinstance(conteudo_xml, bytes):
         conteudo_xml = conteudo_xml.decode('utf-8', errors='replace')
@@ -86,6 +104,10 @@ def extrair_itens_do_xml(conteudo_xml: bytes | str, nome_origem: str) -> list[di
     if nfe is None:
         print(f'[AVISO XML] {nome_origem}: tag <infNFe> não encontrada.')
         return []
+
+    # Chave de acesso: atributo Id sem o prefixo 'NFe' (44 dígitos)
+    id_attr = nfe.get('Id', '')
+    chave_nfe = id_attr[len('NFe'):] if id_attr.startswith('NFe') else id_attr
 
     # ── Cabeçalho da nota ────────────────────────────────────────────────────
     ide  = nfe.find(_t('ide'))
@@ -134,6 +156,7 @@ def extrair_itens_do_xml(conteudo_xml: bytes | str, nome_origem: str) -> list[di
             'ncm':            ncm,
             'loja':           loja or '',
             'cnpj':           cnpj or '',
+            'chave_nfe':      chave_nfe,
             'arquivo_origem': nome_origem,
         })
 

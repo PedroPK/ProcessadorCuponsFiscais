@@ -3,11 +3,14 @@ import pandas as pd
 import re
 import zipfile
 from pathlib import Path
-from extratorXml import extrair_itens_do_xml
+from extratorXml import extrair_itens_do_xml, extrair_chave_do_xml
 
 class ProcessadorDeCupons:
     def __init__(self):
         self.dados_consolidados = []
+        # Conjunto de chaves de acesso NF-e já processadas (44 dígitos).
+        # Evita duplicidade quando o mesmo documento existe como XML e como PDF.
+        self._chaves_processadas: set[str] = set()
 
     def _converter_valor(self, valor_str):
         if not valor_str: return 0.0
@@ -16,6 +19,18 @@ class ProcessadorDeCupons:
             return float(limpo)
         except ValueError:
             return 0.0
+
+    def _extrair_chave_pdf(self, texto: str) -> str | None:
+        """
+        Tenta localizar a chave de acesso NF-e (44 dígitos) dentro do texto
+        extraído de um DANFE PDF. A chave pode estar formatada em blocos
+        separados por espaços (ex.: '2625 0506 ...').
+        Retorna a chave sem espaços (44 dígitos) ou None se não encontrar.
+        """
+        # Remove espaços e quebras para facilitar a busca
+        texto_sem_espacos = re.sub(r'\s+', '', texto)
+        match = re.search(r'(?<![\d])(\d{44})(?![\d])', texto_sem_espacos)
+        return match.group(1) if match else None
 
     def _extrair_dados_do_pdf(self, pdf, nome_arquivo_origem):
         texto_completo = ""
@@ -67,6 +82,14 @@ class ProcessadorDeCupons:
     def processar_arquivo_pdf(self, caminho_arquivo):
         try:
             with pdfplumber.open(caminho_arquivo) as pdf:
+                # Extrai o texto da primeira página apenas para verificar a chave
+                texto_p1 = pdf.pages[0].extract_text() or '' if pdf.pages else ''
+                chave = self._extrair_chave_pdf(texto_p1)
+                if chave:
+                    if chave in self._chaves_processadas:
+                        print(f"  [SKIP PDF] {caminho_arquivo.name}: chave já processada via XML")
+                        return
+                    self._chaves_processadas.add(chave)
                 self._extrair_dados_do_pdf(pdf, caminho_arquivo.name)
         except Exception as e:
             print(f"[ERRO] {caminho_arquivo.name}: {e}")
@@ -75,6 +98,12 @@ class ProcessadorDeCupons:
         """Processa um único arquivo XML (NF-e / NFC-e) diretamente do disco."""
         try:
             conteudo = Path(caminho_arquivo).read_bytes()
+            chave = extrair_chave_do_xml(conteudo)
+            if chave:
+                if chave in self._chaves_processadas:
+                    print(f"  [SKIP XML] {caminho_arquivo.name}: chave duplicada, ignorado")
+                    return
+                self._chaves_processadas.add(chave)
             itens = extrair_itens_do_xml(conteudo, caminho_arquivo.name)
             self.dados_consolidados.extend(itens)
             print(f"  [XML] {caminho_arquivo.name}: {len(itens)} item(s)")
@@ -82,7 +111,13 @@ class ProcessadorDeCupons:
             print(f"[ERRO XML] {caminho_arquivo.name}: {e}")
 
     def processar_zip(self, caminho_zip):
-        """Processa um ZIP podendo conter PDFs e/ou XMLs de NF-e."""
+        """Processa um ZIP podendo conter PDFs e/ou XMLs de NF-e.
+
+        Estratégia de deduplicação:
+        - Se o ZIP contiver XMLs, os PDFs do mesmo ZIP são ignorados: o PDF
+          (DANFE) é apenas a representação visual do XML, os dados são idênticos.
+        - Chaves já vistas globalmente fazem o XML/PDF ser pulado também.
+        """
         try:
             with zipfile.ZipFile(caminho_zip, 'r') as z:
                 entradas = [
@@ -93,17 +128,39 @@ class ProcessadorDeCupons:
                 pdfs = [n for n in entradas if n.lower().endswith('.pdf')]
                 xmls = [n for n in entradas if n.lower().endswith('.xml')]
 
-                for nome_pdf in pdfs:
-                    with z.open(nome_pdf) as f:
-                        with pdfplumber.open(f) as pdf:
-                            self._extrair_dados_do_pdf(pdf, f"{caminho_zip.name}::{nome_pdf}")
+                # XMLs têm prioridade: se existe ao menos um XML no ZIP,
+                # os PDFs do mesmo ZIP são seus DANFEs — não processar.
+                if xmls and pdfs:
+                    print(f"  [ZIP] {caminho_zip.name}: {len(xmls)} XML(s) + {len(pdfs)} PDF(s) → usando apenas XMLs")
 
                 for nome_xml in xmls:
                     with z.open(nome_xml) as f:
                         conteudo = f.read()
-                    itens = extrair_itens_do_xml(conteudo, f"{caminho_zip.name}::{nome_xml}")
+                    chave = extrair_chave_do_xml(conteudo)
+                    origem = f"{caminho_zip.name}::{nome_xml}"
+                    if chave:
+                        if chave in self._chaves_processadas:
+                            print(f"  [SKIP XML] {origem}: chave duplicada, ignorado")
+                            continue
+                        self._chaves_processadas.add(chave)
+                    itens = extrair_itens_do_xml(conteudo, origem)
                     self.dados_consolidados.extend(itens)
-                    print(f"  [XML] {caminho_zip.name}::{nome_xml}: {len(itens)} item(s)")
+                    print(f"  [XML] {origem}: {len(itens)} item(s)")
+
+                # PDFs processados apenas se o ZIP não tinha XMLs
+                if not xmls:
+                    for nome_pdf in pdfs:
+                        with z.open(nome_pdf) as f:
+                            with pdfplumber.open(f) as pdf:
+                                texto_p1 = pdf.pages[0].extract_text() or '' if pdf.pages else ''
+                                chave = self._extrair_chave_pdf(texto_p1)
+                                origem = f"{caminho_zip.name}::{nome_pdf}"
+                                if chave:
+                                    if chave in self._chaves_processadas:
+                                        print(f"  [SKIP PDF] {origem}: chave já processada")
+                                        continue
+                                    self._chaves_processadas.add(chave)
+                                self._extrair_dados_do_pdf(pdf, origem)
 
         except Exception as e:
             print(f"[ERRO ZIP] {caminho_zip.name}: {e}")
@@ -112,13 +169,18 @@ class ProcessadorDeCupons:
         pasta = Path(pasta_alvo)
         arquivos = list(pasta.glob('*'))
         print(f"Lendo {len(arquivos)} arquivos em: {pasta}")
+
+        # Passo 1: processa ZIPs e XMLs avulsos primeiro para registrar as chaves
         for arquivo in arquivos:
-            if arquivo.suffix.lower() == '.pdf':
-                self.processar_arquivo_pdf(arquivo)
-            elif arquivo.suffix.lower() == '.xml':
+            if arquivo.suffix.lower() == '.xml':
                 self.processar_arquivo_xml(arquivo)
             elif arquivo.suffix.lower() == '.zip':
                 self.processar_zip(arquivo)
+
+        # Passo 2: processa PDFs avulsos — pula os que já foram cobertos por XML
+        for arquivo in arquivos:
+            if arquivo.suffix.lower() == '.pdf':
+                self.processar_arquivo_pdf(arquivo)
 
     # --- NOVIDADE: Método para aplicar o dicionário ---
     def _aplicar_normalizacao(self, df):
@@ -158,7 +220,7 @@ class ProcessadorDeCupons:
             
             # Reordena — inclui campos extras vindos de XMLs (ean, ncm, loja, cnpj)
             cols = ['data', 'loja', 'cnpj', 'categoria', 'produto', 'qtd', 'unidade',
-                    'preco_unit', 'preco_total', 'codigo', 'ean', 'ncm', 'arquivo_origem']
+                    'preco_unit', 'preco_total', 'codigo', 'ean', 'ncm', 'chave_nfe', 'arquivo_origem']
             # Garante que as colunas existem (caso o dicionário tenha falhado)
             cols_finais = [c for c in cols if c in df.columns]
             df = df[cols_finais]
