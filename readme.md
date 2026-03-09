@@ -35,11 +35,15 @@ MEU_PROJETO/
 ├── src/
 │   ├── processadorCuponsFiscais.py  # Script principal de extração
 │   ├── extratorXml.py               # Parser de NF-e XML (chamado pelo processador)
+│   ├── gerador_danfe.py             # Converte XML → PDF legível (DANFE simplificado)
 │   ├── dicionario.py                # Script de normalização de nomes
 │   └── dashboard.py                 # Interface visual (Streamlit)
 ├── resources/
 │   ├── notas_fiscais/  # COLOQUE SEUS ARQUIVOS AQUI (.xml, .pdf ou .zip)
-│   └── outputData/   # AQUI SERÃO GERADOS OS RESULTADOS (CSV e Excel)
+│   └── outputData/     # AQUI SERÃO GERADOS OS RESULTADOS
+│       ├── minha_inflacao.csv      # CSV de dados extraídos
+│       ├── dicionario_produtos.xlsx # Dicionário de normalização
+│       └── danfe/                  # DANFEs em PDF gerados a partir de XMLs
 ├── .venv/            # Ambiente virtual Python (recomendado)
 └── README.md
 ```
@@ -72,7 +76,7 @@ source .venv/bin/activate
 Copie e cole este comando inteiro para baixar tudo o que o projeto precisa:
 
 ```Bash
-pip install pdfplumber pandas openpyxl streamlit plotly thefuzz python-Levenshtein
+pip install pdfplumber pandas openpyxl streamlit plotly thefuzz python-Levenshtein reportlab qrcode
 ```
 
 > **Nota:** o suporte a XML utiliza a biblioteca `xml.etree.ElementTree`, que já vem incluída no Python — nenhum pacote extra é necessário para isso.
@@ -159,6 +163,28 @@ streamlit run src/dashboard.py
 - Curva ABC (Pareto) dos gastos
 
 **Para parar o dashboard:** Pressione `Ctrl + C` no terminal
+
+---
+
+### 5️⃣ Gerar PDF a partir de XML (Opcional)
+
+Precisa consultar uma nota de forma legível sem depender do portal da SEFAZ?
+
+```Bash
+# Converte todos os XMLs da pasta notas_fiscais de uma vez
+python3 src/gerador_danfe.py
+
+# Ou converte apenas um ZIP ou XML específico
+python3 src/gerador_danfe.py resources/notas_fiscais/minhas_notas.zip
+python3 src/gerador_danfe.py resources/notas_fiscais/consulta.xml
+```
+
+**O que faz:**
+- Lê cada XML e gera um DANFE simplificado em PDF (formato A4)
+- Inclui: cabeçalho com dados do emissor, tabela completa de itens (código, EAN, NCM, qtd, preços), totais, forma de pagamento, QR Code e chave de acesso
+- Salva os PDFs em `resources/outputData/danfe/`
+
+✅ Resultado: PDFs legíveis em `resources/outputData/danfe/`
 
 ---
 
