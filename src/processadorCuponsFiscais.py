@@ -245,7 +245,7 @@ class ProcessadorDeCupons:
 
 if __name__ == "__main__":
     raiz_projeto = Path(__file__).resolve().parent.parent
-    pasta_cupons = raiz_projeto / 'resources' / 'cfs'
+    pasta_cupons = raiz_projeto / 'resources' / 'notas_fiscais'
     
     app = ProcessadorDeCupons()
     app.varrer_diretorio(pasta_cupons)

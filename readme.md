@@ -38,7 +38,7 @@ MEU_PROJETO/
 │   ├── dicionario.py                # Script de normalização de nomes
 │   └── dashboard.py                 # Interface visual (Streamlit)
 ├── resources/
-│   ├── cfs/          # COLOQUE SEUS ARQUIVOS AQUI (.xml, .pdf ou .zip)
+│   ├── notas_fiscais/  # COLOQUE SEUS ARQUIVOS AQUI (.xml, .pdf ou .zip)
 │   └── outputData/   # AQUI SERÃO GERADOS OS RESULTADOS (CSV e Excel)
 ├── .venv/            # Ambiente virtual Python (recomendado)
 └── README.md
@@ -82,7 +82,7 @@ pip install pdfplumber pandas openpyxl streamlit plotly thefuzz python-Levenshte
 Sempre que você tiver novas notas fiscais, siga esta ordem:
 
 ### 1️⃣ Colocar os Arquivos
-Pegue seus arquivos e coloque na pasta `resources/cfs/`. Os formatos aceitos são:
+Pegue seus arquivos e coloque na pasta `resources/notas_fiscais/`. Os formatos aceitos são:
 
 | Formato | Descrição |
 |---|---|
@@ -173,8 +173,8 @@ Erro: "No such file or directory"
 - Solução: Use o comando cd para entrar na pasta do projeto antes de rodar os scripts.
 ---
 
-Erro: "Pasta resources/cfs não encontrada"
+Erro: "Pasta resources/notas_fiscais não encontrada"
 - Causa: Você esqueceu de criar a pasta.
-- Solução: Crie a pasta resources na raiz e dentro dela a pasta cfs.
+- Solução: Crie a pasta resources na raiz e dentro dela a pasta notas_fiscais.
 
 ---

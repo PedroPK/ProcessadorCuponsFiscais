@@ -15,9 +15,9 @@ print(f"2. Assumindo que a raiz do projeto é: {raiz_do_projeto}")
 
 # 3. Define lugares prováveis onde a pasta 'resources' pode estar
 lugares_para_tentar = [
-    raiz_do_projeto / 'resources' / 'cfs',   # Opção A: resources está fora da src (Raiz)
-    pasta_do_script / 'resources' / 'cfs',   # Opção B: resources está dentro da src
-    Path('resources/cfs').resolve()          # Opção C: Relativo ao terminal
+    raiz_do_projeto / 'resources' / 'notas_fiscais',   # Opção A: resources está fora da src (Raiz)
+    pasta_do_script / 'resources' / 'notas_fiscais',   # Opção B: resources está dentro da src
+    Path('resources/notas_fiscais').resolve()          # Opção C: Relativo ao terminal
 ]
 
 pasta_encontrada = None
@@ -31,13 +31,13 @@ for tentativa in lugares_para_tentar:
         print(f"-> [X] Não achei aqui: {tentativa}")
 
 if not pasta_encontrada:
-    print("\n[ERRO CRÍTICO] Não encontrei a pasta 'resources/cfs' em lugar nenhum.")
+    print("\n[ERRO CRÍTICO] Não encontrei a pasta 'resources/notas_fiscais' em lugar nenhum.")
     print("Certifique-se de que a estrutura de pastas está assim:")
     print("PROJETO/")
     print("├── src/")
     print("│   └── seu_script.py")
     print("└── resources/")
-    print("    └── cfs/")
+    print("    └── notas_fiscais/")
     print("        └── seu_arquivo.pdf")
     exit()
 
