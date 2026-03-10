@@ -27,7 +27,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, PageBreak
 )
 from reportlab.platypus.flowables import Image as RLImage
 
@@ -476,6 +476,62 @@ def _bloco_rodape(d: dict, s: dict, larg: float) -> Table:
     return t
 
 
+# ─── Bloco de carga tributária ───────────────────────────────────────────────
+def _bloco_carga_tributaria(d: dict, s: dict, larg: float) -> Table:
+    """Calcula e exibe a carga tributária da nota.
+
+    Lógica:
+      valor_liquido  = v_nf − v_icms − v_tot_trib
+      total_impostos = v_icms + v_tot_trib
+      carga (%)      = total_impostos / valor_liquido × 100
+    """
+    try:
+        v_nf      = float(d['v_nf']       or 0)
+        v_icms    = float(d['v_icms']     or 0)
+        v_trib    = float(d['v_tot_trib'] or 0)
+        total_imp = v_icms + v_trib
+        v_liquido = v_nf - total_imp
+        carga_pct = (total_imp / v_liquido * 100) if v_liquido > 0 else 0.0
+    except (ValueError, ZeroDivisionError):
+        v_nf = v_icms = v_trib = total_imp = v_liquido = carga_pct = 0.0
+
+    def campo(label, valor):
+        return [Paragraph(label, s['label']), Paragraph(valor, s['valor'])]
+
+    col = []
+    col += campo('Valor Total da Nota',             _fmt_valor(f'{v_nf:.2f}'))
+    col += campo('(−) ICMS',                        _fmt_valor(f'{v_icms:.2f}'))
+    if v_trib:
+        col += campo('(−) Trib. Aprox. (Lei 12.741)', _fmt_valor(f'{v_trib:.2f}'))
+    col.append(HRFlowable(width='100%', thickness=0.5, color=COR_CABECALHO,
+                          spaceAfter=2, spaceBefore=4))
+    col += campo('Valor Líquido (sem impostos)',     _fmt_valor(f'{v_liquido:.2f}'))
+    col.append(Spacer(1, 2*mm))
+    col += campo('Total de Impostos',               _fmt_valor(f'{total_imp:.2f}'))
+    col.append(HRFlowable(width='100%', thickness=1, color=COR_CABECALHO,
+                          spaceAfter=2, spaceBefore=4))
+
+    pct_str = f'{carga_pct:.2f}%'.replace('.', ',')
+    col.append(Paragraph('CARGA TRIBUTÁRIA  (impostos ÷ valor líquido)', s['label']))
+    col.append(Paragraph(
+        pct_str,
+        ParagraphStyle('carga', parent=s['valor'],
+                       fontSize=13, fontName='Helvetica-Bold',
+                       textColor=COR_CABECALHO),
+    ))
+
+    t = Table([[col]], colWidths=[larg])
+    t.setStyle(TableStyle([
+        ('VALIGN',        (0, 0), (-1, -1), 'TOP'),
+        ('TOPPADDING',    (0, 0), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('LEFTPADDING',   (0, 0), (-1, -1), 6),
+        ('RIGHTPADDING',  (0, 0), (-1, -1), 6),
+        ('BOX',           (0, 0), (-1, -1), 0.5, COR_CABECALHO),
+    ]))
+    return t
+
+
 # ─── Função principal ─────────────────────────────────────────────────────────
 def gerar_pdf_de_xml(conteudo_xml: bytes, caminho_saida: Path) -> None:
     """Gera o DANFE PDF a partir do conteúdo XML bruto."""
@@ -501,10 +557,14 @@ def gerar_pdf_de_xml(conteudo_xml: bytes, caminho_saida: Path) -> None:
         _bloco_secao(f"ITENS DA NOTA  ({len(d['itens'])} produto(s))", s, larg),
         Spacer(1, 1*mm),
         _bloco_itens(d['itens'], s, larg),
-        Spacer(1, 3*mm),
+        PageBreak(),
         _bloco_secao('TOTAIS E FORMA DE PAGAMENTO', s, larg),
         Spacer(1, 1*mm),
         _bloco_totais_pagto(d, s, larg),
+        Spacer(1, 3*mm),
+        _bloco_secao('CARGA TRIBUTÁRIA', s, larg),
+        Spacer(1, 1*mm),
+        _bloco_carga_tributaria(d, s, larg),
         Spacer(1, 3*mm),
         _bloco_secao('CHAVE DE ACESSO / CONSULTA', s, larg),
         Spacer(1, 1*mm),
