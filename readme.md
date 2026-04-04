@@ -158,9 +158,12 @@ streamlit run src/dashboard.py
 
 **O que abre:**
 - O navegador abrirá automaticamente com seu Dashboard.
-- Serão exibidos gráficos de evolução de preços
-- Permite uma análise de inflação pessoal
-- Curva ABC (Pareto) dos gastos
+- **📈 Evolução de Preços** — histórico de preço unitário por produto
+- **💰 Análise Pareto (ABC)** — quais produtos pesam mais no seu orçamento
+- **📊 Índice de Inflação Pessoal** — índice de Laspeyres calculado com os seus produtos:
+  - Escolha o mínimo de meses em que um produto deve aparecer para entrar na cesta
+  - Veja a inflação acumulada, a variação mês a mês e a composição e pesos da cesta
+- **📋 Dados Brutos** — tabela completa do CSV
 
 **Para parar o dashboard:** Pressione `Ctrl + C` no terminal
 

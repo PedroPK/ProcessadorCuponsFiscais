@@ -7,6 +7,15 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ## [Não lançado]
 
+### Adicionado
+- `src/dashboard.py` — nova aba **📊 Índice de Inflação Pessoal**
+  - Monta a cesta de produtos automaticamente: slider para definir o mínimo de meses em que o produto deve ter sido comprado
+  - Calcula o preço médio ponderado por quantidade ($\bar{p} = \sum p_i q_i / \sum q_i$) de cada produto por mês
+  - Gera índice de Laspeyres (base 100 = primeiro mês dos dados), ponderado pela participação no gasto do mês base
+  - KPIs: índice atual, inflação acumulada e variação no último mês
+  - Gráfico de linha do índice acumulado e gráfico de barras da variação mensal (verde/vermelho)
+  - Tabelas expansíveis: composição e pesos da cesta; preços médios mensais por produto
+
 ### Alterado
 - Coluna EAN ampliada de 10% para 13% da largura da tabela do DANFE (elimina quebra de linha nos 13 dígitos)
 - Coluna NCM ampliada de 7% para 9% (elimina quebra de linha nos 8 dígitos)
