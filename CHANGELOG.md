@@ -9,6 +9,19 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ---
 
+## [0.7.0] — 2026-04-23
+
+### Adicionado
+- `src/utils.py` — módulo de utilitários com `filtrar_produtos(df, busca)`
+  - Busca por múltiplos tokens (lógica AND): cada palavra é filtrada individependentemente, permitindo encontrar "LEITE NINHO 750G INT" ao digitar "leite ninho 750 int"
+  - Corrige bug em que termos separados por caracteres intermediários não eram encontrados
+- `tests/test_utils.py` — 12 testes para `filtrar_produtos()`: busca vazia, token único, case insensitive, múltiplos tokens, tokens fora de ordem e refinamento progressivo
+
+### Alterado
+- `src/dashboard.py` — aba **📋 Dados Brutos** passa a usar `filtrar_produtos()` de `utils.py`
+
+---
+
 ## [0.6.0] — 2026-04-23
 
 ### Adicionado

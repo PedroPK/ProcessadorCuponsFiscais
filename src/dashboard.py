@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from pathlib import Path
+from utils import filtrar_produtos
 
 # --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(page_title="Minha Inflação Pessoal", layout="wide")
@@ -137,7 +138,7 @@ with tab2:
 # ==========================================
 with tab3:
     busca = st.text_input("🔍 Filtrar produtos", placeholder="Digite parte do nome do produto...")
-    df_brutos = df[df['produto'].str.contains(busca, case=False, na=False)] if busca else df
+    df_brutos = filtrar_produtos(df, busca)
     st.dataframe(df_brutos)
 
 # ==========================================

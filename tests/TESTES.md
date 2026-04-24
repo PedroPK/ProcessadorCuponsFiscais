@@ -7,7 +7,7 @@ Execute a qualquer momento com:
 python -m pytest tests/ -v
 ```
 
-> **55 testes · 0 falhas** *(atualizado em 2026-04-23)*
+> **67 testes · 0 falhas** *(atualizado em 2026-04-23)*
 
 ---
 
@@ -18,8 +18,10 @@ python -m pytest tests/ -v
 | `test_extrator_xml.py` | `src/extratorXml.py` | 29 |
 | `test_processador.py` | `src/processadorCuponsFiscais.py` | 17 |
 | `test_dicionario.py` | `src/dicionario.py` | 9 |
+| `test_utils.py` | `src/utils.py` | 12 |
 
 **`conftest.py`** — compartilhado entre todos os arquivos. Configura o `sys.path` e define as fixtures de XML:
+
 
 | Fixture | Descrição |
 |---|---|
@@ -27,6 +29,41 @@ python -m pytest tests/ -v
 | `XML_SEM_CHAVE` | XML válido mas sem o atributo `Id` em `<infNFe>` |
 | `XML_MALFORMADO` | String que não é XML |
 | `NFE_CHAVE` | Chave de 44 dígitos correspondente ao `XML_VALIDO` |
+
+---
+
+## `test_utils.py`
+
+### `TestBuscaVazia` — busca sem texto retorna todos os registros
+
+| Cenário | Entrada | Resultado esperado |
+|---|---|---|
+| String vazia | `""` | DataFrame completo |
+| Apenas espaços | `"   "` | DataFrame completo |
+| `None` | `None` | DataFrame completo |
+
+---
+
+### `TestTokenUnico` — busca com uma única palavra
+
+| Cenário | Entrada | Resultado esperado |
+|---|---|---|
+| Token encontrado | `"ninho"` | 2 produtos com "NINHO" no nome |
+| Case insensitive | `"NINHO"` vs `"ninho"` | Resultados idênticos |
+| Token sem match | `"cerveja"` | DataFrame vazio |
+| Token numérico | `"750"` | Apenas o produto com "750G" |
+
+---
+
+### `TestMultiplosTokens` — busca AND por tokens (o cenário do bug corrigido)
+
+| Cenário | Entrada | Resultado esperado |
+|---|---|---|
+| Dois tokens | `"leite ninho"` | 2 produtos |
+| **Bug corrigido**: tokens não contíguos | `"leite ninho 750 int"` | Encontra `"LEITE NINHO 750G INT"` mesmo com o "G" entre "750" e "INT" |
+| Tokens em ordem diferente | `"int ninho 750"` | Mesmo resultado (ordem não importa) |
+| Tokens que não coexistem | `"ninho pilao"` | DataFrame vazio |
+| Refinamento progressivo | `"leite"` → `"leite ninho"` → `"leite ninho 750"` | Cada etapa retorna ≤ resultados que a anterior |
 
 ---
 
