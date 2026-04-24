@@ -38,6 +38,11 @@ MEU_PROJETO/
 │   ├── gerador_danfe.py             # Converte XML → PDF legível (DANFE simplificado)
 │   ├── dicionario.py                # Script de normalização de nomes
 │   └── dashboard.py                 # Interface visual (Streamlit)
+├── tests/
+│   ├── conftest.py                  # Fixtures e configuração do pytest
+│   ├── test_extrator_xml.py         # Testes do parser XML
+│   ├── test_processador.py          # Testes do processador e deduplicação
+│   └── test_dicionario.py           # Testes do dicionário de produtos
 ├── resources/
 │   ├── notas_fiscais/  # COLOQUE SEUS ARQUIVOS AQUI (.xml, .pdf ou .zip)
 │   └── outputData/     # AQUI SERÃO GERADOS OS RESULTADOS
@@ -189,6 +194,18 @@ python3 src/gerador_danfe.py resources/notas_fiscais/consulta.xml
 - Salva os PDFs em `resources/outputData/danfe/`
 
 ✅ Resultado: PDFs legíveis em `resources/outputData/danfe/`
+
+---
+
+### 🧪 Rodar os Testes Automatizados
+
+A suíte de testes cobre o parser XML, a lógica de deduplicação e o dicionário de produtos.
+
+```Bash
+python -m pytest tests/ -v
+```
+
+Todos os 55 testes devem passar em poucos segundos, sem necessidade de arquivos reais na pasta `resources/`.
 
 ---
 

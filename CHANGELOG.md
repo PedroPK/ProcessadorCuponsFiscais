@@ -7,7 +7,16 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ## [Não lançado]
 
+---
+
+## [0.6.0] — 2026-04-23
+
 ### Adicionado
+- `tests/` — suíte de testes automatizados com **pytest** (55 testes, 100% passando)
+  - `tests/conftest.py` — configuração do `sys.path` e fixtures de XML sintético reutilizáveis
+  - `tests/test_extrator_xml.py` — 29 testes para `extratorXml.py`: `_float`, `_parse_data`, `extrair_chave_do_xml` (str, bytes, malformado, sem tag) e `extrair_itens_do_xml` (campos, filtro de valor zero, EAN "SEM GTIN", entrada bytes)
+  - `tests/test_processador.py` — 17 testes para `processadorCuponsFiscais.py`: `_converter_valor`, `_extrair_chave_pdf`, deduplicação XML duplo, prioridade XML sobre PDF em ZIP, XMLs duplicados dentro do ZIP
+  - `tests/test_dicionario.py` — 9 testes para `dicionario.py`: `carregar_dados_existentes` (arquivo inexistente retorna DataFrame com colunas corretas) e `sugerir_padrao` (match alto, sem match, lista vazia, entradas None, ordem de palavras invertida)
 - `src/dashboard.py` — campo de busca com filtragem em tempo real na aba **📋 Dados Brutos**
   - Campo de texto acima da tabela filtra as linhas exibidas pelo nome do produto (sem distinção de maiúsculas/minúsculas)
   - Com o campo vazio, a tabela exibe todos os registros normalmente
