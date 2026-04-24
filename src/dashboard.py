@@ -19,7 +19,7 @@ def carregar_dados():
     
     # Lê com padrão brasileiro
     df = pd.read_csv(caminho_csv, sep=';', decimal=',', encoding='utf-8-sig')
-    df['data'] = pd.to_datetime(df['data'], format='mixed', dayfirst=True)
+    df['data'] = pd.to_datetime(df['data'], format='mixed', dayfirst=True).dt.date
     return df.sort_values('data')
 
 df = carregar_dados()
