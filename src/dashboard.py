@@ -159,7 +159,7 @@ with tab4:
             "Mínimo de meses em que o produto deve aparecer na cesta:",
             min_value=2,
             max_value=len(meses_disponiveis),
-            value=len(meses_disponiveis),
+            value=max(2, len(meses_disponiveis) // 2),
             help="Reduzir este número amplia a cesta, mas inclui produtos comprados esporadicamente."
         )
 
