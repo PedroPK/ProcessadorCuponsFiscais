@@ -8,6 +8,9 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 ## [Não lançado]
 
 ### Adicionado
+- `src/dashboard.py` — campo de busca com filtragem em tempo real na aba **📋 Dados Brutos**
+  - Campo de texto acima da tabela filtra as linhas exibidas pelo nome do produto (sem distinção de maiúsculas/minúsculas)
+  - Com o campo vazio, a tabela exibe todos os registros normalmente
 - `src/dashboard.py` — nova aba **📊 Índice de Inflação Pessoal**
   - Monta a cesta de produtos automaticamente: slider para definir o mínimo de meses em que o produto deve ter sido comprado
   - Calcula o preço médio ponderado por quantidade ($\bar{p} = \sum p_i q_i / \sum q_i$) de cada produto por mês

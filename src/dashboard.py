@@ -136,7 +136,9 @@ with tab2:
 # ABA 3: DADOS BRUTOS
 # ==========================================
 with tab3:
-    st.dataframe(df)
+    busca = st.text_input("🔍 Filtrar produtos", placeholder="Digite parte do nome do produto...")
+    df_brutos = df[df['produto'].str.contains(busca, case=False, na=False)] if busca else df
+    st.dataframe(df_brutos)
 
 # ==========================================
 # ABA 4: ÍNDICE DE INFLAÇÃO PESSOAL
