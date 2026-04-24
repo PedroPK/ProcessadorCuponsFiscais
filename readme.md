@@ -162,6 +162,7 @@ streamlit run src/dashboard.py
 - **💰 Análise Pareto (ABC)** — quais produtos pesam mais no seu orçamento
 - **📊 Índice de Inflação Pessoal** — índice de Laspeyres calculado com os seus produtos:
   - Escolha o mínimo de meses em que um produto deve aparecer para entrar na cesta
+  - Passe o mouse sobre qualquer mês no gráfico para ver os 10 produtos que mais puxaram o índice para cima ou para baixo naquele mês
   - Veja a inflação acumulada, a variação mês a mês e a composição e pesos da cesta
 - **📋 Dados Brutos** — tabela completa do CSV
 

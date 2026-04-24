@@ -13,7 +13,8 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
   - Calcula o preço médio ponderado por quantidade ($\bar{p} = \sum p_i q_i / \sum q_i$) de cada produto por mês
   - Gera índice de Laspeyres (base 100 = primeiro mês dos dados), ponderado pela participação no gasto do mês base
   - KPIs: índice atual, inflação acumulada e variação no último mês
-  - Gráfico de linha do índice acumulado e gráfico de barras da variação mensal (verde/vermelho)
+  - Gráfico de linha do índice acumulado com **tooltip interativo**: ao passar o mouse sobre um mês, exibe os 10 produtos que mais influenciaram a variação daquele mês (em pontos percentuais, com ▲/▼)
+  - Gráfico de barras da variação mensal (verde/vermelho)
   - Tabelas expansíveis: composição e pesos da cesta; preços médios mensais por produto
 
 ### Alterado

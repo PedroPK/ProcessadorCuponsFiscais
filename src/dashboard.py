@@ -39,7 +39,7 @@ if mercados:
     df = df[df['arquivo_origem'].isin(mercados)]
 
 # --- CRIAÇÃO DAS ABAS ---
-tab1, tab2, tab3, tab4 = st.tabs(["📈 Evolução de Preços", "💰 Análise Pareto (ABC)", "📋 Dados Brutos", "📊 Índice de Inflação"])
+tab1, tab2, tab3, tab4 = st.tabs(["📈 Evolução de Preços", "💰 Análise Pareto (ABC)", "📋 Dados Brutos", "📊 Índice de Inflação Pessoal"])
 
 # ==========================================
 # ABA 1: EVOLUÇÃO (O que você já tinha)
@@ -203,21 +203,40 @@ with tab4:
             total_base = df_base_gastos.sum()
             pesos = (df_base_gastos / total_base).to_dict()
 
-            # Calcular índice mensal (Laspeyres)
+            # Calcular índice mensal (Laspeyres) e contribuições por produto
             registros_indice = []
-            for mes in meses_disponiveis:
+            for i, mes in enumerate(meses_disponiveis):
                 precos_mes = df_pivot.loc[mes]
                 indice = sum(
                     pesos.get(prod, 0) * (precos_mes[prod] / precos_base[prod])
                     for prod in produtos_cesta
                     if precos_base[prod] > 0
                 )
-                registros_indice.append({'ano_mes': mes, 'indice': indice * 100})
+                if i == 0:
+                    contribs = {prod: 0.0 for prod in produtos_cesta if precos_base[prod] > 0}
+                else:
+                    precos_ant = df_pivot.loc[meses_disponiveis[i - 1]]
+                    contribs = {
+                        prod: pesos.get(prod, 0) * ((precos_mes[prod] - precos_ant[prod]) / precos_base[prod]) * 100
+                        for prod in produtos_cesta
+                        if precos_base[prod] > 0
+                    }
+                registros_indice.append({'ano_mes': mes, 'indice': indice * 100, 'contribuicoes': contribs})
 
             df_indice = pd.DataFrame(registros_indice)
             df_indice['ano_mes_str'] = df_indice['ano_mes'].astype(str)
             df_indice['var_mensal'] = df_indice['indice'].pct_change() * 100
             df_indice['var_acumulada'] = df_indice['indice'] - 100
+
+            def _hover_top10(contribs):
+                top10 = sorted(contribs.items(), key=lambda x: abs(x[1]), reverse=True)[:10]
+                linhas = ['<b>Top 10 contribuições (pp):</b>']
+                for prod, contrib in top10:
+                    sinal = '▲' if contrib > 0 else ('▼' if contrib < 0 else '●')
+                    linhas.append(f'{sinal} {prod[:35]}: {contrib:+.3f}')
+                return '<br>'.join(linhas)
+
+            df_indice['hover_top10'] = df_indice['contribuicoes'].apply(_hover_top10)
 
             # KPIs
             indice_atual = df_indice['indice'].iloc[-1]
@@ -241,7 +260,16 @@ with tab4:
                 y='indice',
                 markers=True,
                 title=f"Índice de Inflação Pessoal (base {str(mes_base)} = 100)",
-                labels={'ano_mes_str': 'Mês', 'indice': 'Índice'}
+                labels={'ano_mes_str': 'Mês', 'indice': 'Índice'},
+                custom_data=['hover_top10']
+            )
+            fig_indice.update_traces(
+                hovertemplate=(
+                    '<b>%{x}</b><br>'
+                    'Índice: %{y:.2f}<br><br>'
+                    '%{customdata[0]}'
+                    '<extra></extra>'
+                )
             )
             fig_indice.add_hline(y=100, line_dash="dash", line_color="gray", annotation_text="Base 100")
             st.plotly_chart(fig_indice, use_container_width=True)
