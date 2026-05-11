@@ -219,9 +219,11 @@ with tab4:
             ).reset_index()
             df_mensal['preco_medio'] = df_mensal['preco_x_qtd_sum'] / df_mensal['qtd_total']
 
-            # Pivotear e forward-fill para meses sem compra
+            # Pivotear, forward-fill e backward-fill para meses sem compra
+            # (bfill garante que produtos com primeira compra após o mês base
+            # recebam um preço base válido, evitando NaN e deflação espúria)
             df_pivot = df_mensal.pivot(index='ano_mes', columns='produto', values='preco_medio')
-            df_pivot = df_pivot.reindex(meses_disponiveis).ffill()
+            df_pivot = df_pivot.reindex(meses_disponiveis).ffill().bfill()
 
             # Mês base: primeiro mês disponível
             mes_base = meses_disponiveis[0]
@@ -326,12 +328,26 @@ with tab4:
 
             # Detalhamento da cesta
             with st.expander(f"Ver os {len(produtos_cesta)} produtos na cesta e seus pesos"):
+                mes_ultimo = meses_disponiveis[-1]
+                precos_atual = df_pivot.loc[mes_ultimo]
                 df_pesos = pd.DataFrame([
-                    {'produto': prod, 'peso_%': pesos[prod] * 100, 'preco_base': precos_base[prod]}
+                    {
+                        'produto': prod,
+                        'peso_%': pesos[prod] * 100,
+                        'preco_base': precos_base[prod],
+                        'preco_atual': precos_atual[prod],
+                        'variacao_%': ((precos_atual[prod] / precos_base[prod]) - 1) * 100
+                        if precos_base[prod] > 0 else float('nan')
+                    }
                     for prod in produtos_cesta
                 ]).sort_values('peso_%', ascending=False)
                 st.dataframe(
-                    df_pesos.style.format({'peso_%': '{:.2f}%', 'preco_base': 'R$ {:.2f}'}),
+                    df_pesos.style.format({
+                        'peso_%': '{:.2f}%',
+                        'preco_base': 'R$ {:.2f}',
+                        'preco_atual': 'R$ {:.2f}',
+                        'variacao_%': '{:+.2f}%'
+                    }),
                     use_container_width=True
                 )
 
