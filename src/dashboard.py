@@ -143,7 +143,34 @@ with tab3:
     # Exibe a data sem o componente de hora (apenas para visualização)
     df_exibir = df_brutos.copy()
     df_exibir['data'] = df_exibir['data'].dt.date
-    st.dataframe(df_exibir)
+    
+    # Renomeia colunas para exibição: remove underscores e capitaliza
+    mapa_colunas = {
+        'data': 'Data',
+        'loja': 'Loja',
+        'cnpj': 'CNPJ',
+        'categoria': 'Categoria',
+        'produto': 'Produto',
+        'qtd': 'Qtd',
+        'unidade': 'Unidade',
+        'preco_unit': 'Preço Unit',
+        'preco_total': 'Preço Total',
+        'codigo': 'Código',
+        'ean': 'EAN',
+        'ncm': 'NCM',
+        'chave_nfe': 'Chave NF-e',
+        'arquivo_origem': 'Arquivo Origem'
+    }
+    df_exibir = df_exibir.rename(columns=mapa_colunas)
+    
+    # Configura coluna "Arquivo Origem" com largura expandida para melhor visualização
+    st.dataframe(
+        df_exibir,
+        column_config={
+            "Arquivo Origem": st.column_config.TextColumn(width="large")
+        },
+        use_container_width=True
+    )
 
     # --- Visualizar Nota Fiscal Original ---
     st.markdown("---")
