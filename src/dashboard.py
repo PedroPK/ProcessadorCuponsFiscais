@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from pathlib import Path
-from utils import filtrar_produtos
+from utils import filtrar_produtos, resolver_danfe
 
 # --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(page_title="Minha Inflação Pessoal", layout="wide")
@@ -19,7 +19,7 @@ def carregar_dados():
     
     # Lê com padrão brasileiro
     df = pd.read_csv(caminho_csv, sep=';', decimal=',', encoding='utf-8-sig')
-    df['data'] = pd.to_datetime(df['data'], format='mixed', dayfirst=True).dt.date
+    df['data'] = pd.to_datetime(df['data'], format='mixed', dayfirst=True)
     return df.sort_values('data')
 
 df = carregar_dados()
@@ -139,7 +139,41 @@ with tab2:
 with tab3:
     busca = st.text_input("🔍 Filtrar produtos", placeholder="Digite parte do nome do produto...")
     df_brutos = filtrar_produtos(df, busca)
-    st.dataframe(df_brutos)
+
+    # Exibe a data sem o componente de hora (apenas para visualização)
+    df_exibir = df_brutos.copy()
+    df_exibir['data'] = df_exibir['data'].dt.date
+    st.dataframe(df_exibir)
+
+    # --- Visualizar Nota Fiscal Original ---
+    st.markdown("---")
+    st.markdown("#### 📄 Visualizar Nota Fiscal Original")
+
+    raiz_projeto = Path(__file__).resolve().parent.parent
+    origens_visiveis = sorted(df_brutos['arquivo_origem'].dropna().unique())
+
+    if origens_visiveis:
+        origem_selecionada = st.selectbox(
+            "Selecione o arquivo de origem:",
+            options=origens_visiveis,
+        )
+        caminho_pdf = resolver_danfe(origem_selecionada, raiz_projeto)
+
+        if caminho_pdf:
+            with open(caminho_pdf, 'rb') as f:
+                st.download_button(
+                    label="⬇️ Baixar / Abrir DANFE (PDF)",
+                    data=f,
+                    file_name=caminho_pdf.name,
+                    mime="application/pdf",
+                )
+        else:
+            st.info(
+                "DANFE não encontrado para este arquivo. "
+                "Rode `python3 src/gerador_danfe.py` para gerar os PDFs a partir dos XMLs."
+            )
+    else:
+        st.info("Nenhum registro visível para selecionar.")
 
 # ==========================================
 # ABA 4: ÍNDICE DE INFLAÇÃO PESSOAL

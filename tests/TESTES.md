@@ -7,7 +7,7 @@ Execute a qualquer momento com:
 python -m pytest tests/ -v
 ```
 
-> **67 testes · 0 falhas** *(atualizado em 2026-04-23)*
+> **77 testes · 0 falhas** *(atualizado em 2026-04-24)*
 
 ---
 
@@ -18,7 +18,7 @@ python -m pytest tests/ -v
 | `test_extrator_xml.py` | `src/extratorXml.py` | 29 |
 | `test_processador.py` | `src/processadorCuponsFiscais.py` | 17 |
 | `test_dicionario.py` | `src/dicionario.py` | 9 |
-| `test_utils.py` | `src/utils.py` | 12 |
+| `test_utils.py` | `src/utils.py` | 22 |
 
 **`conftest.py`** — compartilhado entre todos os arquivos. Configura o `sys.path` e define as fixtures de XML:
 
@@ -64,6 +64,30 @@ python -m pytest tests/ -v
 | Tokens em ordem diferente | `"int ninho 750"` | Mesmo resultado (ordem não importa) |
 | Tokens que não coexistem | `"ninho pilao"` | DataFrame vazio |
 | Refinamento progressivo | `"leite"` → `"leite ninho"` → `"leite ninho 750"` | Cada etapa retorna ≤ resultados que a anterior |
+
+    def test_refinamento_progressivo(self, df_produtos):
+        # Digitar mais palavras deve restringir (nunca ampliar) o resultado
+        resultado_1 = filtrar_produtos(df_produtos, "leite")
+        resultado_2 = filtrar_produtos(df_produtos, "leite ninho")
+        resultado_3 = filtrar_produtos(df_produtos, "leite ninho 750")
+        assert len(resultado_1) >= len(resultado_2) >= len(resultado_3)
+
+---
+
+### `TestResolverDanfe` — resolução do caminho do DANFE a partir de `arquivo_origem`
+
+| Cenário | `arquivo_origem` | Resultado esperado |
+|---|---|---|
+| XML avulso com DANFE gerado | `"nota.xml"` | `danfe/nota.pdf` |
+| XML avulso sem DANFE | `"nota.xml"` | `None` |
+| XML dentro de ZIP com DANFE gerado | `"notas.zip::consulta.xml"` | `danfe/notas__consulta.pdf` |
+| XML dentro de ZIP sem DANFE | `"notas.zip::consulta.xml"` | `None` |
+| PDF avulso existente | `"cupom.pdf"` | `notas_fiscais/cupom.pdf` |
+| PDF avulso inexistente | `"cupom.pdf"` | `None` |
+| PDF dentro de ZIP | `"notas.zip::danfe.pdf"` | `None` *(não extraível diretamente)* |
+| String vazia | `""` | `None` |
+| `None` | `None` | `None` |
+| Extensão desconhecida | `"arquivo.zip"` | `None` |
 
 ---
 

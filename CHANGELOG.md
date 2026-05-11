@@ -7,6 +7,14 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ## [Não lançado]
 
+### Adicionado
+- `src/utils.py` — função `resolver_danfe(arquivo_origem, raiz)` que mapeia o valor da coluna `arquivo_origem` do CSV para o caminho do DANFE em PDF correspondente (XML avulso, XML em ZIP ou PDF avulso)
+- `src/dashboard.py` — aba **📋 Dados Brutos** exibe seção "Visualizar Nota Fiscal Original" com seletor de arquivo e botão de download do DANFE em PDF
+- `tests/test_utils.py` — 10 novos testes para `resolver_danfe()`: XML avulso, XML em ZIP, PDF avulso, PDF em ZIP, string vazia, None e extensão desconhecida
+
+### Corrigido
+- Coluna `data` na aba Dados Brutos exibia hora zerada (`00:00:00`); agora armazena apenas `date`
+
 ---
 
 ## [0.7.0] — 2026-04-23

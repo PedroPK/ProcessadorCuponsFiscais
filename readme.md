@@ -173,6 +173,15 @@ streamlit run src/dashboard.py
 
 **Para parar o dashboard:** Pressione `Ctrl + C` no terminal
 
+#### 📸 Prévia do Dashboard
+
+| Tab | Screenshot |
+|-----|-----------|
+| 📈 **Evolução de Preços** | ![Evolução de Preços](resources/screenshots/tab1_evolucao_precos.png) |
+| 💰 **Análise Pareto (ABC)** | ![Análise Pareto ABC](resources/screenshots/tab2_pareto_abc.png) |
+| 📋 **Dados Brutos** | ![Dados Brutos](resources/screenshots/tab3_dados_brutos.png) |
+| 📊 **Índice de Inflação Pessoal** | ![Índice de Inflação Pessoal](resources/screenshots/tab4_inflacao_pessoal.png) |
+
 ---
 
 ### 5️⃣ Gerar PDF a partir de XML (Opcional)
