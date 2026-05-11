@@ -185,7 +185,7 @@ class ProcessadorDeCupons:
     # --- NOVIDADE: Método para aplicar o dicionário ---
     def _aplicar_normalizacao(self, df):
         raiz = Path(__file__).resolve().parent.parent
-        caminho_dic = raiz / 'resources' / 'dicionario_produtos.xlsx'
+        caminho_dic = raiz / 'resources' / 'outputData' / 'dicionario_produtos.xlsx'
         
         if caminho_dic.exists():
             print("Aplicando dicionário de produtos...")

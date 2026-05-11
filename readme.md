@@ -152,10 +152,15 @@ python3 src/criar_dicionario.py
 
 ✅ Resultado: Vai criar/atualizar resources/outputData/dicionario_produtos.xlsx.
 
-**Dica Importante**: Após rodar esse comando, abra o arquivo Excel gerado, corrija a coluna "nome_padrao" manualmente se necessário, salve, e depois rode o comando do Passo 2 novamente para atualizar seu CSV final com os nomes corrigidos.
+> **⚠️ Atenção ao fluxo:** O dicionário **não é aplicado em tempo real**. Ele é lido pelo processador no momento da exportação do CSV. Isso significa que:
+> 1. Edite o arquivo `dicionario_produtos.xlsx` manualmente (corrija `nome_padrao`, `categoria`, etc.);
+> 2. **Re-execute o Passo 2** (`python3 src/processadorCuponsFiscais.py`) para gerar um novo CSV com os mapeamentos aplicados;
+> 3. Só então abra o Dashboard — ele sempre exibirá os dados do último CSV gerado.
 
 ### 4️⃣ Abrir o Painel (Dashboard)
 Para ver os gráficos e a análise de inflação, rode:
+
+> **⚠️ Pré-requisito:** o dashboard lê apenas o arquivo `resources/outputData/minha_inflacao.csv` já gerado — ele **não acessa o dicionário diretamente**. Sempre que você adicionar novas notas fiscais **ou** editar o dicionário de produtos, execute o Passo 2 antes de abrir o dashboard para garantir que os dados estejam atualizados.
 
 ```Bash
 streamlit run src/dashboard.py
