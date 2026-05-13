@@ -167,9 +167,10 @@ with tab3:
     st.dataframe(
         df_exibir,
         column_config={
-            "Arquivo Origem": st.column_config.TextColumn(width="large")
+            "Arquivo Origem": st.column_config.TextColumn(width=600)
         },
-        use_container_width=True
+        use_container_width=True,
+        height=400
     )
 
     # --- Visualizar Nota Fiscal Original ---
