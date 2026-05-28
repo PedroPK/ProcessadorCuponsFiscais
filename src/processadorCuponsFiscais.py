@@ -44,7 +44,7 @@ class ProcessadorDeCupons:
 
         regex_item = (
             r'(?P<nome>.+?)'                
-            r'\(Código:\s*(?P<codigo>\d+)\)' 
+            r'\(Código:\s*(?P<codigo>[A-Za-z]?\d+)\)' 
             r'\s*Vl\. Total'                
             r'\s*Qtde\.:\s*(?P<qtd>[\d,.]+)' 
             r'\s*UN:\s*(?P<un>\w+)'         
@@ -110,58 +110,175 @@ class ProcessadorDeCupons:
         except Exception as e:
             print(f"[ERRO XML] {caminho_arquivo.name}: {e}")
 
-    def processar_zip(self, caminho_zip):
-        """Processa um ZIP podendo conter PDFs e/ou XMLs de NF-e.
+    def _processar_xlsx_citizen(self, conteudo_bytes: bytes, nome_origem: str) -> int:
+        """Processa exportação de Notas Fiscais do app Citizen (XLSX).
 
-        Estratégia de deduplicação:
-        - Se o ZIP contiver XMLs, os PDFs do mesmo ZIP são ignorados: o PDF
-          (DANFE) é apenas a representação visual do XML, os dados são idênticos.
-        - Chaves já vistas globalmente fazem o XML/PDF ser pulado também.
+        Espera uma aba 'Notas Fiscais' com cabeçalho contendo a coluna 'Chave'.
+        Usa a chave NF-e (44 dígitos) para deduplicação global.
+        Retorna a quantidade de itens adicionados.
         """
         try:
-            with zipfile.ZipFile(caminho_zip, 'r') as z:
-                entradas = [
-                    n for n in z.namelist()
-                    if not n.startswith('__MACOSX') and not n.endswith('/')
-                ]
+            import io as _io
+            df_sheets = pd.read_excel(_io.BytesIO(conteudo_bytes), sheet_name=None)
+            sheet = df_sheets.get('Notas Fiscais')
+            if sheet is None:
+                return 0
 
-                pdfs = [n for n in entradas if n.lower().endswith('.pdf')]
-                xmls = [n for n in entradas if n.lower().endswith('.xml')]
+            # Localiza a linha que contém o cabeçalho ('Chave' deve estar presente)
+            header_row = None
+            for i, row in sheet.iterrows():
+                if 'Chave' in row.values:
+                    header_row = i
+                    break
+            if header_row is None:
+                return 0
 
-                # XMLs têm prioridade: se existe ao menos um XML no ZIP,
-                # os PDFs do mesmo ZIP são seus DANFEs — não processar.
-                if xmls and pdfs:
-                    print(f"  [ZIP] {caminho_zip.name}: {len(xmls)} XML(s) + {len(pdfs)} PDF(s) → usando apenas XMLs")
+            sheet.columns = sheet.iloc[header_row].tolist()
+            sheet = sheet.iloc[header_row + 1:].reset_index(drop=True)
+            sheet = sheet.dropna(subset=['Chave', 'Descricao'])
+            # Mantém apenas linhas de DocumentoFiscal (ignora despesas manuais)
+            if 'TipoDespesa' in sheet.columns:
+                sheet = sheet[sheet['TipoDespesa'] == 'DocumentoFiscal']
 
-                for nome_xml in xmls:
-                    with z.open(nome_xml) as f:
-                        conteudo = f.read()
-                    chave = extrair_chave_do_xml(conteudo)
-                    origem = f"{caminho_zip.name}::{nome_xml}"
+            count = 0
+            for chave_val, grupo in sheet.groupby('Chave', sort=False):
+                chave_str = str(chave_val).strip()
+                if len(chave_str) == 44 and chave_str in self._chaves_processadas:
+                    print(f"  [SKIP XLSX] chave {chave_str[:8]}...: já processada")
+                    continue
+                if len(chave_str) == 44:
+                    self._chaves_processadas.add(chave_str)
+
+                for _, row in grupo.iterrows():
+                    loja = str(row.get('NomeFantasia', '') or '').strip()
+                    if not loja or loja == 'nan':
+                        loja = str(row.get('RazaoSocial', '') or '').strip()
+
+                    try:
+                        qtd = float(str(row.get('Quantidade', 0)).replace(',', '.'))
+                    except (ValueError, TypeError):
+                        qtd = 0.0
+
+                    try:
+                        preco_unit = float(row.get('ValorUnitarioProduto', 0) or 0)
+                    except (ValueError, TypeError):
+                        preco_unit = 0.0
+
+                    try:
+                        preco_total = float(row.get('ValorTotalProduto', 0) or 0)
+                    except (ValueError, TypeError):
+                        preco_total = 0.0
+
+                    if preco_total <= 0:
+                        continue
+
+                    data = str(row.get('DataEmissao', '')).strip()
+                    # Normaliza para dd/mm/yyyy se vier em yyyy-mm-dd
+                    if re.match(r'\d{4}-\d{2}-\d{2}', data):
+                        data = f"{data[8:10]}/{data[5:7]}/{data[:4]}"
+
+                    self.dados_consolidados.append({
+                        'data': data,
+                        'loja': loja,
+                        'cnpj': str(row.get('CNPJ', '') or '').strip(),
+                        'produto': str(row.get('Descricao', '')).strip(),
+                        'qtd': qtd,
+                        'unidade': str(row.get('Unidade', '') or '').strip(),
+                        'preco_unit': preco_unit,
+                        'preco_total': preco_total,
+                        'codigo': '',
+                        'ean': '',
+                        'ncm': str(row.get('NCM', '') or '').strip(),
+                        'chave_nfe': chave_str,
+                        'arquivo_origem': nome_origem,
+                    })
+                    count += 1
+
+            return count
+        except Exception as e:
+            print(f"[ERRO XLSX] {nome_origem}: {e}")
+            return 0
+
+    def _processar_membros_zip(self, z: zipfile.ZipFile, nome_zip_raiz: str) -> None:
+        """Processa todos os membros de um ZipFile aberto.
+
+        Estratégia:
+        1. XMLs primeiro — registram as chaves NF-e.
+        2. XLSXs (formato Citizen) — deduplicam por chave.
+        3. PDFs — cada um verificado individualmente pela chave extraída;
+           só são pulados se a chave já foi registrada (ex.: DANFE de um XML).
+        4. ZIPs aninhados — processados recursivamente.
+        """
+        import io as _io
+
+        entradas = [
+            n for n in z.namelist()
+            if not n.startswith('__MACOSX') and not n.endswith('/')
+        ]
+        xmls  = [n for n in entradas if n.lower().endswith('.xml')]
+        pdfs  = [n for n in entradas if n.lower().endswith('.pdf')]
+        xlsxs = [n for n in entradas if n.lower().endswith('.xlsx')]
+        zips  = [n for n in entradas if n.lower().endswith('.zip')]
+
+        # --- XMLs ---
+        for nome_xml in xmls:
+            with z.open(nome_xml) as f:
+                conteudo = f.read()
+            chave = extrair_chave_do_xml(conteudo)
+            origem = f"{nome_zip_raiz}::{nome_xml}"
+            if chave:
+                if chave in self._chaves_processadas:
+                    print(f"  [SKIP XML] {origem}: chave duplicada")
+                    continue
+                self._chaves_processadas.add(chave)
+            itens = extrair_itens_do_xml(conteudo, origem)
+            self.dados_consolidados.extend(itens)
+            print(f"  [XML] {origem}: {len(itens)} item(s)")
+
+        # --- XLSXs (Citizen) ---
+        for nome_xlsx in xlsxs:
+            with z.open(nome_xlsx) as f:
+                conteudo = f.read()
+            origem = f"{nome_zip_raiz}::{nome_xlsx}"
+            n = self._processar_xlsx_citizen(conteudo, origem)
+            print(f"  [XLSX] {origem}: {n} item(s)")
+
+        # --- PDFs (deduplicação por chave, sem pular em bloco) ---
+        for nome_pdf in pdfs:
+            with z.open(nome_pdf) as f:
+                pdf_bytes = f.read()
+            origem = f"{nome_zip_raiz}::{nome_pdf}"
+            try:
+                with pdfplumber.open(_io.BytesIO(pdf_bytes)) as pdf:
+                    texto_p1 = pdf.pages[0].extract_text() or '' if pdf.pages else ''
+                    chave = self._extrair_chave_pdf(texto_p1)
                     if chave:
                         if chave in self._chaves_processadas:
-                            print(f"  [SKIP XML] {origem}: chave duplicada, ignorado")
+                            print(f"  [SKIP PDF] {origem}: chave já processada")
                             continue
                         self._chaves_processadas.add(chave)
-                    itens = extrair_itens_do_xml(conteudo, origem)
-                    self.dados_consolidados.extend(itens)
-                    print(f"  [XML] {origem}: {len(itens)} item(s)")
+                    n = self._extrair_dados_do_pdf(pdf, origem)
+                    if n > 0:
+                        print(f"  [PDF] {origem}: {n} item(s)")
+            except Exception as e:
+                print(f"[ERRO PDF] {origem}: {e}")
 
-                # PDFs processados apenas se o ZIP não tinha XMLs
-                if not xmls:
-                    for nome_pdf in pdfs:
-                        with z.open(nome_pdf) as f:
-                            with pdfplumber.open(f) as pdf:
-                                texto_p1 = pdf.pages[0].extract_text() or '' if pdf.pages else ''
-                                chave = self._extrair_chave_pdf(texto_p1)
-                                origem = f"{caminho_zip.name}::{nome_pdf}"
-                                if chave:
-                                    if chave in self._chaves_processadas:
-                                        print(f"  [SKIP PDF] {origem}: chave já processada")
-                                        continue
-                                    self._chaves_processadas.add(chave)
-                                self._extrair_dados_do_pdf(pdf, origem)
+        # --- ZIPs aninhados (recursão) ---
+        for nome_zip in zips:
+            with z.open(nome_zip) as f:
+                try:
+                    inner_bytes = _io.BytesIO(f.read())
+                    with zipfile.ZipFile(inner_bytes) as inner_z:
+                        print(f"  [ZIP aninhado] abrindo {nome_zip_raiz}::{nome_zip}")
+                        self._processar_membros_zip(inner_z, f"{nome_zip_raiz}::{nome_zip}")
+                except Exception as e:
+                    print(f"[ERRO ZIP aninhado] {nome_zip}: {e}")
 
+    def processar_zip(self, caminho_zip):
+        """Processa um ZIP podendo conter PDFs, XMLs, XLSXs e ZIPs aninhados."""
+        try:
+            with zipfile.ZipFile(caminho_zip, 'r') as z:
+                self._processar_membros_zip(z, caminho_zip.name)
         except Exception as e:
             print(f"[ERRO ZIP] {caminho_zip.name}: {e}")
 
@@ -170,14 +287,21 @@ class ProcessadorDeCupons:
         arquivos = list(pasta.glob('*'))
         print(f"Lendo {len(arquivos)} arquivos em: {pasta}")
 
-        # Passo 1: processa ZIPs e XMLs avulsos primeiro para registrar as chaves
+        # Passo 1: ZIPs e XMLs avulsos primeiro (registram as chaves)
         for arquivo in arquivos:
             if arquivo.suffix.lower() == '.xml':
                 self.processar_arquivo_xml(arquivo)
             elif arquivo.suffix.lower() == '.zip':
                 self.processar_zip(arquivo)
 
-        # Passo 2: processa PDFs avulsos — pula os que já foram cobertos por XML
+        # Passo 2: XLSXs avulsos (formato Citizen)
+        for arquivo in arquivos:
+            if arquivo.suffix.lower() == '.xlsx':
+                conteudo = arquivo.read_bytes()
+                n = self._processar_xlsx_citizen(conteudo, arquivo.name)
+                print(f"  [XLSX] {arquivo.name}: {n} item(s)")
+
+        # Passo 3: processa PDFs avulsos — pula os que já foram cobertos por XML
         for arquivo in arquivos:
             if arquivo.suffix.lower() == '.pdf':
                 self.processar_arquivo_pdf(arquivo)

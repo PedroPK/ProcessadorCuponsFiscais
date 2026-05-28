@@ -32,7 +32,7 @@ def detectar_novos_arquivos(df_base):
     pasta_nf = Path(__file__).resolve().parent.parent / 'resources' / 'notas_fiscais'
     if not pasta_nf.exists():
         return []
-    extensoes = {'.xml', '.pdf', '.zip'}
+    extensoes = {'.xml', '.pdf', '.zip', '.xlsx'}
     arquivos_na_pasta = {f.name for f in pasta_nf.iterdir() if f.suffix.lower() in extensoes}
     if df_base is None or 'arquivo_origem' not in df_base.columns:
         return sorted(arquivos_na_pasta)
