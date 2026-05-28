@@ -96,7 +96,7 @@ if mercados:
     df = df[df['arquivo_origem'].isin(mercados)]
 
 # --- CRIAÇÃO DAS ABAS ---
-tab1, tab2, tab3, tab4 = st.tabs(["📈 Evolução de Preços", "💰 Análise Pareto (ABC)", "📋 Dados Brutos", "📊 Índice de Inflação Pessoal"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📈 Evolução de Preços", "💰 Análise Pareto (ABC)", "📋 Dados Brutos", "📊 Índice de Inflação Pessoal", "🏆 Produtos Mais Comprados"])
 
 # ==========================================
 # ABA 1: EVOLUÇÃO (O que você já tinha)
@@ -442,3 +442,39 @@ with tab4:
                     df_pivot_display.style.format('R$ {:.2f}'),
                     use_container_width=True
                 )
+
+# ==========================================
+# ABA 5: PRODUTOS MAIS COMPRADOS
+# ==========================================
+with tab5:
+    st.markdown("### 🏆 Produtos Mais Comprados")
+    st.markdown("Ranking dos produtos pela **quantidade de vezes** que aparecem nas notas fiscais, do mais frequente ao menos frequente.")
+
+    df_freq = (
+        df.groupby('produto')
+        .size()
+        .reset_index(name='vezes_comprado')
+        .sort_values('vezes_comprado', ascending=False)
+        .reset_index(drop=True)
+    )
+    df_freq.index += 1  # Ranking começa em 1
+    df_freq.index.name = 'Posição'
+    df_freq = df_freq.rename(columns={'produto': 'Produto', 'vezes_comprado': 'Vezes Comprado'})
+
+    top_n = st.slider("Exibir top N produtos no gráfico:", min_value=5, max_value=min(50, len(df_freq)), value=min(20, len(df_freq)))
+
+    fig_freq = px.bar(
+        df_freq.head(top_n),
+        x='Produto',
+        y='Vezes Comprado',
+        title=f"Top {top_n} Produtos Mais Comprados",
+        text_auto=True,
+        color='Vezes Comprado',
+        color_continuous_scale='Blues',
+    )
+    fig_freq.update_layout(xaxis_tickangle=-45, coloraxis_showscale=False)
+    st.plotly_chart(fig_freq, use_container_width=True)
+
+    st.divider()
+    st.markdown("#### Tabela Completa")
+    st.dataframe(df_freq, use_container_width=True)
