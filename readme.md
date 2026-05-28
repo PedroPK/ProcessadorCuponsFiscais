@@ -173,8 +173,13 @@ streamlit run src/dashboard.py
 - **📊 Índice de Inflação Pessoal** — índice de Laspeyres calculado com os seus produtos:
   - Escolha o mínimo de meses em que um produto deve aparecer para entrar na cesta
   - Passe o mouse sobre qualquer mês no gráfico para ver os 10 produtos que mais puxaram o índice para cima ou para baixo naquele mês
-  - Veja a inflação acumulada, a variação mês a mês e a composição e pesos da cesta
+  - Veja a inflação acumulada, a variação mês a mês e a composição e pesos da cesta (incluindo preço atual e variação acumulada por produto)
 - **📋 Dados Brutos** — tabela completa do CSV com campo de busca para filtrar por nome de produto
+- **🏆 Produtos Mais Comprados** — ranking dos produtos por frequência de aparição nas notas, com gráfico de barras (top-N configurável) e tabela completa
+
+**Barra lateral — 🔄 Atualizar Dados:**
+- Detecta automaticamente arquivos novos em `resources/notas_fiscais/` que ainda não foram processados
+- Botão **Processar e Atualizar** executa o processador em background e recarrega o dashboard sem fechar o navegador
 
 **Para parar o dashboard:** Pressione `Ctrl + C` no terminal
 
@@ -186,6 +191,7 @@ streamlit run src/dashboard.py
 | 💰 **Análise Pareto (ABC)** | ![Análise Pareto ABC](resources/screenshots/tab2_pareto_abc.png) |
 | 📋 **Dados Brutos** | ![Dados Brutos](resources/screenshots/tab3_dados_brutos.png) |
 | 📊 **Índice de Inflação Pessoal** | ![Índice de Inflação Pessoal](resources/screenshots/tab4_inflacao_pessoal.png) |
+| 🏆 **Produtos Mais Comprados** | ![Produtos Mais Comprados](resources/screenshots/tab5_produtos_mais_comprados.png) |
 
 ---
 

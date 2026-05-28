@@ -9,6 +9,25 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ---
 
+## [0.9.0] — 2026-05-28
+
+### Adicionado
+- `src/dashboard.py` — barra lateral **🔄 Atualizar Dados** com detecção automática de novos arquivos
+  - Função `detectar_novos_arquivos()` compara os arquivos em `resources/notas_fiscais/` com os já presentes no CSV, listando os pendentes
+  - Botão "Processar e Atualizar" executa `processadorCuponsFiscais.py` em background e recarrega os dados automaticamente com `st.rerun()`; exibe erros inline caso o processamento falhe
+- `src/dashboard.py` — nova aba **🏆 Produtos Mais Comprados**
+  - Ranking dos produtos por frequência de aparição nas notas fiscais
+  - Gráfico de barras com escala de cor e slider para exibir o top-N (5 a 50 produtos)
+  - Tabela completa com posição e total de compras
+
+### Alterado
+- `src/dashboard.py` — aba **📋 Dados Brutos**: colunas renomeadas para exibição legível (`preco_unit` → `Preço Unit`, `chave_nfe` → `Chave NF-e`, etc.); coluna "Arquivo Origem" com largura fixa de 600 px; tabela com altura de 400 px e `use_container_width=True`
+- `src/dashboard.py` — aba **📊 Índice de Inflação Pessoal**:
+  - `bfill()` adicionado após `ffill()` no pivot de preços — evita NaN e deflação espúria em produtos cuja primeira compra ocorre após o mês base
+  - Tabela de composição da cesta passa a exibir `preco_atual` e `variacao_%` (variação acumulada desde o mês base, com sinal)
+
+---
+
 ## [0.8.0] — 2026-05-10
 
 ### Adicionado
