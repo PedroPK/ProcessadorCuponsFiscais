@@ -24,16 +24,72 @@ def carregar_dados():
 
 df = carregar_dados()
 
+
+# -------------------------------------------------------
+# Detecta arquivos na pasta que ainda não estão no CSV
+# -------------------------------------------------------
+def detectar_novos_arquivos(df_base):
+    pasta_nf = Path(__file__).resolve().parent.parent / 'resources' / 'notas_fiscais'
+    if not pasta_nf.exists():
+        return []
+    extensoes = {'.xml', '.pdf', '.zip'}
+    arquivos_na_pasta = {f.name for f in pasta_nf.iterdir() if f.suffix.lower() in extensoes}
+    if df_base is None or 'arquivo_origem' not in df_base.columns:
+        return sorted(arquivos_na_pasta)
+    # Extrai o nome-raiz da origem (antes de '::' nos ZIPs)
+    origens_processadas = {
+        str(origem).split('::')[0]
+        for origem in df_base['arquivo_origem'].dropna()
+    }
+    return sorted(arquivos_na_pasta - origens_processadas)
+
+
+# --- BARRA LATERAL (REPROCESSAMENTO) ---
+st.sidebar.header("🔄 Atualizar Dados")
+
+novos = detectar_novos_arquivos(df)
+
+if novos:
+    st.sidebar.warning(f"**{len(novos)} arquivo(s) novo(s)** encontrado(s):")
+    for nome in novos:
+        st.sidebar.caption(f"• {nome}")
+else:
+    st.sidebar.success("Nenhum arquivo novo detectado.")
+
+if st.sidebar.button(
+    "Processar e Atualizar" if novos else "Reprocessar tudo",
+    type="primary" if novos else "secondary",
+    use_container_width=True,
+):
+    import subprocess, sys
+    script = Path(__file__).resolve().parent / 'processadorCuponsFiscais.py'
+    with st.sidebar.status("Processando notas fiscais...", expanded=True) as status:
+        result = subprocess.run(
+            [sys.executable, str(script)],
+            capture_output=True,
+            text=True,
+        )
+    if result.returncode == 0:
+        st.sidebar.success("✅ Dados atualizados!")
+        carregar_dados.clear()
+        st.rerun()
+    else:
+        st.sidebar.error("❌ Erro ao processar:")
+        st.sidebar.code(result.stderr[-800:] or result.stdout[-800:])
+
+st.sidebar.divider()
+
+# --- BARRA LATERAL (FILTROS GERAIS) ---
+st.sidebar.header("Filtros")
+
 if df is None:
-    st.error("Arquivo CSV não encontrado. Rode o 'main.py' primeiro!")
+    st.error("Arquivo CSV não encontrado. Use o botão **Processar e Atualizar** na barra lateral.")
     st.stop()
 
 if df.empty:
     st.warning("O arquivo CSV existe, mas está vazio.")
     st.stop()
 
-# --- BARRA LATERAL (FILTROS GERAIS) ---
-st.sidebar.header("Filtros")
 mercados = st.sidebar.multiselect("Filtrar por Mercado (Origem)", df['arquivo_origem'].unique())
 
 if mercados:
