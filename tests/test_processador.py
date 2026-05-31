@@ -3,8 +3,10 @@ Testes para src/processadorCuponsFiscais.py
 """
 import io
 import zipfile
+import pandas as pd
 import pytest
 from conftest import XML_VALIDO, NFE_CHAVE
+import processadorCuponsFiscais
 from processadorCuponsFiscais import ProcessadorDeCupons
 
 
@@ -154,3 +156,28 @@ class TestProcessarZip:
         p = ProcessadorDeCupons()
         p.processar_zip(zip_path)
         assert len(p.dados_consolidados) == 2  # ainda 2 itens, não 4
+
+
+class TestExportarCsv:
+    def test_exporta_produto_raw_mesmo_sem_dicionario(self, tmp_path, monkeypatch):
+        raiz = tmp_path
+        (raiz / "src").mkdir()
+        monkeypatch.setattr(processadorCuponsFiscais, "__file__", str(raiz / "src" / "processadorCuponsFiscais.py"))
+
+        p = ProcessadorDeCupons()
+        p.dados_consolidados = [{
+            "data": "01/03/2026",
+            "produto": "LEITE INTEGRAL UHT 1L",
+            "qtd": 1.0,
+            "unidade": "UN",
+            "preco_unit": 4.89,
+            "preco_total": 4.89,
+            "codigo": "001",
+            "arquivo_origem": "citizen.xlsx",
+        }]
+
+        p.exportar_csv("teste.csv")
+
+        df = pd.read_csv(raiz / "resources" / "outputData" / "teste.csv", sep=";", encoding="utf-8-sig")
+        assert "produto_raw" in df.columns
+        assert df.loc[0, "produto_raw"] == "LEITE INTEGRAL UHT 1L"

@@ -42,7 +42,8 @@ def atualizar_dicionario():
         return
     
     df_raw = pd.read_csv(arquivo_dados, sep=';', decimal=',', encoding='utf-8-sig')
-    produtos_novos_detectados = df_raw['produto'].dropna().unique()
+    col_nome = 'produto_raw' if 'produto_raw' in df_raw.columns else 'produto'
+    produtos_novos_detectados = df_raw[col_nome].dropna().unique()
 
     df_dic = carregar_dados_existentes(arquivo_dicionario)
     
