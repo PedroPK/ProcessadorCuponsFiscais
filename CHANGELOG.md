@@ -9,6 +9,30 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ---
 
+## [1.0.0] — 2026-05-28
+
+### Adicionado
+- `src/processadorCuponsFiscais.py` — suporte a **exportação XLSX do app Citizen**
+  - Novo método `_processar_xlsx_citizen()` lê a aba "Notas Fiscais" do XLSX, mapeando colunas (`Chave`, `Descricao`, `DataEmissao`, `NomeFantasia`, `Quantidade`, `ValorUnitarioProduto`, etc.) para o formato unificado
+  - Deduplicação por chave NF-e de 44 dígitos — notas já registradas via XML são ignoradas automaticamente
+- `src/processadorCuponsFiscais.py` — suporte a **ZIPs aninhados** (recursão)
+  - Novo método `_processar_membros_zip()` percorre qualquer nível de ZIP dentro de ZIP, extraindo XMLs, XLSXs e PDFs
+- `src/processadorCuponsFiscais.py` — **PDFs processados individualmente por chave** dentro de ZIPs mistos
+  - Abandona a estratégia anterior de ignorar todos os PDFs quando havia XMLs no mesmo ZIP; agora cada PDF tem sua chave verificada independentemente, capturando notas antigas que existem apenas em PDF
+- `src/dashboard.py` — extensão `.xlsx` incluída no detector de novos arquivos (`detectar_novos_arquivos()`)
+
+### Alterado
+- `src/processadorCuponsFiscais.py` — `processar_zip()` refatorado como wrapper fino sobre `_processar_membros_zip()`
+- `src/processadorCuponsFiscais.py` — `varrer_diretorio()` inclui passo dedicado para XLSXs avulsos na pasta de entrada
+- `src/processadorCuponsFiscais.py` — regex de produto em PDF ampliado para aceitar códigos alfanuméricos como `C288489` (ex.: Carrefour), além dos numéricos puros
+
+### Resultado
+- Base de dados ampliada de ~498 para **1.514 itens** (variação de +204 %)
+- Cobertura temporal estendida de março/2026 para **agosto/2021** (dados de 2021, 2023, 2024, 2025 e 2026)
+- Fontes processadas: **XML** (498 itens) + **XLSX Citizen** (395 itens) + **PDF** (621 itens)
+
+---
+
 ## [0.9.0] — 2026-05-28
 
 ### Adicionado

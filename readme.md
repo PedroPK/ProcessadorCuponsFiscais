@@ -1,6 +1,6 @@
 # 🛒 Monitor de Inflação Pessoal
 
-Uma ferramenta em Python para extrair dados de Notas Fiscais (NFC-e) — em formato **XML ou PDF** —, criar um banco de dados histórico de compras e visualizar a evolução dos preços através de um Dashboard interativo.
+Uma ferramenta em Python para extrair dados de Notas Fiscais (NFC-e) — em formato **XML, PDF ou XLSX** —, criar um banco de dados histórico de compras e visualizar a evolução dos preços através de um Dashboard interativo.
 
 ## 📋 Sobre o Projeto
 
@@ -8,8 +8,10 @@ Este software resolve o problema de rastrear a "inflação real" do consumidor. 
 
 **Funcionalidades:**
 * **Extração via XML (preferencial):** Lê diretamente o XML da NF-e (obtido pelo app de consulta de notas fiscais). Dados estruturados, precisos e sem necessidade de regex — inclui EAN, NCM, CNPJ e nome da loja.
+* **Extração via XLSX (app Citizen):** Importa a exportação de notas fiscais do app Citizen, com todas as colunas estruturadas (chave, descrição, loja, NCM, quantidades, valores).
 * **Extração via PDF (legado):** Continua suportando arquivos DANFE em PDF para notas mais antigas.
-* **Deduplicação automática:** Usa a **chave de acesso NF-e (44 dígitos)** para garantir que a mesma nota não seja contada duas vezes, mesmo que exista nos dois formatos ou duplicada dentro de um ZIP.
+* **ZIPs aninhados:** Abre automaticamente ZIPs dentro de ZIPs, qualquer nível de profundidade.
+* **Deduplicação automática:** Usa a **chave de acesso NF-e (44 dígitos)** para garantir que a mesma nota não seja contada duas vezes, mesmo que exista em vários formatos ou arquivos.
 * **Normalização de Nomes:** Usa algoritmos de similaridade (*Fuzzy Matching*) para identificar variações de nomes de produtos.
 * **Dashboard Interativo:** Painel visual para analisar variação de preços e Curva ABC (Pareto).
 
@@ -96,8 +98,9 @@ Pegue seus arquivos e coloque na pasta `resources/notas_fiscais/`. Os formatos a
 | Formato | Descrição |
 |---|---|
 | `.xml` | XML da NF-e — **formato preferencial**, máxima qualidade de dados |
+| `.xlsx` | Exportação do **app Citizen** — dados estruturados, deduplicação por chave NF-e |
 | `.pdf` | DANFE em PDF — suporte legado para notas antigas |
-| `.zip` | ZIP com XMLs e/ou PDFs. Se o ZIP contiver ambos, apenas os XMLs são usados |
+| `.zip` | ZIP (inclusive **ZIPs aninhados**) com XMLs, XLSXs e/ou PDFs. Cada arquivo é verificado individualmente pela chave NF-e |
 
 > **Como obter o XML:** leia o QR Code do cupom físico com o app de NFC-e do seu estado (ex.: app da SEFAZ), acesse a nota e baixe o XML. Você pode salvar vários XMLs num único ZIP.
 
@@ -110,27 +113,28 @@ python3 src/processadorCuponsFiscais.py
 
 **O que faz:**
 - Processa primeiro todos os ZIPs e XMLs avulsos, registrando a chave de acesso de cada nota
-- Em seguida processa os PDFs avulsos, **pulando automaticamente** qualquer nota cuja chave já foi lida via XML
-- Dentro de um ZIP com XMLs e PDFs, usa apenas os XMLs
+- Processa XLSXs (exportação Citizen), pulando notas cuja chave já foi registrada
+- Em seguida processa os PDFs avulsos e PDFs dentro de ZIPs, **pulando individualmente** qualquer nota cuja chave já foi lida
+- Abre ZIPs aninhados recursivamente
 - Gera o arquivo `resources/outputData/minha_inflacao.csv`
 
 **Colunas geradas no CSV:**
 
 | Coluna | Preenchida por | Descrição |
 |---|---|---|
-| `data` | XML e PDF | Data da compra (dd/mm/yyyy) |
-| `loja` | XML | Nome fantasia ou razão social do emissor |
-| `cnpj` | XML | CNPJ do emissor |
-| `produto` | XML e PDF | Nome do produto |
-| `qtd` | XML e PDF | Quantidade |
-| `unidade` | XML e PDF | Unidade (PC, Kg, Un…) |
-| `preco_unit` | XML e PDF | Preço unitário |
-| `preco_total` | XML e PDF | Valor total do item |
+| `data` | XML, XLSX e PDF | Data da compra (dd/mm/yyyy) |
+| `loja` | XML e XLSX | Nome fantasia ou razão social do emissor |
+| `cnpj` | XML e XLSX | CNPJ do emissor |
+| `produto` | XML, XLSX e PDF | Nome do produto |
+| `qtd` | XML, XLSX e PDF | Quantidade |
+| `unidade` | XML, XLSX e PDF | Unidade (PC, Kg, Un…) |
+| `preco_unit` | XML, XLSX e PDF | Preço unitário |
+| `preco_total` | XML, XLSX e PDF | Valor total do item |
 | `codigo` | XML e PDF | Código interno do produto na loja |
 | `ean` | XML | Código de barras EAN/GTIN |
-| `ncm` | XML | Código NCM (classificação fiscal) |
-| `chave_nfe` | XML | Chave de acesso NF-e de 44 dígitos |
-| `arquivo_origem` | XML e PDF | Nome do arquivo processado |
+| `ncm` | XML e XLSX | Código NCM (classificação fiscal) |
+| `chave_nfe` | XML e XLSX | Chave de acesso NF-e de 44 dígitos |
+| `arquivo_origem` | XML, XLSX e PDF | Nome do arquivo processado |
 | `categoria` | Dicionário | Categoria (após rodar o Passo 3) |
 
 ---
