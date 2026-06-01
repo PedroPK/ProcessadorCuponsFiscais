@@ -7,6 +7,13 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ## [Não lançado]
 
+### Identificado
+- ⚠️ **Dados do XLS (app Citizen) não estão sendo normalizados pelo Dicionário de Produtos** — os nomes dos produtos do arquivo XLSX do Citizen permanecem em formato bruto, diferente dos produtos extraídos de XML/PDF que passam pela normalização fuzzy. Necessário investigar e unificar o fluxo de normalização para todas as fontes.
+
+---
+
+## [1.1.0] — 2026-05-31
+
 ### Alterado
 - `src/processadorCuponsFiscais.py` — exportação do CSV passa a incluir a coluna `produto_raw` com o nome original do item antes da normalização, facilitando auditoria e ajustes no dicionário
 - `src/dicionario.py` — atualização do dicionário prioriza a coluna `produto_raw` quando disponível e mantém fallback para `produto` por compatibilidade com CSVs antigos

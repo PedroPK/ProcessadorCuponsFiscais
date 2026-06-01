@@ -477,4 +477,12 @@ with tab5:
 
     st.divider()
     st.markdown("#### Tabela Completa")
-    st.dataframe(df_freq, use_container_width=True)
+    
+    # Filtro por nome
+    busca_produto = st.text_input("🔍 Filtrar produtos por Nome", placeholder="Digite parte do nome do produto...")
+    
+    df_freq_filtrado = df_freq
+    if busca_produto:
+        df_freq_filtrado = df_freq[df_freq['Produto'].str.contains(busca_produto, case=False, na=False)]
+    
+    st.dataframe(df_freq_filtrado, use_container_width=True)

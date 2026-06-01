@@ -226,11 +226,30 @@ A suíte de testes cobre o parser XML, a lógica de deduplicação e o dicionár
 python -m pytest tests/ -v
 ```
 
-Todos os 55 testes devem passar em poucos segundos, sem necessidade de arquivos reais na pasta `resources/`.
+Todos os 80 testes devem passar em poucos segundos, sem necessidade de arquivos reais na pasta `resources/`.
 
 ---
 
-### 🆘 Problemas Comuns
+## ⚠️ Problemas Conhecidos e Próximos Passos
+
+### 1. Dados do XLS (App Citizen) não Normalizados
+**Status:** Identificado em v1.1.0  
+**Descrição:** Os produtos extraídos do arquivo XLSX do app Citizen permanecem em formato bruto e não passam pelo fluxo de normalização do Dicionário de Produtos, diferente dos XMLs e PDFs. Isso resulta em:
+- Nomes inconsistentes entre produtos da mesma loja vindos de Citizen vs. XML/PDF
+- Impossibilidade de comparar preços de um mesmo produto extraído por fontes diferentes
+- Dicionário não consegue mapear produtos do Citizen
+
+**Impacto:** As colunas `produto` e `categoria` para itens do Citizen ficam iguais a `produto_raw`, sem normalização.
+
+**Próximos Passos:**
+- [ ] Investigar se o XLSX do Citizen já vem com nomes padronizados (improvável)
+- [ ] Aplicar o mesmo fluxo de Fuzzy Matching usado para XML/PDF aos produtos do Citizen
+- [ ] Testar unificação end-to-end (adicionar note do Citizen, processar, verificar se é mapeada pelo dicionário)
+- [ ] Adicionar testes para validar normalização de produtos Citizen
+
+---
+
+## 🆘 Problemas Comuns
 Erro: "ModuleNotFoundError"
 - Causa: Você esqueceu de ativar o ambiente virtual.
 - Solução: Rode o comando do Passo A da instalação novamente.
