@@ -142,7 +142,7 @@ python3 src/processadorCuponsFiscais.py
 Rode este comando para padronizar nomes (ex: transformar "LEITE PARMALAT CX" em "Leite Integral"):
 
 ```Bash
-python3 src/criar_dicionario.py
+python3 src/dicionario.py
 ```
 
 **O que faz:**
