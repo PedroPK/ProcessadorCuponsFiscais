@@ -5,6 +5,30 @@ import pandas as pd
 from pathlib import Path
 
 
+def format_currency(value: float) -> str:
+    """
+    Formata um valor numérico como moeda brasileira (R$).
+    
+    Parâmetros
+    ----------
+    value : float
+        Valor numérico a ser formatado.
+        
+    Retorna
+    -------
+    str
+        String formatada com separador de milhares (.) e decimais (,).
+        
+    Exemplos
+    --------
+    >>> format_currency(1234.56)
+    'R$ 1.234,56'
+    >>> format_currency(0.99)
+    'R$ 0,99'
+    """
+    return f"R$ {value:,.2f}".replace(",", "@").replace(".", ",").replace("@", ".")
+
+
 def filtrar_produtos(df: pd.DataFrame, busca: str) -> pd.DataFrame:
     """
     Filtra o DataFrame pelo campo 'produto' usando busca por tokens.

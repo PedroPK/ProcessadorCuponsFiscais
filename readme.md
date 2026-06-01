@@ -134,6 +134,12 @@ python3 src/processadorCuponsFiscais.py
 | `arquivo_origem` | XML e PDF | Nome do arquivo processado |
 | `categoria` | Dicionário | Categoria (após rodar o Passo 3) |
 
+> **Dica — Formatação de valores:** Use a função `format_currency()` do módulo `utils` para exibir valores monetários formatados. Exemplo:
+> ```python
+> from src.utils import format_currency
+> print(format_currency(1234.56))  # Output: "R$ 1.234,56"
+> ```
+
 ---
 
 ✅ Resultado: Vai criar/atualizar o arquivo resources/outputData/minha_inflacao.csv.

@@ -169,3 +169,37 @@ class TestResolverDanfe:
     def test_extensao_desconhecida_retorna_none(self, tmp_path):
         raiz = self._montar_raiz(tmp_path)
         assert resolver_danfe('arquivo.zip', raiz) is None
+
+
+# ── format_currency ────────────────────────────────────────────────────────────
+
+class TestFormatCurrency:
+    """Testes para a função format_currency() de formatação de moeda."""
+
+    def test_valor_simples_com_centavos(self):
+        from utils import format_currency
+        assert format_currency(1234.56) == "R$ 1.234,56"
+
+    def test_valor_com_centavos_pequeno(self):
+        from utils import format_currency
+        assert format_currency(0.99) == "R$ 0,99"
+
+    def test_valor_inteiro(self):
+        from utils import format_currency
+        assert format_currency(100.0) == "R$ 100,00"
+
+    def test_valor_com_milhares(self):
+        from utils import format_currency
+        assert format_currency(12345.67) == "R$ 12.345,67"
+
+    def test_valor_grande_com_milhoes(self):
+        from utils import format_currency
+        assert format_currency(1234567.89) == "R$ 1.234.567,89"
+
+    def test_valor_zero(self):
+        from utils import format_currency
+        assert format_currency(0.0) == "R$ 0,00"
+
+    def test_valor_negativo(self):
+        from utils import format_currency
+        assert format_currency(-123.45) == "R$ -123,45"

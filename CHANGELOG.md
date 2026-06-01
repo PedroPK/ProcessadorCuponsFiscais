@@ -7,6 +7,12 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ## [Não lançado]
 
+### Adicionado
+- `src/utils.py` — nova função `format_currency(value: float) -> str` para formatação de valores monetários em Reais (R$)
+  - Exemplo: `format_currency(1234.56)` retorna `"R$ 1.234,56"`
+  - Suporta valores com milhares, decimais e valores negativos
+  - Útil para apresentação de dados em Dashboard e relatórios
+
 ### Identificado
 - ⚠️ **Dados do XLS (app Citizen) não estão sendo normalizados pelo Dicionário de Produtos** — os nomes dos produtos do arquivo XLSX do Citizen permanecem em formato bruto, diferente dos produtos extraídos de XML/PDF que passam pela normalização fuzzy. Necessário investigar e unificar o fluxo de normalização para todas as fontes.
 
