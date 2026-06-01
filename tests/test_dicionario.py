@@ -4,7 +4,8 @@ Testes para src/dicionario.py
 import pandas as pd
 import pytest
 from pathlib import Path
-from dicionario import carregar_dados_existentes, sugerir_padrao
+import dicionario
+from dicionario import atualizar_dicionario, carregar_dados_existentes, sugerir_padrao
 
 
 # ── carregar_dados_existentes ──────────────────────────────────────────────────
@@ -63,3 +64,40 @@ class TestSugerirPadrao:
         nomes_conhecidos = ["Integral Leite"]
         resultado = sugerir_padrao("LEITE INTEGRAL", nomes_conhecidos)
         assert resultado == "Integral Leite"
+
+
+class TestAtualizarDicionario:
+    def test_usa_produto_raw_quando_coluna_existe(self, tmp_path, monkeypatch):
+        raiz = tmp_path
+        pasta_saida = raiz / "resources" / "outputData"
+        pasta_saida.mkdir(parents=True)
+        (raiz / "src").mkdir()
+
+        pd.DataFrame([
+            {"produto": "Leite Integral", "produto_raw": "LEITE INTEGRAL UHT 1L"},
+        ]).to_csv(pasta_saida / "minha_inflacao.csv", index=False, sep=";", encoding="utf-8-sig")
+
+        monkeypatch.setattr(dicionario, "__file__", str(raiz / "src" / "dicionario.py"))
+
+        atualizar_dicionario()
+
+        df = pd.read_excel(pasta_saida / "dicionario_produtos.xlsx")
+        assert list(df["nome_original"]) == ["LEITE INTEGRAL UHT 1L"]
+        assert list(df["categoria"]) == ["Nova"]
+
+    def test_faz_fallback_para_produto_por_compatibilidade(self, tmp_path, monkeypatch):
+        raiz = tmp_path
+        pasta_saida = raiz / "resources" / "outputData"
+        pasta_saida.mkdir(parents=True)
+        (raiz / "src").mkdir()
+
+        pd.DataFrame([
+            {"produto": "LEITE INTEGRAL UHT 1L"},
+        ]).to_csv(pasta_saida / "minha_inflacao.csv", index=False, sep=";", encoding="utf-8-sig")
+
+        monkeypatch.setattr(dicionario, "__file__", str(raiz / "src" / "dicionario.py"))
+
+        atualizar_dicionario()
+
+        df = pd.read_excel(pasta_saida / "dicionario_produtos.xlsx")
+        assert list(df["nome_original"]) == ["LEITE INTEGRAL UHT 1L"]

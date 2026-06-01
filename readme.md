@@ -121,7 +121,8 @@ python3 src/processadorCuponsFiscais.py
 | `data` | XML e PDF | Data da compra (dd/mm/yyyy) |
 | `loja` | XML | Nome fantasia ou razão social do emissor |
 | `cnpj` | XML | CNPJ do emissor |
-| `produto` | XML e PDF | Nome do produto |
+| `produto` | XML e PDF + Dicionário | Nome do produto (normalizado quando houver mapeamento) |
+| `produto_raw` | XML e PDF | Nome original do produto antes da normalização |
 | `qtd` | XML e PDF | Quantidade |
 | `unidade` | XML e PDF | Unidade (PC, Kg, Un…) |
 | `preco_unit` | XML e PDF | Preço unitário |
