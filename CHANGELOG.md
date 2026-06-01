@@ -7,6 +7,10 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ## [Não lançado]
 
+### Alterado
+- `src/processadorCuponsFiscais.py` — exportação do CSV passa a incluir a coluna `produto_raw` com o nome original do item antes da normalização, facilitando auditoria e ajustes no dicionário
+- `src/dicionario.py` — atualização do dicionário prioriza a coluna `produto_raw` quando disponível e mantém fallback para `produto` por compatibilidade com CSVs antigos
+
 ---
 
 ## [1.0.0] — 2026-05-28

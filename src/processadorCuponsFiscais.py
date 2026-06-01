@@ -310,6 +310,7 @@ class ProcessadorDeCupons:
     def _aplicar_normalizacao(self, df):
         raiz = Path(__file__).resolve().parent.parent
         caminho_dic = raiz / 'resources' / 'outputData' / 'dicionario_produtos.xlsx'
+        df['produto_raw'] = df['produto']
         
         if caminho_dic.exists():
             print("Aplicando dicionário de produtos...")
@@ -323,7 +324,6 @@ class ProcessadorDeCupons:
                 
                 # Aplica a troca
                 # Se não achar no dicionário, mantém o nome original
-                df['produto_raw'] = df['produto'] # Guarda o original por segurança
                 df['produto'] = df['produto_raw'].map(mapa_nomes).fillna(df['produto_raw'])
                 df['categoria'] = df['produto_raw'].map(mapa_categorias).fillna('Outros')
                 
@@ -343,7 +343,7 @@ class ProcessadorDeCupons:
             df = self._aplicar_normalizacao(df)
             
             # Reordena — inclui campos extras vindos de XMLs (ean, ncm, loja, cnpj)
-            cols = ['data', 'loja', 'cnpj', 'categoria', 'produto', 'qtd', 'unidade',
+            cols = ['data', 'loja', 'cnpj', 'categoria', 'produto', 'produto_raw', 'qtd', 'unidade',
                     'preco_unit', 'preco_total', 'codigo', 'ean', 'ncm', 'chave_nfe', 'arquivo_origem']
             # Garante que as colunas existem (caso o dicionário tenha falhado)
             cols_finais = [c for c in cols if c in df.columns]
