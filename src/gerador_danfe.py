@@ -98,6 +98,41 @@ def _fmt_qtd(v: str) -> str:
         return v or ''
 
 
+def _sanitizar_nome_arquivo(texto: str) -> str:
+    """Remove caracteres inválidos para uso seguro em nome de arquivo."""
+    texto_limpo = re.sub(r'[\\/:*?"<>|]+', '', texto or '').strip()
+    texto_limpo = re.sub(r'\s+', ' ', texto_limpo)
+    return texto_limpo or 'Estabelecimento nao identificado'
+
+
+def _nome_pdf_danfe(dados: dict) -> str:
+    """Monta o nome do PDF: AAAA.MM.DD - DANFE - Estabelecimento.pdf."""
+    dh_emi = dados.get('dh_emi', '')
+    try:
+        data_geracao = datetime.fromisoformat(dh_emi.replace('Z', '+00:00')).strftime('%Y.%m.%d')
+    except Exception:
+        m = re.search(r'(\d{4})-(\d{2})-(\d{2})', dh_emi or '')
+        data_geracao = f'{m.group(1)}.{m.group(2)}.{m.group(3)}' if m else '0000.00.00'
+
+    estabelecimento = _sanitizar_nome_arquivo(dados.get('emit_fant') or dados.get('emit_nome'))
+    return f'{data_geracao} - DANFE - {estabelecimento}.pdf'
+
+
+def _nome_arquivo_unico(caminho: Path) -> Path:
+    """Evita sobrescrever arquivos existentes adicionando sufixo incremental."""
+    if not caminho.exists():
+        return caminho
+
+    base = caminho.stem
+    sufixo = caminho.suffix
+    contador = 2
+    while True:
+        candidato = caminho.with_name(f'{base} ({contador}){sufixo}')
+        if not candidato.exists():
+            return candidato
+        contador += 1
+
+
 # ─── Extração do NF-e ─────────────────────────────────────────────────────────
 def _extrair_dados(conteudo_xml: bytes) -> dict:
     root = ET.fromstring(conteudo_xml.decode('utf-8', errors='replace'))
@@ -533,9 +568,9 @@ def _bloco_carga_tributaria(d: dict, s: dict, larg: float) -> Table:
 
 
 # ─── Função principal ─────────────────────────────────────────────────────────
-def gerar_pdf_de_xml(conteudo_xml: bytes, caminho_saida: Path) -> None:
+def gerar_pdf_de_xml(conteudo_xml: bytes, caminho_saida: Path, dados_extraidos: dict | None = None) -> None:
     """Gera o DANFE PDF a partir do conteúdo XML bruto."""
-    d = _extrair_dados(conteudo_xml)
+    d = dados_extraidos or _extrair_dados(conteudo_xml)
     s = _estilos()
 
     caminho_saida.parent.mkdir(parents=True, exist_ok=True)
@@ -581,8 +616,9 @@ def _processar_fonte(origem: Path, pasta_saida: Path) -> int:
 
     if origem.suffix.lower() == '.xml':
         conteudo = origem.read_bytes()
-        nome_pdf = pasta_saida / (origem.stem + '.pdf')
-        gerar_pdf_de_xml(conteudo, nome_pdf)
+        dados = _extrair_dados(conteudo)
+        nome_pdf = _nome_arquivo_unico(pasta_saida / _nome_pdf_danfe(dados))
+        gerar_pdf_de_xml(conteudo, nome_pdf, dados_extraidos=dados)
         gerados += 1
 
     elif origem.suffix.lower() == '.zip':
@@ -594,9 +630,9 @@ def _processar_fonte(origem: Path, pasta_saida: Path) -> int:
             for nome_xml in xmls:
                 with z.open(nome_xml) as f:
                     conteudo = f.read()
-                stem = Path(nome_xml).stem
-                nome_pdf = pasta_saida / f'{origem.stem}__{stem}.pdf'
-                gerar_pdf_de_xml(conteudo, nome_pdf)
+                dados = _extrair_dados(conteudo)
+                nome_pdf = _nome_arquivo_unico(pasta_saida / _nome_pdf_danfe(dados))
+                gerar_pdf_de_xml(conteudo, nome_pdf, dados_extraidos=dados)
                 gerados += 1
 
     return gerados
