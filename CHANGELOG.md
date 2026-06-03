@@ -12,6 +12,11 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
   - Exemplo: `format_currency(1234.56)` retorna `"R$ 1.234,56"`
   - Suporta valores com milhares, decimais e valores negativos
   - Útil para apresentação de dados em Dashboard e relatórios
+- `src/gerador_danfe.py` — nova nomenclatura para PDFs DANFE gerados a partir de XML
+  - Padrão: `AAAA.MM.DD - DANFE - Estabelecimento.pdf`
+  - Nome do estabelecimento prioriza `emit_fant` com fallback para `emit_nome`
+  - Caracteres inválidos de nome de arquivo são removidos automaticamente
+  - Em caso de conflito, o arquivo recebe sufixo incremental (`(2)`, `(3)`, ...)
 
 ### Identificado
 - ⚠️ **Dados do XLS (app Citizen) não estão sendo normalizados pelo Dicionário de Produtos** — os nomes dos produtos do arquivo XLSX do Citizen permanecem em formato bruto, diferente dos produtos extraídos de XML/PDF que passam pela normalização fuzzy. Necessário investigar e unificar o fluxo de normalização para todas as fontes.

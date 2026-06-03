@@ -220,6 +220,13 @@ python3 src/gerador_danfe.py resources/notas_fiscais/consulta.xml
 - Inclui: cabeçalho com dados do emissor, tabela completa de itens (código, EAN, NCM, qtd, preços), totais, forma de pagamento, QR Code e chave de acesso
 - Salva os PDFs em `resources/outputData/danfe/`
 
+**Nomenclatura dos arquivos gerados (XML):**
+- Padrão: `AAAA.MM.DD - DANFE - Estabelecimento.pdf`
+- Exemplo: `2026.06.03 - DANFE - SUPERMERCADO BOM PRECO.pdf`
+- O nome usa `emit_fant` (nome fantasia) e, se ausente, faz fallback para `emit_nome`
+- Caracteres inválidos para nome de arquivo (`\\ / : * ? " < > |`) são removidos automaticamente
+- Se já existir um PDF com o mesmo nome, é gerado com sufixo incremental: `(2)`, `(3)`, ...
+
 ✅ Resultado: PDFs legíveis em `resources/outputData/danfe/`
 
 ---
@@ -232,7 +239,7 @@ A suíte de testes cobre o parser XML, a lógica de deduplicação e o dicionár
 python -m pytest tests/ -v
 ```
 
-Todos os 80 testes devem passar em poucos segundos, sem necessidade de arquivos reais na pasta `resources/`.
+Todos os 90+ testes devem passar em poucos segundos, sem necessidade de arquivos reais na pasta `resources/`.
 
 ---
 
