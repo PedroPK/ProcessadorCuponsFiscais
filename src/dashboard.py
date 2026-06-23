@@ -1,6 +1,13 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import plotly.express as px
+import os
+import signal
+import threading
+import subprocess
+import sys
+import platform
 from pathlib import Path
 from utils import filtrar_produtos, resolver_danfe
 
@@ -44,6 +51,210 @@ def detectar_novos_arquivos(df_base):
     return sorted(arquivos_na_pasta - origens_processadas)
 
 
+def fechar_aba_navegador():
+    components.html(
+        """
+        <script>
+        (function () {
+            try {
+                const hostWin = window.parent || window.top || window;
+                hostWin.close();
+            } catch (e) {
+                // Ignora erro de política do navegador.
+            }
+        })();
+        </script>
+        """,
+        height=0,
+        width=0,
+    )
+
+
+def encerrar_streamlit(delay_segundos: float = 0.8):
+    def _encerrar():
+        try:
+            os.kill(os.getpid(), signal.SIGTERM)
+        except Exception:
+            os._exit(0)
+
+    threading.Timer(delay_segundos, _encerrar).start()
+
+
+def iniciar_watchdog_fechamento_aba_macos(
+    porta: int,
+    intervalo_segundos: float = 2.0,
+    max_falhas_consecutivas: int = 3,
+):
+    if platform.system() != 'Darwin':
+        return
+
+    if st.session_state.get('_watchdog_fechamento_macos_iniciado'):
+        return
+
+    target_url = f'localhost:{porta}'
+
+    script_watchdog = f"""
+import time
+import urllib.request
+import urllib.error
+import subprocess
+import sys
+
+health_url = 'http://localhost:{porta}/_stcore/health'
+intervalo = {intervalo_segundos}
+max_falhas = {max_falhas_consecutivas}
+falhas = 0
+
+def backend_ativo():
+    try:
+        with urllib.request.urlopen(health_url, timeout=1.2) as resp:
+            return 200 <= getattr(resp, 'status', 0) < 500
+    except Exception:
+        return False
+
+for _ in range(1800):
+    if backend_ativo():
+        falhas = 0
+    else:
+        falhas += 1
+
+    if falhas >= max_falhas:
+        break
+    time.sleep(intervalo)
+
+if falhas < max_falhas:
+    sys.exit(0)
+
+apple_script = r'''
+set targetText to "{target_url}"
+
+set chromiumApps to {{"Google Chrome", "Microsoft Edge", "Brave Browser", "Vivaldi"}}
+repeat with appName in chromiumApps
+    if application appName is running then
+        tell application appName
+            repeat with w in windows
+                set tabsToClose to {{}}
+                repeat with t in tabs of w
+                    try
+                        if URL of t contains targetText then
+                            set end of tabsToClose to t
+                        end if
+                    end try
+                end repeat
+                repeat with t in tabsToClose
+                    close t
+                end repeat
+            end repeat
+        end tell
+    end if
+end repeat
+
+if application "Safari" is running then
+    tell application "Safari"
+        repeat with w in windows
+            set tabsToClose to {{}}
+            repeat with t in tabs of w
+                try
+                    if URL of t contains targetText then
+                        set end of tabsToClose to t
+                    end if
+                end try
+            end repeat
+            repeat with t in tabsToClose
+                close t
+            end repeat
+        end repeat
+    end tell
+end if
+'''
+
+subprocess.run(['osascript', '-e', apple_script], check=False)
+"""
+
+    subprocess.Popen(
+        [sys.executable, '-c', script_watchdog],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        stdin=subprocess.DEVNULL,
+        start_new_session=True,
+    )
+    st.session_state['_watchdog_fechamento_macos_iniciado'] = True
+
+
+def auto_fechar_aba_quando_desconectar(
+    intervalo_ms: int = 2000,
+    max_falhas_consecutivas: int = 3,
+):
+    components.html(
+        f"""
+        <script>
+        (function () {{
+            const hostWin = window.parent || window;
+            const WATCHDOG_KEY = '__pcf_disconnect_watchdog_installed__';
+
+            if (hostWin[WATCHDOG_KEY]) return;
+            hostWin[WATCHDOG_KEY] = true;
+
+            const CHECK_INTERVAL_MS = {intervalo_ms};
+            const MAX_FAILS = {max_falhas_consecutivas};
+            const HEALTH_ENDPOINTS = ['/_stcore/health', '/healthz'];
+            let failedChecks = 0;
+
+            function fetchWithTimeout(url, timeoutMs) {{
+                const controller = new AbortController();
+                const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+                return fetch(url, {{
+                    method: 'GET',
+                    cache: 'no-store',
+                    signal: controller.signal,
+                }}).finally(() => clearTimeout(timer));
+            }}
+
+            async function isBackendAlive() {{
+                for (const endpoint of HEALTH_ENDPOINTS) {{
+                    try {{
+                        const response = await fetchWithTimeout(endpoint, 1200);
+                        if (response.ok) return true;
+                    }} catch (err) {{
+                        // Tenta o próximo endpoint
+                    }}
+                }}
+                return false;
+            }}
+
+            function forceCloseOrBlank() {{
+                try {{
+                    hostWin.open('', '_self');
+                    hostWin.close();
+                }} catch (e) {{}}
+
+                // Fallback quando o navegador bloqueia fechamento de aba.
+                try {{
+                    hostWin.location.replace('about:blank');
+                }} catch (e) {{
+                    hostWin.location.href = 'about:blank';
+                }}
+            }}
+
+            async function checkConnection() {{
+                const alive = await isBackendAlive();
+                failedChecks = alive ? 0 : failedChecks + 1;
+
+                if (failedChecks >= MAX_FAILS) {{
+                    forceCloseOrBlank();
+                }}
+            }}
+
+            hostWin.setInterval(checkConnection, CHECK_INTERVAL_MS);
+        }})();
+        </script>
+        """,
+        height=0,
+        width=0,
+    )
+
+
 # --- BARRA LATERAL (REPROCESSAMENTO) ---
 st.sidebar.header("🔄 Atualizar Dados")
 
@@ -76,6 +287,24 @@ if st.sidebar.button(
     else:
         st.sidebar.error("❌ Erro ao processar:")
         st.sidebar.code(result.stderr[-800:] or result.stdout[-800:])
+
+st.sidebar.divider()
+
+# Monitora perda de conexão com backend e fecha a aba automaticamente.
+auto_fechar_aba_quando_desconectar()
+iniciar_watchdog_fechamento_aba_macos(st.get_option('server.port'))
+
+# --- BARRA LATERAL (ENCERRAR DASHBOARD) ---
+st.sidebar.header("⏹ Encerrar Dashboard")
+
+if st.sidebar.button(
+    "Encerrar serviço e fechar aba",
+    type="secondary",
+    use_container_width=True,
+):
+    st.sidebar.info("Encerrando dashboard...")
+    fechar_aba_navegador()
+    encerrar_streamlit()
 
 st.sidebar.divider()
 

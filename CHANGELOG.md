@@ -17,6 +17,9 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
   - Nome do estabelecimento prioriza `emit_fant` com fallback para `emit_nome`
   - Caracteres inválidos de nome de arquivo são removidos automaticamente
   - Em caso de conflito, o arquivo recebe sufixo incremental (`(2)`, `(3)`, ...)
+- `src/dashboard.py` — botão **Encerrar serviço e fechar aba** na barra lateral
+  - Aciona tentativa de fechamento automático da aba do navegador
+  - Encerra o processo Streamlit em seguida, sem depender de `Ctrl + C` no terminal
 
 ### Identificado
 - ⚠️ **Dados do XLS (app Citizen) não estão sendo normalizados pelo Dicionário de Produtos** — os nomes dos produtos do arquivo XLSX do Citizen permanecem em formato bruto, diferente dos produtos extraídos de XML/PDF que passam pela normalização fuzzy. Necessário investigar e unificar o fluxo de normalização para todas as fontes.

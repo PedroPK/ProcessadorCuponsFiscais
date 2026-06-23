@@ -1,3 +1,0 @@
-agora que estamos processando os dados do XLS do app Citizen, parece que não estamos unificando os dados de lá a partir do Dicionário de Produtos (XLSX).
-
-Veja se isso é um fato, e o que precisamos fazer para unificar e normalizar os dados de lá também

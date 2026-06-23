@@ -188,7 +188,10 @@ streamlit run src/dashboard.py
 - Detecta automaticamente arquivos novos em `resources/notas_fiscais/` que ainda não foram processados
 - Botão **Processar e Atualizar** executa o processador em background e recarrega o dashboard sem fechar o navegador
 
-**Para parar o dashboard:** Pressione `Ctrl + C` no terminal
+**Barra lateral — ⏹ Encerrar Dashboard:**
+- Botão **Encerrar serviço e fechar aba** tenta fechar a aba atual e encerra o processo do Streamlit automaticamente
+
+**Para parar o dashboard:** você pode usar o botão da barra lateral (recomendado) ou `Ctrl + C` no terminal
 
 #### 📸 Prévia do Dashboard
 

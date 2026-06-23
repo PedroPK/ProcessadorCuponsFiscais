@@ -35,6 +35,7 @@ resources/notas_fiscais/
 streamlit run src/dashboard.py
 ```
 O navegador abre automaticamente. Use o botão **"Processar e Atualizar"** na barra lateral para extrair as notas e recarregar os dados.
+Para encerrar depois, use o botão **"Encerrar serviço e fechar aba"** na própria barra lateral.
 
 ---
 
