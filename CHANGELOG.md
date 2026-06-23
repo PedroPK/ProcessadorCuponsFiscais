@@ -12,6 +12,16 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
   - Exemplo: `format_currency(1234.56)` retorna `"R$ 1.234,56"`
   - Suporta valores com milhares, decimais e valores negativos
   - Útil para apresentação de dados em Dashboard e relatórios
+- `src/dashboard.py` — nova aba **📍 Mapa de Compras (NF)**
+  - Plota **1 pin por nota fiscal** com endereço geocodificado
+  - Permite filtro por período e por loja
+  - Exibe tooltip ao passar o mouse com resumo da NF (data, endereço, total e quantidade de itens)
+  - Inclui lista dos itens comprados na própria NF (limitada aos principais para preservar performance)
+- `src/dashboard.py` — nova aba **🗺️ Onde Comprar Melhor**
+  - Busca por produto e período selecionado pelo usuário
+  - Ranking de estabelecimentos do menor para o maior preço (menor preço, média, quantidade de compras e última compra)
+  - Lista detalhada de compras ordenada por preço
+  - Mapa com pins para os locais encontrados e balões com loja, endereço, produto, preço e data de cada compra
 - `src/gerador_danfe.py` — nova nomenclatura para PDFs DANFE gerados a partir de XML
   - Padrão: `AAAA.MM.DD - DANFE - Estabelecimento.pdf`
   - Nome do estabelecimento prioriza `emit_fant` com fallback para `emit_nome`
@@ -20,6 +30,9 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 - `src/dashboard.py` — botão **Encerrar serviço e fechar aba** na barra lateral
   - Aciona tentativa de fechamento automático da aba do navegador
   - Encerra o processo Streamlit em seguida, sem depender de `Ctrl + C` no terminal
+- `src/extratorXml.py` e `src/processadorCuponsFiscais.py` — novo campo `endereco` no pipeline de dados
+  - Endereço do emissor extraído do XML (`enderEmit`) e exportado no CSV
+  - Exportação XLSX (Citizen) passa a tentar montar endereço quando as colunas estiverem disponíveis
 
 ### Identificado
 - ⚠️ **Dados do XLS (app Citizen) não estão sendo normalizados pelo Dicionário de Produtos** — os nomes dos produtos do arquivo XLSX do Citizen permanecem em formato bruto, diferente dos produtos extraídos de XML/PDF que passam pela normalização fuzzy. Necessário investigar e unificar o fluxo de normalização para todas as fontes.

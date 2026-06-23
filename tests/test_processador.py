@@ -96,6 +96,7 @@ class TestProcessarArquivoXml:
         leite = next(i for i in p.dados_consolidados if i["produto"] == "LEITE INTEGRAL 1L")
         assert leite["loja"] == "SUPER TESTE"
         assert leite["cnpj"] == "06057223049189"
+        assert leite["endereco"] == "Rua das Flores, 123, Centro, Recife - PE, CEP 50000000"
         assert leite["ean"] == "7891234560013"
         assert leite["preco_unit"] == pytest.approx(4.89)
 

@@ -25,6 +25,14 @@ XML_VALIDO = f"""\
         <CNPJ>06057223049189</CNPJ>
         <xNome>SUPERMERCADO TESTE LTDA</xNome>
         <xFant>SUPER TESTE</xFant>
+        <enderEmit>
+          <xLgr>Rua das Flores</xLgr>
+          <nro>123</nro>
+          <xBairro>Centro</xBairro>
+          <xMun>Recife</xMun>
+          <UF>PE</UF>
+          <CEP>50000000</CEP>
+        </enderEmit>
       </emit>
       <det nItem="1">
         <prod>

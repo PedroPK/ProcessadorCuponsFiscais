@@ -69,6 +69,7 @@ class ProcessadorDeCupons:
                 self.dados_consolidados.append({
                     'data': data_compra,
                     'produto': nome, # Nome original (sujo)
+                    'endereco': '',
                     'qtd': qtd,
                     'unidade': unidade,
                     'preco_unit': preco_unit,
@@ -154,6 +155,18 @@ class ProcessadorDeCupons:
                     if not loja or loja == 'nan':
                         loja = str(row.get('RazaoSocial', '') or '').strip()
 
+                    logradouro = str(row.get('Endereco', '') or row.get('Logradouro', '') or '').strip()
+                    numero = str(row.get('Numero', '') or row.get('Nro', '') or '').strip()
+                    bairro = str(row.get('Bairro', '') or '').strip()
+                    cidade = str(row.get('Cidade', '') or row.get('Municipio', '') or '').strip()
+                    uf = str(row.get('UF', '') or row.get('Estado', '') or '').strip()
+                    cep = str(row.get('CEP', '') or '').strip()
+
+                    parte_logradouro = ', '.join([p for p in [logradouro, numero] if p and p != 'nan'])
+                    parte_cidade = ' - '.join([p for p in [cidade, uf] if p and p != 'nan'])
+                    parte_cep = f"CEP {cep}" if cep and cep != 'nan' else ''
+                    endereco = ', '.join([p for p in [parte_logradouro, bairro, parte_cidade, parte_cep] if p and p != 'nan'])
+
                     try:
                         qtd = float(str(row.get('Quantidade', 0)).replace(',', '.'))
                     except (ValueError, TypeError):
@@ -181,6 +194,7 @@ class ProcessadorDeCupons:
                         'data': data,
                         'loja': loja,
                         'cnpj': str(row.get('CNPJ', '') or '').strip(),
+                        'endereco': endereco,
                         'produto': str(row.get('Descricao', '')).strip(),
                         'qtd': qtd,
                         'unidade': str(row.get('Unidade', '') or '').strip(),
@@ -343,7 +357,7 @@ class ProcessadorDeCupons:
             df = self._aplicar_normalizacao(df)
             
             # Reordena — inclui campos extras vindos de XMLs (ean, ncm, loja, cnpj)
-            cols = ['data', 'loja', 'cnpj', 'categoria', 'produto', 'produto_raw', 'qtd', 'unidade',
+            cols = ['data', 'loja', 'cnpj', 'endereco', 'categoria', 'produto', 'produto_raw', 'qtd', 'unidade',
                     'preco_unit', 'preco_total', 'codigo', 'ean', 'ncm', 'chave_nfe', 'arquivo_origem']
             # Garante que as colunas existem (caso o dicionário tenha falhado)
             cols_finais = [c for c in cols if c in df.columns]

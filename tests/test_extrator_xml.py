@@ -86,7 +86,7 @@ class TestExtrairItensDoXml:
         campos_esperados = {
             "data", "produto", "qtd", "unidade", "preco_unit",
             "preco_total", "codigo", "ean", "ncm", "loja",
-            "cnpj", "chave_nfe", "arquivo_origem",
+            "cnpj", "endereco", "chave_nfe", "arquivo_origem",
         }
         for item in self.itens:
             assert campos_esperados.issubset(item.keys())
@@ -96,6 +96,9 @@ class TestExtrairItensDoXml:
 
     def test_cnpj(self):
         assert self.itens[0]["cnpj"] == "06057223049189"
+
+    def test_endereco(self):
+        assert self.itens[0]["endereco"] == "Rua das Flores, 123, Centro, Recife - PE, CEP 50000000"
 
     def test_data_formatada(self):
         assert self.itens[0]["data"] == "01/03/2026"

@@ -39,6 +39,30 @@ def _float(valor_str: str | None) -> float:
         return 0.0
 
 
+def _montar_endereco_emit(emit) -> str:
+    """Monta endereço textual do emissor a partir de <enderEmit>."""
+    if emit is None:
+        return ''
+
+    ender = emit.find(_t('enderEmit'))
+    if ender is None:
+        return ''
+
+    x_lgr = _get(ender, 'xLgr') or ''
+    nro = _get(ender, 'nro') or ''
+    x_bairro = _get(ender, 'xBairro') or ''
+    x_mun = _get(ender, 'xMun') or ''
+    uf = _get(ender, 'UF') or ''
+    cep = _get(ender, 'CEP') or ''
+
+    parte_logradouro = ', '.join([p for p in [x_lgr, nro] if p])
+    parte_cidade = ' - '.join([p for p in [x_mun, uf] if p])
+    parte_cep = f'CEP {cep}' if cep else ''
+
+    partes = [p for p in [parte_logradouro, x_bairro, parte_cidade, parte_cep] if p]
+    return ', '.join(partes)
+
+
 def _parse_data(dh_emi: str | None) -> str:
     """
     Converte o campo dhEmi do NF-e (ISO 8601) para dd/mm/yyyy.
@@ -88,7 +112,7 @@ def extrair_itens_do_xml(conteudo_xml: bytes | str, nome_origem: str) -> list[di
     list[dict]
         Lista de dicts, um por item da nota, com as chaves:
           data, produto, qtd, unidade, preco_unit, preco_total,
-          codigo, ean, ncm, loja, cnpj, chave_nfe, arquivo_origem
+          codigo, ean, ncm, loja, cnpj, endereco, chave_nfe, arquivo_origem
     """
     if isinstance(conteudo_xml, bytes):
         conteudo_xml = conteudo_xml.decode('utf-8', errors='replace')
@@ -118,6 +142,7 @@ def extrair_itens_do_xml(conteudo_xml: bytes | str, nome_origem: str) -> list[di
     cnpj = _get(emit, 'CNPJ') if emit is not None else None
     # Prefere o nome fantasia; cai para razão social se não existir
     loja = (_get(emit, 'xFant') or _get(emit, 'xNome')) if emit is not None else None
+    endereco = _montar_endereco_emit(emit)
 
     # ── Itens ────────────────────────────────────────────────────────────────
     itens = []
@@ -156,6 +181,7 @@ def extrair_itens_do_xml(conteudo_xml: bytes | str, nome_origem: str) -> list[di
             'ncm':            ncm,
             'loja':           loja or '',
             'cnpj':           cnpj or '',
+            'endereco':       endereco,
             'chave_nfe':      chave_nfe,
             'arquivo_origem': nome_origem,
         })

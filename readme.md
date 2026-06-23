@@ -12,6 +12,8 @@ Este software resolve o problema de rastrear a "inflação real" do consumidor. 
 * **Deduplicação automática:** Usa a **chave de acesso NF-e (44 dígitos)** para garantir que a mesma nota não seja contada duas vezes, mesmo que exista nos dois formatos ou duplicada dentro de um ZIP.
 * **Normalização de Nomes:** Usa algoritmos de similaridade (*Fuzzy Matching*) para identificar variações de nomes de produtos.
 * **Dashboard Interativo:** Painel visual para analisar variação de preços e Curva ABC (Pareto).
+* **Melhor local de compra por produto:** Nova aba para buscar um item por período, ordenar estabelecimentos por menor preço e visualizar os locais em mapa com informações de preço e data de cada compra.
+* **Mapa de compras por Nota Fiscal:** Nova aba com 1 pin por NF com endereço, mostrando no balão os itens comprados e o resumo da nota.
 
 ### Comparativo XML vs PDF
 
@@ -121,6 +123,7 @@ python3 src/processadorCuponsFiscais.py
 | `data` | XML e PDF | Data da compra (dd/mm/yyyy) |
 | `loja` | XML | Nome fantasia ou razão social do emissor |
 | `cnpj` | XML | CNPJ do emissor |
+| `endereco` | XML (e XLSX quando disponível) | Endereço textual do estabelecimento |
 | `produto` | XML e PDF + Dicionário | Nome do produto (normalizado quando houver mapeamento) |
 | `produto_raw` | XML e PDF | Nome original do produto antes da normalização |
 | `qtd` | XML e PDF | Quantidade |
@@ -183,6 +186,8 @@ streamlit run src/dashboard.py
   - Veja a inflação acumulada, a variação mês a mês e a composição e pesos da cesta (incluindo preço atual e variação acumulada por produto)
 - **📋 Dados Brutos** — tabela completa do CSV com campo de busca para filtrar por nome de produto
 - **🏆 Produtos Mais Comprados** — ranking dos produtos por frequência de aparição nas notas, com gráfico de barras (top-N configurável) e tabela completa
+- **🗺️ Onde Comprar Melhor** — busca por produto e período com ranking de menores preços por estabelecimento e mapa com pins/balões de cada compra
+- **📍 Mapa de Compras (NF)** — mapa com 1 pin por nota fiscal (com endereço), incluindo resumo da nota e lista de itens no tooltip ao passar o mouse
 
 **Barra lateral — 🔄 Atualizar Dados:**
 - Detecta automaticamente arquivos novos em `resources/notas_fiscais/` que ainda não foram processados
@@ -202,6 +207,8 @@ streamlit run src/dashboard.py
 | 📋 **Dados Brutos** | ![Dados Brutos](resources/screenshots/tab3_dados_brutos.png) |
 | 📊 **Índice de Inflação Pessoal** | ![Índice de Inflação Pessoal](resources/screenshots/tab4_inflacao_pessoal.png) |
 | 🏆 **Produtos Mais Comprados** | ![Produtos Mais Comprados](resources/screenshots/tab5_produtos_mais_comprados.png) |
+| 🗺️ **Onde Comprar Melhor** | *(screenshot pendente)* |
+| 📍 **Mapa de Compras (NF)** | *(screenshot pendente)* |
 
 ---
 

@@ -2,12 +2,17 @@ import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 import plotly.express as px
+import pydeck as pdk
+import html
 import os
 import signal
 import threading
 import subprocess
 import sys
 import platform
+import json
+import urllib.parse
+import urllib.request
 from pathlib import Path
 from utils import filtrar_produtos, resolver_danfe
 
@@ -28,6 +33,150 @@ def carregar_dados():
     df = pd.read_csv(caminho_csv, sep=';', decimal=',', encoding='utf-8-sig')
     df['data'] = pd.to_datetime(df['data'], format='mixed', dayfirst=True)
     return df.sort_values('data')
+
+
+@st.cache_data(ttl=60 * 60 * 24)
+def geocodificar_endereco(endereco: str):
+    """Geocodifica endereço no Nominatim e retorna (lat, lon) ou (None, None)."""
+    if not endereco or not str(endereco).strip():
+        return (None, None)
+
+    query = urllib.parse.urlencode({'q': endereco, 'format': 'jsonv2', 'limit': 1})
+    url = f'https://nominatim.openstreetmap.org/search?{query}'
+    req = urllib.request.Request(
+        url,
+        headers={
+            'User-Agent': 'ProcessadorCuponsFiscais/1.0 (dashboard streamlit)'
+        }
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            payload = json.loads(resp.read().decode('utf-8'))
+        if not payload:
+            return (None, None)
+        lat = float(payload[0].get('lat'))
+        lon = float(payload[0].get('lon'))
+        return (lat, lon)
+    except Exception:
+        return (None, None)
+
+
+def preparar_mapa_compras(df_compras: pd.DataFrame):
+    """Retorna DataFrame com lat/lon por compra filtrada para exibição no mapa."""
+    if 'endereco' not in df_compras.columns:
+        return pd.DataFrame()
+
+    df_end = df_compras.copy()
+    df_end['endereco'] = df_end['endereco'].fillna('').astype(str).str.strip()
+    df_end = df_end[df_end['endereco'] != '']
+    if df_end.empty:
+        return pd.DataFrame()
+
+    unicos = df_end['endereco'].drop_duplicates().tolist()
+    coords = []
+    for endereco in unicos:
+        lat, lon = geocodificar_endereco(f'{endereco}, Brasil')
+        coords.append({'endereco': endereco, 'lat': lat, 'lon': lon})
+
+    df_coords = pd.DataFrame(coords)
+    if df_coords.empty:
+        return pd.DataFrame()
+
+    df_coords = df_coords.dropna(subset=['lat', 'lon'])
+    if df_coords.empty:
+        return pd.DataFrame()
+
+    return df_end.merge(df_coords, on='endereco', how='inner')
+
+
+def _formatar_itens_nf_html(grupo_itens: pd.DataFrame, limite: int = 12) -> str:
+    """Retorna HTML com os principais itens de uma NF para tooltip do mapa."""
+    if grupo_itens.empty:
+        return 'Sem itens detalhados.'
+
+    df_itens = (
+        grupo_itens.groupby(['produto', 'unidade'], dropna=False)
+        .agg(qtd=('qtd', 'sum'), valor=('preco_total', 'sum'))
+        .reset_index()
+        .sort_values('valor', ascending=False)
+    )
+
+    linhas = []
+    for _, item in df_itens.head(limite).iterrows():
+        produto = html.escape(str(item.get('produto', '') or '-'))
+        unidade = html.escape(str(item.get('unidade', '') or '').strip())
+        qtd = float(item.get('qtd', 0) or 0)
+        valor = float(item.get('valor', 0) or 0)
+
+        if unidade:
+            linhas.append(f'• {produto} ({qtd:.2f} {unidade}) - R$ {valor:.2f}')
+        else:
+            linhas.append(f'• {produto} ({qtd:.2f}) - R$ {valor:.2f}')
+
+    if len(df_itens) > limite:
+        linhas.append(f'+ {len(df_itens) - limite} item(ns) ...')
+
+    return '<br/>'.join(linhas)
+
+
+def preparar_mapa_notas(df_compras: pd.DataFrame):
+    """Retorna DataFrame de notas com coordenadas e resumo para mapa por NF."""
+    if 'endereco' not in df_compras.columns:
+        return pd.DataFrame()
+
+    df_end = df_compras.copy()
+    df_end['endereco'] = df_end['endereco'].fillna('').astype(str).str.strip()
+    df_end = df_end[df_end['endereco'] != '']
+    if df_end.empty:
+        return pd.DataFrame()
+
+    chave = (
+        df_end['chave_nfe'].fillna('').astype(str).str.strip()
+        if 'chave_nfe' in df_end.columns
+        else pd.Series('', index=df_end.index)
+    )
+    fallback = (
+        df_end['arquivo_origem'].fillna('').astype(str).str.strip() + '|'
+        + df_end['data'].dt.strftime('%Y-%m-%d') + '|'
+        + df_end['loja'].fillna('').astype(str).str.strip() + '|'
+        + df_end['endereco']
+    )
+    df_end['id_nota'] = chave.where(chave != '', fallback)
+
+    grupos_nf = []
+    for (id_nota, endereco), grupo in df_end.groupby(['id_nota', 'endereco'], dropna=False):
+        grupos_nf.append(
+            {
+                'id_nota': id_nota,
+                'endereco': endereco,
+                'loja': grupo['loja'].dropna().astype(str).iloc[0] if 'loja' in grupo.columns and not grupo['loja'].dropna().empty else 'Loja não informada',
+                'data_nota': grupo['data'].max(),
+                'arquivo_origem': grupo['arquivo_origem'].dropna().astype(str).iloc[0] if 'arquivo_origem' in grupo.columns and not grupo['arquivo_origem'].dropna().empty else '',
+                'valor_total_nf': float(grupo['preco_total'].sum()),
+                'qtd_itens': int(len(grupo)),
+                'itens_html': _formatar_itens_nf_html(grupo),
+            }
+        )
+
+    df_notas = pd.DataFrame(grupos_nf)
+    if df_notas.empty:
+        return pd.DataFrame()
+
+    unicos = df_notas['endereco'].drop_duplicates().tolist()
+    coords = []
+    for endereco in unicos:
+        lat, lon = geocodificar_endereco(f'{endereco}, Brasil')
+        coords.append({'endereco': endereco, 'lat': lat, 'lon': lon})
+
+    df_coords = pd.DataFrame(coords).dropna(subset=['lat', 'lon'])
+    if df_coords.empty:
+        return pd.DataFrame()
+
+    df_notas = df_notas.merge(df_coords, on='endereco', how='inner')
+    df_notas['data_nota'] = pd.to_datetime(df_notas['data_nota'], errors='coerce').dt.strftime('%d/%m/%Y')
+    df_notas['valor_total_nf'] = df_notas['valor_total_nf'].map(lambda x: f'{x:.2f}')
+    return df_notas
 
 df = carregar_dados()
 
@@ -325,7 +474,7 @@ if mercados:
     df = df[df['arquivo_origem'].isin(mercados)]
 
 # --- CRIAÇÃO DAS ABAS ---
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["📈 Evolução de Preços", "💰 Análise Pareto (ABC)", "📋 Dados Brutos", "📊 Índice de Inflação Pessoal", "🏆 Produtos Mais Comprados"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["📈 Evolução de Preços", "💰 Análise Pareto (ABC)", "📋 Dados Brutos", "📊 Índice de Inflação Pessoal", "🏆 Produtos Mais Comprados", "🗺️ Onde Comprar Melhor", "📍 Mapa de Compras (NF)"])
 
 # ==========================================
 # ABA 1: EVOLUÇÃO (O que você já tinha)
@@ -434,6 +583,7 @@ with tab3:
         'data': 'Data',
         'loja': 'Loja',
         'cnpj': 'CNPJ',
+        'endereco': 'Endereço',
         'categoria': 'Categoria',
         'produto': 'Produto',
         'qtd': 'Qtd',
@@ -715,3 +865,263 @@ with tab5:
         df_freq_filtrado = df_freq[df_freq['Produto'].str.contains(busca_produto, case=False, na=False)]
     
     st.dataframe(df_freq_filtrado, use_container_width=True)
+
+# ==========================================
+# ABA 6: ONDE COMPRAR MELHOR
+# ==========================================
+with tab6:
+    st.markdown("### 🗺️ Melhor Local para Comprar por Produto")
+    st.markdown(
+        "Busque um produto e um período para ver onde ele saiu mais barato. "
+        "O ranking é ordenado do menor para o maior preço e o mapa exibe cada compra encontrada."
+    )
+
+    data_min = df['data'].min().date()
+    data_max = df['data'].max().date()
+
+    c1, c2 = st.columns([2, 1])
+    busca_produto_melhor = c1.text_input(
+        "Produto",
+        placeholder="Ex.: leite, ovos, arroz...",
+        key='busca_produto_melhor_preco',
+    )
+    periodo = c2.date_input(
+        "Período",
+        value=(data_min, data_max),
+        min_value=data_min,
+        max_value=data_max,
+        key='periodo_melhor_preco',
+    )
+
+    if isinstance(periodo, tuple) and len(periodo) == 2:
+        data_ini, data_fim = periodo
+    else:
+        data_ini, data_fim = data_min, data_max
+
+    df_periodo = df[(df['data'].dt.date >= data_ini) & (df['data'].dt.date <= data_fim)].copy()
+    df_busca = filtrar_produtos(df_periodo, busca_produto_melhor)
+
+    if busca_produto_melhor and df_busca.empty:
+        st.warning("Nenhuma compra encontrada para esse produto no período selecionado.")
+    elif not busca_produto_melhor:
+        st.info("Digite um produto para iniciar a busca de melhores locais de compra.")
+    else:
+        df_busca = df_busca.sort_values(['preco_unit', 'data'], ascending=[True, True])
+
+        st.markdown("#### Ranking por estabelecimento")
+        agrup_cols = ['loja']
+        if 'endereco' in df_busca.columns:
+            agrup_cols.append('endereco')
+
+        df_rank = (
+            df_busca.groupby(agrup_cols, dropna=False)
+            .agg(
+                menor_preco=('preco_unit', 'min'),
+                preco_medio=('preco_unit', 'mean'),
+                qtd_compras=('preco_unit', 'size'),
+                ultima_compra=('data', 'max')
+            )
+            .reset_index()
+            .sort_values(['menor_preco', 'preco_medio', 'qtd_compras'], ascending=[True, True, False])
+        )
+
+        top1, top2, top3 = st.columns(3)
+        top1.metric("Menor preço encontrado", f"R$ {df_rank['menor_preco'].min():.2f}")
+        top2.metric("Preço médio no período", f"R$ {df_busca['preco_unit'].mean():.2f}")
+        top3.metric("Total de compras encontradas", f"{len(df_busca)}")
+
+        st.dataframe(
+            df_rank.style.format({
+                'menor_preco': 'R$ {:.2f}',
+                'preco_medio': 'R$ {:.2f}',
+                'ultima_compra': lambda d: d.strftime('%d/%m/%Y') if pd.notna(d) else ''
+            }),
+            use_container_width=True
+        )
+
+        st.markdown("#### Compras encontradas (menor para maior preço)")
+        cols_show = [c for c in ['data', 'produto', 'loja', 'endereco', 'qtd', 'unidade', 'preco_unit', 'preco_total', 'arquivo_origem'] if c in df_busca.columns]
+        df_show = df_busca[cols_show].copy()
+        df_show['data'] = df_show['data'].dt.strftime('%d/%m/%Y')
+        st.dataframe(
+            df_show,
+            use_container_width=True,
+            height=350
+        )
+
+        st.markdown("#### Mapa dos locais de compra")
+        df_mapa = preparar_mapa_compras(df_busca)
+
+        if df_mapa.empty:
+            st.info(
+                "Não foi possível montar o mapa para este filtro. "
+                "Verifique se os cupons possuem endereço do estabelecimento."
+            )
+        else:
+            df_mapa = df_mapa.copy()
+            df_mapa['data'] = df_mapa['data'].dt.strftime('%d/%m/%Y')
+            df_mapa['preco_unit'] = df_mapa['preco_unit'].map(lambda x: f'{x:.2f}')
+
+            camada = pdk.Layer(
+                'ScatterplotLayer',
+                data=df_mapa,
+                get_position='[lon, lat]',
+                get_radius=80,
+                get_fill_color='[0, 130, 90, 180]',
+                pickable=True,
+            )
+
+            view_state = pdk.ViewState(
+                latitude=float(df_mapa['lat'].mean()),
+                longitude=float(df_mapa['lon'].mean()),
+                zoom=11,
+                pitch=0,
+            )
+
+            tooltip = {
+                'html': (
+                    '<b>Loja:</b> {loja}<br/>'
+                    '<b>Endereço:</b> {endereco}<br/>'
+                    '<b>Produto:</b> {produto}<br/>'
+                    '<b>Preço Unitário:</b> R$ {preco_unit}<br/>'
+                    '<b>Data:</b> {data}'
+                ),
+                'style': {
+                    'backgroundColor': '#0f172a',
+                    'color': 'white'
+                }
+            }
+
+            st.pydeck_chart(
+                pdk.Deck(
+                    layers=[camada],
+                    initial_view_state=view_state,
+                    tooltip=tooltip,
+                    map_style='https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+                ),
+                use_container_width=True
+            )
+
+# ==========================================
+# ABA 7: MAPA DE COMPRAS POR NOTA FISCAL
+# ==========================================
+with tab7:
+    st.markdown("### 📍 Mapa de Compras por Nota Fiscal")
+    st.markdown(
+        "Mostra **1 pin por NF** com endereço. Passe o mouse no pin para ver "
+        "resumo da nota e os itens comprados."
+    )
+
+    data_min_nf = df['data'].min().date()
+    data_max_nf = df['data'].max().date()
+
+    c1, c2 = st.columns([2, 1])
+    filtro_loja_nf = c1.text_input(
+        "Filtrar por loja (opcional)",
+        placeholder="Ex.: supermercado, atacadão, farmácia...",
+        key='filtro_loja_mapa_nf',
+    )
+    periodo_nf = c2.date_input(
+        "Período das NFs",
+        value=(data_min_nf, data_max_nf),
+        min_value=data_min_nf,
+        max_value=data_max_nf,
+        key='periodo_mapa_nf',
+    )
+
+    if isinstance(periodo_nf, tuple) and len(periodo_nf) == 2:
+        data_ini_nf, data_fim_nf = periodo_nf
+    else:
+        data_ini_nf, data_fim_nf = data_min_nf, data_max_nf
+
+    df_nf = df[(df['data'].dt.date >= data_ini_nf) & (df['data'].dt.date <= data_fim_nf)].copy()
+
+    if filtro_loja_nf and 'loja' in df_nf.columns:
+        df_nf = df_nf[df_nf['loja'].fillna('').str.contains(filtro_loja_nf, case=False, na=False)]
+
+    if df_nf.empty:
+        st.warning("Nenhuma NF encontrada com os filtros selecionados.")
+    else:
+        df_mapa_nf = preparar_mapa_notas(df_nf)
+
+        if df_mapa_nf.empty:
+            st.info(
+                "Não foi possível montar o mapa por NF para este filtro. "
+                "Verifique se as notas possuem endereço e se foi possível geocodificá-las."
+            )
+        else:
+            k1, k2, k3 = st.columns(3)
+            k1.metric("Notas com pin no mapa", f"{len(df_mapa_nf)}")
+            k2.metric("Total de itens nas NFs", f"{df_mapa_nf['qtd_itens'].sum()}")
+            k3.metric(
+                "Valor total das NFs mapeadas",
+                f"R$ {pd.to_numeric(df_mapa_nf['valor_total_nf'], errors='coerce').sum():.2f}",
+            )
+
+            icon_data = {
+                'url': 'https://img.icons8.com/fluency/48/marker-storm.png',
+                'width': 128,
+                'height': 128,
+                'anchorY': 128,
+            }
+            df_mapa_nf['icon_data'] = [icon_data] * len(df_mapa_nf)
+
+            camada_nf = pdk.Layer(
+                'IconLayer',
+                data=df_mapa_nf,
+                get_icon='icon_data',
+                get_size=4,
+                size_scale=10,
+                get_position='[lon, lat]',
+                pickable=True,
+            )
+
+            view_state_nf = pdk.ViewState(
+                latitude=float(df_mapa_nf['lat'].mean()),
+                longitude=float(df_mapa_nf['lon'].mean()),
+                zoom=10,
+                pitch=0,
+            )
+
+            tooltip_nf = {
+                'html': (
+                    '<b>Loja:</b> {loja}<br/>'
+                    '<b>Data:</b> {data_nota}<br/>'
+                    '<b>Endereço:</b> {endereco}<br/>'
+                    '<b>Total da NF:</b> R$ {valor_total_nf}<br/>'
+                    '<b>Itens na NF:</b> {qtd_itens}<br/>'
+                    '<hr style="margin:6px 0"/>'
+                    '{itens_html}'
+                ),
+                'style': {
+                    'backgroundColor': '#0f172a',
+                    'color': 'white',
+                    'maxWidth': '520px',
+                    'fontSize': '12px',
+                }
+            }
+
+            st.pydeck_chart(
+                pdk.Deck(
+                    layers=[camada_nf],
+                    initial_view_state=view_state_nf,
+                    tooltip=tooltip_nf,
+                    map_style='https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+                ),
+                use_container_width=True,
+            )
+
+            st.markdown("#### Resumo das notas plotadas")
+            st.dataframe(
+                df_mapa_nf[['data_nota', 'loja', 'endereco', 'qtd_itens', 'valor_total_nf', 'arquivo_origem']]
+                .rename(columns={
+                    'data_nota': 'Data',
+                    'loja': 'Loja',
+                    'endereco': 'Endereço',
+                    'qtd_itens': 'Qtd Itens',
+                    'valor_total_nf': 'Valor Total NF',
+                    'arquivo_origem': 'Arquivo Origem',
+                }),
+                use_container_width=True,
+                height=320,
+            )
