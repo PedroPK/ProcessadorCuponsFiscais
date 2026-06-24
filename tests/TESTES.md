@@ -7,7 +7,7 @@ Execute a qualquer momento com:
 python -m pytest tests/ -v
 ```
 
-> **80 testes · 0 falhas** *(atualizado em 2026-05-31)*
+> **95 testes · 0 falhas** *(atualizado em 2026-06-24)*
 
 ---
 

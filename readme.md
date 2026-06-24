@@ -220,16 +220,17 @@ Campos de filtro:
 - `Período das NFs`: intervalo de datas para as notas fiscais
 
 Métricas exibidas:
-- `Notas com pin no mapa`: quantidade de notas fiscais geocodificadas
-- `Total de itens nas NFs`: soma de itens das NFs exibidas
-- `Valor total das NFs mapeadas`: soma dos valores totais das notas no mapa
+- `Endereços com pin no mapa`: quantidade de endereços geocodificados
+- `Total de notas nos endereços`: soma das NFs agregadas nos pins
+- `Valor total mapeado`: soma dos valores totais das NFs dos endereços exibidos
 
 Mapa:
-- 1 pin por NF com endereço geocodificado
-- Tooltip com `loja`, `data_nota`, `endereco`, `valor_total_nf`, `qtd_itens` e lista resumida de itens comprados
+- 1 pin por endereço geocodificado
+- Cada pin exibe uma numeração com a quantidade de NFs no local
+- Tooltip consolidado por endereço com histórico de NFs por dia: `loja`, `endereco`, `qtd_notas`, `período`, `valor total` e itens por nota
 
-Tabela de resumo das NFs plotadas:
-- `Data`, `Loja`, `Endereço`, `Qtd Itens`, `Valor Total NF`, `Arquivo Origem`
+Tabela de resumo dos endereços plotados:
+- `Loja Principal`, `Endereço`, `Qtd NFs`, `Qtd Itens`, `Período das NFs`, `Valor Total (Endereço)`, `Arquivos Origem`
 
 **Barra lateral — 🔄 Atualizar Dados:**
 - Detecta automaticamente arquivos novos em `resources/notas_fiscais/` que ainda não foram processados
@@ -251,6 +252,7 @@ Tabela de resumo das NFs plotadas:
 | 🏆 **Produtos Mais Comprados** | ![Produtos Mais Comprados](resources/screenshots/tab5_produtos_mais_comprados.png) |
 | 🗺️ **Onde Comprar Melhor** | ![Onde Comprar Melhor](resources/screenshots/tab6_onde_comprar_melhor.png) |
 | 📍 **Mapa de Compras (NF)** | ![Mapa de Compras por NF](resources/screenshots/tab7_mapa_compras_nf.png) |
+| 📍 **Balão do Mapa de Compras (NF)** | ![Balão com conteúdo por endereço](resources/screenshots/tab7_mapa_nf_balao.png) |
 
 ---
 

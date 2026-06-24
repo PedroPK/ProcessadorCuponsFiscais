@@ -120,8 +120,39 @@ def _formatar_itens_nf_html(grupo_itens: pd.DataFrame, limite: int = 12) -> str:
     return '<br/>'.join(linhas)
 
 
+def _formatar_notas_endereco_html(df_notas_endereco: pd.DataFrame, limite_notas: int = 8) -> str:
+    """Retorna HTML com histórico de notas por endereço, separadas por data."""
+    if df_notas_endereco.empty:
+        return 'Sem notas detalhadas para este endereço.'
+
+    df_ordenado = df_notas_endereco.sort_values('data_nota_dt', ascending=False)
+    blocos = []
+
+    for _, nota in df_ordenado.head(limite_notas).iterrows():
+        data_txt = nota['data_nota_dt'].strftime('%d/%m/%Y') if pd.notna(nota['data_nota_dt']) else 'Data não informada'
+        loja = html.escape(str(nota.get('loja', '') or 'Loja não informada'))
+        valor_total = float(nota.get('valor_total_nf', 0) or 0)
+        qtd_itens = int(nota.get('qtd_itens', 0) or 0)
+        itens_resumo_html = str(nota.get('itens_resumo_html', '') or '')
+
+        blocos.append(
+            (
+                f'<div style="margin-bottom:8px">'
+                f'<b>{data_txt}</b> - {loja}<br/>'
+                f'<b>Total:</b> R$ {valor_total:.2f} | <b>Itens:</b> {qtd_itens}<br/>'
+                f'{itens_resumo_html}'
+                f'</div>'
+            )
+        )
+
+    if len(df_ordenado) > limite_notas:
+        blocos.append(f'<i>+ {len(df_ordenado) - limite_notas} nota(s) neste endereço...</i>')
+
+    return '<hr style="margin:6px 0"/>'.join(blocos)
+
+
 def preparar_mapa_notas(df_compras: pd.DataFrame):
-    """Retorna DataFrame de notas com coordenadas e resumo para mapa por NF."""
+    """Retorna DataFrame agregado por endereço para mapa de compras por NF."""
     if 'endereco' not in df_compras.columns:
         return pd.DataFrame()
 
@@ -151,11 +182,11 @@ def preparar_mapa_notas(df_compras: pd.DataFrame):
                 'id_nota': id_nota,
                 'endereco': endereco,
                 'loja': grupo['loja'].dropna().astype(str).iloc[0] if 'loja' in grupo.columns and not grupo['loja'].dropna().empty else 'Loja não informada',
-                'data_nota': grupo['data'].max(),
+                'data_nota_dt': grupo['data'].max(),
                 'arquivo_origem': grupo['arquivo_origem'].dropna().astype(str).iloc[0] if 'arquivo_origem' in grupo.columns and not grupo['arquivo_origem'].dropna().empty else '',
                 'valor_total_nf': float(grupo['preco_total'].sum()),
                 'qtd_itens': int(len(grupo)),
-                'itens_html': _formatar_itens_nf_html(grupo),
+                'itens_resumo_html': _formatar_itens_nf_html(grupo, limite=5),
             }
         )
 
@@ -163,7 +194,36 @@ def preparar_mapa_notas(df_compras: pd.DataFrame):
     if df_notas.empty:
         return pd.DataFrame()
 
-    unicos = df_notas['endereco'].drop_duplicates().tolist()
+    grupos_endereco = []
+    for endereco, grupo_endereco in df_notas.groupby('endereco', dropna=False):
+        loja_principal = (
+            grupo_endereco['loja'].mode().iloc[0]
+            if not grupo_endereco['loja'].dropna().empty
+            else 'Loja não informada'
+        )
+        data_ini = grupo_endereco['data_nota_dt'].min()
+        data_fim = grupo_endereco['data_nota_dt'].max()
+        arquivos = [a for a in grupo_endereco['arquivo_origem'].dropna().astype(str).unique() if a.strip()]
+
+        grupos_endereco.append(
+            {
+                'endereco': endereco,
+                'loja': loja_principal,
+                'qtd_notas': int(len(grupo_endereco)),
+                'qtd_itens_total': int(grupo_endereco['qtd_itens'].sum()),
+                'valor_total_endereco': float(grupo_endereco['valor_total_nf'].sum()),
+                'data_ini': data_ini,
+                'data_fim': data_fim,
+                'notas_html': _formatar_notas_endereco_html(grupo_endereco),
+                'arquivo_origem': ' | '.join(arquivos[:3]),
+            }
+        )
+
+    df_endereco = pd.DataFrame(grupos_endereco)
+    if df_endereco.empty:
+        return pd.DataFrame()
+
+    unicos = df_endereco['endereco'].drop_duplicates().tolist()
     coords = []
     for endereco in unicos:
         lat, lon = geocodificar_endereco(f'{endereco}, Brasil')
@@ -173,10 +233,15 @@ def preparar_mapa_notas(df_compras: pd.DataFrame):
     if df_coords.empty:
         return pd.DataFrame()
 
-    df_notas = df_notas.merge(df_coords, on='endereco', how='inner')
-    df_notas['data_nota'] = pd.to_datetime(df_notas['data_nota'], errors='coerce').dt.strftime('%d/%m/%Y')
-    df_notas['valor_total_nf'] = df_notas['valor_total_nf'].map(lambda x: f'{x:.2f}')
-    return df_notas
+    df_endereco = df_endereco.merge(df_coords, on='endereco', how='inner')
+    df_endereco['periodo_notas'] = (
+        pd.to_datetime(df_endereco['data_ini'], errors='coerce').dt.strftime('%d/%m/%Y')
+        + ' a '
+        + pd.to_datetime(df_endereco['data_fim'], errors='coerce').dt.strftime('%d/%m/%Y')
+    )
+    df_endereco['qtd_notas_label'] = df_endereco['qtd_notas'].astype(str)
+    df_endereco['valor_total_endereco_str'] = df_endereco['valor_total_endereco'].map(lambda x: f'{x:.2f}')
+    return df_endereco
 
 df = carregar_dados()
 
@@ -1008,8 +1073,8 @@ with tab6:
 with tab7:
     st.markdown("### 📍 Mapa de Compras por Nota Fiscal")
     st.markdown(
-        "Mostra **1 pin por NF** com endereço. Passe o mouse no pin para ver "
-        "resumo da nota e os itens comprados."
+        "Mostra **1 pin por endereço**. Quando houver várias notas no mesmo endereço, "
+        "o balão exibe o histórico por dia e o número sobre o pin indica quantas NFs existem no local."
     )
 
     data_min_nf = df['data'].min().date()
@@ -1051,11 +1116,11 @@ with tab7:
             )
         else:
             k1, k2, k3 = st.columns(3)
-            k1.metric("Notas com pin no mapa", f"{len(df_mapa_nf)}")
-            k2.metric("Total de itens nas NFs", f"{df_mapa_nf['qtd_itens'].sum()}")
+            k1.metric("Endereços com pin no mapa", f"{len(df_mapa_nf)}")
+            k2.metric("Total de notas nos endereços", f"{int(df_mapa_nf['qtd_notas'].sum())}")
             k3.metric(
-                "Valor total das NFs mapeadas",
-                f"R$ {pd.to_numeric(df_mapa_nf['valor_total_nf'], errors='coerce').sum():.2f}",
+                "Valor total mapeado",
+                f"R$ {df_mapa_nf['valor_total_endereco'].sum():.2f}",
             )
 
             icon_data = {
@@ -1076,6 +1141,18 @@ with tab7:
                 pickable=True,
             )
 
+            camada_contagem = pdk.Layer(
+                'TextLayer',
+                data=df_mapa_nf,
+                get_position='[lon, lat]',
+                get_text='qtd_notas_label',
+                get_size=18,
+                get_color='[255, 255, 255, 255]',
+                get_text_anchor="'middle'",
+                get_alignment_baseline="'center'",
+                pickable=False,
+            )
+
             view_state_nf = pdk.ViewState(
                 latitude=float(df_mapa_nf['lat'].mean()),
                 longitude=float(df_mapa_nf['lon'].mean()),
@@ -1085,25 +1162,27 @@ with tab7:
 
             tooltip_nf = {
                 'html': (
-                    '<b>Loja:</b> {loja}<br/>'
-                    '<b>Data:</b> {data_nota}<br/>'
+                    '<b>Loja principal:</b> {loja}<br/>'
                     '<b>Endereço:</b> {endereco}<br/>'
-                    '<b>Total da NF:</b> R$ {valor_total_nf}<br/>'
-                    '<b>Itens na NF:</b> {qtd_itens}<br/>'
+                    '<b>Notas neste endereço:</b> {qtd_notas}<br/>'
+                    '<b>Período:</b> {periodo_notas}<br/>'
+                    '<b>Valor total no endereço:</b> R$ {valor_total_endereco_str}<br/>'
                     '<hr style="margin:6px 0"/>'
-                    '{itens_html}'
+                    '{notas_html}'
                 ),
                 'style': {
                     'backgroundColor': '#0f172a',
                     'color': 'white',
                     'maxWidth': '520px',
+                    'maxHeight': '360px',
+                    'overflowY': 'auto',
                     'fontSize': '12px',
                 }
             }
 
             st.pydeck_chart(
                 pdk.Deck(
-                    layers=[camada_nf],
+                    layers=[camada_nf, camada_contagem],
                     initial_view_state=view_state_nf,
                     tooltip=tooltip_nf,
                     map_style='https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
@@ -1111,17 +1190,21 @@ with tab7:
                 use_container_width=True,
             )
 
-            st.markdown("#### Resumo das notas plotadas")
+            st.markdown("#### Resumo dos endereços plotados")
             st.dataframe(
-                df_mapa_nf[['data_nota', 'loja', 'endereco', 'qtd_itens', 'valor_total_nf', 'arquivo_origem']]
+                df_mapa_nf[['loja', 'endereco', 'qtd_notas', 'qtd_itens_total', 'periodo_notas', 'valor_total_endereco', 'arquivo_origem']]
                 .rename(columns={
-                    'data_nota': 'Data',
-                    'loja': 'Loja',
+                    'loja': 'Loja Principal',
                     'endereco': 'Endereço',
-                    'qtd_itens': 'Qtd Itens',
-                    'valor_total_nf': 'Valor Total NF',
-                    'arquivo_origem': 'Arquivo Origem',
+                    'qtd_notas': 'Qtd NFs',
+                    'qtd_itens_total': 'Qtd Itens',
+                    'periodo_notas': 'Período das NFs',
+                    'valor_total_endereco': 'Valor Total (Endereço)',
+                    'arquivo_origem': 'Arquivos Origem (até 3)',
                 }),
+                column_config={
+                    'Valor Total (Endereço)': st.column_config.NumberColumn(format='R$ %.2f')
+                },
                 use_container_width=True,
                 height=320,
             )

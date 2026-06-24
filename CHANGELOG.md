@@ -13,10 +13,10 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
   - Suporta valores com milhares, decimais e valores negativos
   - Útil para apresentação de dados em Dashboard e relatórios
 - `src/dashboard.py` — nova aba **📍 Mapa de Compras (NF)**
-  - Plota **1 pin por nota fiscal** com endereço geocodificado
+  - Plota **1 pin por endereço** com endereço geocodificado
   - Permite filtro por período e por loja
-  - Exibe tooltip ao passar o mouse com resumo da NF (data, endereço, total e quantidade de itens)
-  - Inclui lista dos itens comprados na própria NF (limitada aos principais para preservar performance)
+  - Exibe tooltip ao passar o mouse com histórico de NFs por dia no mesmo endereço
+  - Mostra numeração sobre cada pin indicando a quantidade de NFs agregadas no local
 - `src/dashboard.py` — nova aba **🗺️ Onde Comprar Melhor**
   - Busca por produto e período selecionado pelo usuário
   - Ranking de estabelecimentos do menor para o maior preço (menor preço, média, quantidade de compras e última compra)
@@ -38,6 +38,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 - `readme.md` — documentação ampliada das abas de junho (**🗺️ Onde Comprar Melhor** e **📍 Mapa de Compras (NF)**)
   - Inclusão de descrição de filtros, métricas e campos/tabelas de cada aba
   - Tabela de prévia do dashboard atualizada com screenshots reais das abas 5, 6 e 7
+  - Inclusão de screenshot específico do conteúdo do balão/tooltip da aba de mapa por NF
 - `QUICKSTART.md` — contagem da suíte de testes atualizada para 95 testes
 
 ### Identificado
