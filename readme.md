@@ -189,6 +189,48 @@ streamlit run src/dashboard.py
 - **🗺️ Onde Comprar Melhor** — busca por produto e período com ranking de menores preços por estabelecimento e mapa com pins/balões de cada compra
 - **📍 Mapa de Compras (NF)** — mapa com 1 pin por nota fiscal (com endereço), incluindo resumo da nota e lista de itens no tooltip ao passar o mouse
 
+#### Detalhamento das abas novas (Junho/2026)
+
+**🗺️ Onde Comprar Melhor**
+
+Campos de filtro:
+- `Produto`: texto livre para busca (ex.: leite, arroz, ovos)
+- `Período`: intervalo de datas para limitar as compras analisadas
+
+Métricas exibidas:
+- `Menor preço encontrado`: menor preço unitário no período filtrado
+- `Preço médio no período`: média de preço unitário das compras encontradas
+- `Total de compras encontradas`: quantidade de registros do produto no período
+
+Tabela de ranking (por estabelecimento):
+- `loja` e `endereco`: identificação do local
+- `menor_preco`: menor preço unitário encontrado para o produto
+- `preco_medio`: média de preço unitário no período
+- `qtd_compras`: quantidade de compras daquele produto no local
+- `ultima_compra`: data mais recente de compra no local
+
+Mapa:
+- 1 pin por compra encontrada
+- Tooltip com `loja`, `endereco`, `produto`, `preco_unit` e `data`
+
+**📍 Mapa de Compras (NF)**
+
+Campos de filtro:
+- `Filtrar por loja (opcional)`: busca textual por nome do estabelecimento
+- `Período das NFs`: intervalo de datas para as notas fiscais
+
+Métricas exibidas:
+- `Notas com pin no mapa`: quantidade de notas fiscais geocodificadas
+- `Total de itens nas NFs`: soma de itens das NFs exibidas
+- `Valor total das NFs mapeadas`: soma dos valores totais das notas no mapa
+
+Mapa:
+- 1 pin por NF com endereço geocodificado
+- Tooltip com `loja`, `data_nota`, `endereco`, `valor_total_nf`, `qtd_itens` e lista resumida de itens comprados
+
+Tabela de resumo das NFs plotadas:
+- `Data`, `Loja`, `Endereço`, `Qtd Itens`, `Valor Total NF`, `Arquivo Origem`
+
 **Barra lateral — 🔄 Atualizar Dados:**
 - Detecta automaticamente arquivos novos em `resources/notas_fiscais/` que ainda não foram processados
 - Botão **Processar e Atualizar** executa o processador em background e recarrega o dashboard sem fechar o navegador
@@ -207,8 +249,8 @@ streamlit run src/dashboard.py
 | 📋 **Dados Brutos** | ![Dados Brutos](resources/screenshots/tab3_dados_brutos.png) |
 | 📊 **Índice de Inflação Pessoal** | ![Índice de Inflação Pessoal](resources/screenshots/tab4_inflacao_pessoal.png) |
 | 🏆 **Produtos Mais Comprados** | ![Produtos Mais Comprados](resources/screenshots/tab5_produtos_mais_comprados.png) |
-| 🗺️ **Onde Comprar Melhor** | *(screenshot pendente)* |
-| 📍 **Mapa de Compras (NF)** | *(screenshot pendente)* |
+| 🗺️ **Onde Comprar Melhor** | ![Onde Comprar Melhor](resources/screenshots/tab6_onde_comprar_melhor.png) |
+| 📍 **Mapa de Compras (NF)** | ![Mapa de Compras por NF](resources/screenshots/tab7_mapa_compras_nf.png) |
 
 ---
 

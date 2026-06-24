@@ -34,6 +34,12 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
   - Endereço do emissor extraído do XML (`enderEmit`) e exportado no CSV
   - Exportação XLSX (Citizen) passa a tentar montar endereço quando as colunas estiverem disponíveis
 
+### Alterado
+- `readme.md` — documentação ampliada das abas de junho (**🗺️ Onde Comprar Melhor** e **📍 Mapa de Compras (NF)**)
+  - Inclusão de descrição de filtros, métricas e campos/tabelas de cada aba
+  - Tabela de prévia do dashboard atualizada com screenshots reais das abas 5, 6 e 7
+- `QUICKSTART.md` — contagem da suíte de testes atualizada para 95 testes
+
 ### Identificado
 - ⚠️ **Dados do XLS (app Citizen) não estão sendo normalizados pelo Dicionário de Produtos** — os nomes dos produtos do arquivo XLSX do Citizen permanecem em formato bruto, diferente dos produtos extraídos de XML/PDF que passam pela normalização fuzzy. Necessário investigar e unificar o fluxo de normalização para todas as fontes.
 

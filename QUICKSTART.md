@@ -46,7 +46,7 @@ Para encerrar depois, use o botão **"Encerrar serviço e fechar aba"** na próp
 | `python3 src/processadorCuponsFiscais.py` | Extrai notas e gera o CSV manualmente |
 | `python3 src/dicionario.py` | Atualiza o dicionário de normalização de nomes |
 | `python3 src/gerador_danfe.py` | Gera PDFs legíveis (DANFE) a partir dos XMLs |
-| `python -m pytest tests/ -v` | Roda a suíte de testes (80 testes) |
+| `python -m pytest tests/ -v` | Roda a suíte de testes (95 testes) |
 
 ---
 
