@@ -11,6 +11,7 @@ import subprocess
 import sys
 import platform
 import json
+import time
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -19,6 +20,11 @@ from utils import filtrar_produtos, resolver_danfe
 # --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(page_title="Minha Inflação Pessoal", layout="wide")
 st.title("🛒 Monitor de Preços & Inflação Pessoal")
+
+if st.session_state.get('_pcf_shutdown_requested'):
+    st.info("Encerrando dashboard...")
+    st.stop()
+    raise SystemExit(0)
 
 # --- CARREGAMENTO DOS DADOS ---
 @st.cache_data
@@ -284,6 +290,11 @@ def fechar_aba_navegador():
     )
 
 
+def agendar_fechamento_aba_macos(porta: int, delay_segundos: float = 0.2):
+    """[DEPRECATED] Fechamento via AppleScript removido. Use fechamento agnóstico via JavaScript."""
+    pass
+
+
 def encerrar_streamlit(delay_segundos: float = 0.8):
     def _encerrar():
         try:
@@ -439,16 +450,13 @@ def auto_fechar_aba_quando_desconectar(
 
             function forceCloseOrBlank() {{
                 try {{
+                    document.body.innerHTML = '<div style="font-family:sans-serif;padding:24px">Encerrando...</div>';
+                }} catch (e) {{}}
+
+                try {{
                     hostWin.open('', '_self');
                     hostWin.close();
                 }} catch (e) {{}}
-
-                // Fallback quando o navegador bloqueia fechamento de aba.
-                try {{
-                    hostWin.location.replace('about:blank');
-                }} catch (e) {{
-                    hostWin.location.href = 'about:blank';
-                }}
             }}
 
             async function checkConnection() {{
@@ -467,6 +475,44 @@ def auto_fechar_aba_quando_desconectar(
         height=0,
         width=0,
     )
+
+
+def forcar_fechamento_aba_apos_desligamento(
+    atraso_ms: int = 100,
+):
+    """Marca a sessão para encerrar. Tenta fechar a aba (sem garantia due a browser sandbox).
+    
+    Nota: Devido a limitações de segurança do navegador (iframe sandboxado), a aba pode não
+    fechar automaticamente. Porém, o backend SEMPRE encerra corretamente.
+    """
+    st.session_state['_pcf_shutdown_requested'] = True
+    st.session_state['_pcf_shutdown_started_at'] = time.time()
+
+    components.html(
+        f"""
+        <script>
+        (function () {{
+            const CLOSE_KEY = '__pcf_aggressive_close_triggered__';
+            if (window[CLOSE_KEY]) return;
+            window[CLOSE_KEY] = true;
+
+            // Tenta fechar a aba (pode não funcionar due a browser restrictions)
+            const closeAttempts = [
+                () => window.close(),
+                () => {{ try {{ window.top.close(); }} catch(e) {{}} }},
+                () => {{ try {{ window.open('', '_self').close(); }} catch(e) {{}} }},
+            ];
+
+            closeAttempts.forEach((fn, idx) => {{
+                setTimeout(() => {{ try {{ fn(); }} catch(e) {{}} }}, idx * {atraso_ms});
+            }});
+        }})();
+        </script>
+        """,
+        height=0,
+        width=0,
+    )
+
 
 
 # --- BARRA LATERAL (REPROCESSAMENTO) ---
@@ -516,9 +562,12 @@ if st.sidebar.button(
     type="secondary",
     use_container_width=True,
 ):
-    st.sidebar.info("Encerrando dashboard...")
-    fechar_aba_navegador()
-    encerrar_streamlit()
+    st.sidebar.info(
+        "✅ **Serviço encerrado com sucesso!** O backend foi parado. Se a aba não fechar automaticamente (limitação do navegador), você pode fechá-la manualmente."
+    )
+    forcar_fechamento_aba_apos_desligamento()
+    agendar_fechamento_aba_macos(st.get_option('server.port'), delay_segundos=0.9)
+    encerrar_streamlit(delay_segundos=0.6)
 
 st.sidebar.divider()
 

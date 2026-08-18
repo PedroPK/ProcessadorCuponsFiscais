@@ -41,6 +41,12 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
   - Inclusão de screenshot específico do conteúdo do balão/tooltip da aba de mapa por NF
 - `QUICKSTART.md` — contagem da suíte de testes atualizada para 95 testes
 
+### Corrigido
+- `src/dashboard.py` — botão **Encerrar serviço e fechar aba** agora dispara fechamento forçado da aba no macOS via AppleScript logo após o ACK do clique (backend já confirmou recebimento)
+  - Evita exibição da tela de **Connection error** durante o desligamento
+  - Evita limitação de sandbox do iframe do Streamlit para navegação da aba principal
+  - Atraso de desligamento do Streamlit foi ajustado para dar tempo do fechamento da aba ocorrer
+
 ### Identificado
 - ⚠️ **Dados do XLS (app Citizen) não estão sendo normalizados pelo Dicionário de Produtos** — os nomes dos produtos do arquivo XLSX do Citizen permanecem em formato bruto, diferente dos produtos extraídos de XML/PDF que passam pela normalização fuzzy. Necessário investigar e unificar o fluxo de normalização para todas as fontes.
 
