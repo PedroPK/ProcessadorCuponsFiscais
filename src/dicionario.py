@@ -2,7 +2,7 @@ import argparse
 import json
 import pandas as pd
 from pathlib import Path
-from utils import resolver_caminho_dicionario
+from utils import resolver_caminho_dicionario, chave_nome_produto
 
 COLUNAS_DICIONARIO = ['nome_original', 'nome_padrao', 'categoria']
 CATEGORIA_PADRAO = 'Nova'
@@ -90,8 +90,6 @@ def carregar_dados_existentes(caminho_dic):
 
 def sugerir_padrao(novo_nome, nomes_conhecidos_padrao):
     """Tenta adivinhar o nome padrão usando Fuzzy Matching."""
-    from thefuzz import process, fuzz
-
     if not nomes_conhecidos_padrao:
         return str(novo_nome).title()
     
@@ -99,6 +97,14 @@ def sugerir_padrao(novo_nome, nomes_conhecidos_padrao):
     
     if not lista_limpa:
          return str(novo_nome).title()
+
+    # Mesmo nome, só com caixa diferente: reaproveita o padrão existente
+    por_chave = {chave_nome_produto(x): x for x in lista_limpa}
+    existente = por_chave.get(chave_nome_produto(novo_nome))
+    if existente:
+        return existente
+
+    from thefuzz import process, fuzz
 
     melhor_match = process.extractOne(str(novo_nome), lista_limpa, scorer=fuzz.token_sort_ratio)
     
@@ -181,14 +187,26 @@ def atualizar_dicionario(apenas_auditar_duplicatas=False):
     print(f"Total de produtos no CSV: {len(produtos_novos_detectados)}")
     print(f"Produtos já no dicionário: {len(ja_cadastrados)}")
 
+    # Variações só de caixa de um nome já cadastrado herdam padrão e categoria dele
+    por_chave = {}
+    if not df_dic.empty:
+        for _, linha in df_dic.iterrows():
+            por_chave.setdefault(chave_nome_produto(linha['nome_original']), linha)
+
     contagem_novos = 0
     for produto in produtos_novos_detectados:
         if produto not in ja_cadastrados:
-            sugestao = sugerir_padrao(produto, nomes_padrao_existentes)
+            equivalente = por_chave.get(chave_nome_produto(produto))
+            if equivalente is not None:
+                sugestao = equivalente['nome_padrao']
+                categoria = equivalente['categoria']
+            else:
+                sugestao = sugerir_padrao(produto, nomes_padrao_existentes)
+                categoria = 'Nova'
             novos_itens.append({
                 'nome_original': produto,
                 'nome_padrao': sugestao,
-                'categoria': 'Nova'
+                'categoria': categoria
             })
             contagem_novos += 1
 

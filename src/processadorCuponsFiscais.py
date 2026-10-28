@@ -5,7 +5,7 @@ import zipfile
 from pathlib import Path
 from extratorXml import extrair_itens_do_xml, extrair_chave_do_xml
 from metricas import MetricasProcessamento, medir_etapa
-from utils import resolver_caminho_dicionario
+from utils import resolver_caminho_dicionario, chave_nome_produto
 from dicionario import carregar_dados_existentes
 
 class ProcessadorDeCupons:
@@ -62,6 +62,8 @@ class ProcessadorDeCupons:
             if "CNPJ" in nome or "Recife" in nome:
                 if "PE" in nome:
                     nome = nome.split(" PE ")[-1].strip()
+            # Resíduo de página web impressa em PDF
+            nome = re.sub(r'^Filtrar itens\.\.\.\s*', '', nome, flags=re.IGNORECASE)
             
             codigo = match.group('codigo')
             qtd = self._converter_valor(match.group('qtd'))
@@ -369,8 +371,14 @@ class ProcessadorDeCupons:
                 
                 # Aplica a troca
                 # Se não achar no dicionário, mantém o nome original
-                df['produto'] = df['produto_raw'].map(mapa_nomes).fillna(df['produto_raw'])
-                df['categoria'] = df['produto_raw'].map(mapa_categorias).fillna('Outros')
+                # Fallback sem diferenciar caixa (ex.: "BANANA MACA KG" x "BANANA MACA kg")
+                mapa_nomes_ci = {chave_nome_produto(k): v for k, v in reversed(list(mapa_nomes.items()))}
+                mapa_cat_ci = {chave_nome_produto(k): v for k, v in reversed(list(mapa_categorias.items()))}
+                chaves = df['produto_raw'].map(chave_nome_produto)
+                nomes = df['produto_raw'].map(mapa_nomes).fillna(chaves.map(mapa_nomes_ci))
+                cats = df['produto_raw'].map(mapa_categorias).fillna(chaves.map(mapa_cat_ci))
+                df['produto'] = nomes.fillna(df['produto_raw'])
+                df['categoria'] = cats.fillna('Outros')
                 
                 return df
             except Exception as e:

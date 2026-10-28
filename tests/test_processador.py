@@ -216,6 +216,28 @@ class TestAplicarNormalizacao:
         assert resultado.loc[0, "produto"] == "Leite Ninho Integral"
         assert resultado.loc[0, "categoria"] == "Laticínios"
 
+    def test_ignora_diferenca_de_caixa_no_nome_bruto(self, tmp_path, monkeypatch):
+        raiz = tmp_path
+        (raiz / "src").mkdir()
+        pasta_dados = raiz / "resources" / "data"
+        pasta_dados.mkdir(parents=True)
+        (pasta_dados / "dicionario_produtos.json").write_text(json.dumps({
+            "Banana Maca Kg": {"categoria": "Hortifruti", "nomes_originais": ["BANANA MACA kg"]},
+        }, ensure_ascii=False), encoding="utf-8")
+        monkeypatch.setattr(
+            processadorCuponsFiscais,
+            "__file__",
+            str(raiz / "src" / "processadorCuponsFiscais.py"),
+        )
+
+        resultado = ProcessadorDeCupons()._aplicar_normalizacao(
+            pd.DataFrame([{"produto": "BANANA MACA KG"}, {"produto": "OUTRO"}])
+        )
+
+        assert resultado.loc[0, "produto"] == "Banana Maca Kg"
+        assert resultado.loc[0, "categoria"] == "Hortifruti"
+        assert resultado.loc[1, "produto"] == "OUTRO"
+        assert resultado.loc[1, "categoria"] == "Outros"
 
 class TestExportarCsv:
     def test_exporta_produto_raw_mesmo_sem_dicionario(self, tmp_path, monkeypatch):

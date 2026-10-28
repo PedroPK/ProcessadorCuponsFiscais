@@ -5,6 +5,11 @@ import pandas as pd
 from pathlib import Path
 
 
+def chave_nome_produto(nome) -> str:
+    """Chave de comparação de nomes: ignora caixa e espaços repetidos."""
+    return ' '.join(str(nome).casefold().split())
+
+
 def resolver_caminho_dicionario(raiz: Path) -> Path:
     """
     Resolve o caminho do dicionário de produtos.

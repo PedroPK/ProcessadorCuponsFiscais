@@ -134,6 +134,10 @@ class TestSugerirPadrao:
         resultado = sugerir_padrao("Arroz Branco", nomes_conhecidos)
         assert resultado == "Arroz Branco"
 
+    def test_diferenca_apenas_de_caixa_reaproveita_padrao(self):
+        resultado = sugerir_padrao("BANANA MACA KG", ["Banana Maca Kg", "Banana Prata Kg"])
+        assert resultado == "Banana Maca Kg"
+
     def test_match_ordem_palavras_invertida(self):
         """token_sort_ratio deve ser robusto à ordem das palavras."""
         nomes_conhecidos = ["Integral Leite"]

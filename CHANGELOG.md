@@ -7,6 +7,10 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ## [Não lançado]
 
+### Corrigido
+- PDFs de páginas web impressas: o resíduo "Filtrar itens..." deixa de ser incluído no início do nome do produto
+- Nomes brutos que diferem de um item do dicionário apenas pela caixa (ex.: `BANANA MACA KG` x `BANANA MACA kg`) agora são normalizados para o mesmo produto, no processador e na atualização do dicionário (`chave_nome_produto` em `src/utils.py`)
+
 ### Adicionado
 - `resources/data/dicionario_produtos.json` — o dicionário de produtos passa a ser um JSON agrupado por nome padrão (`categoria` + `nomes_originais`), mais legível, editável à mão e com diffs claros no Git; fica em `resources/data/`, separado dos resultados de `resources/outputData/`
   - O carregamento valida a estrutura, rejeita nome original repetido em mais de um grupo e informa arquivo/linha em JSON malformado
