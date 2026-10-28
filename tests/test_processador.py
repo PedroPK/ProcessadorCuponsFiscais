@@ -190,6 +190,33 @@ class TestProcessarZip:
         assert len(p.dados_consolidados) == 2  # ainda 2 itens, não 4
 
 
+class TestAplicarNormalizacao:
+    def test_le_dicionario_do_diretorio_data(self, tmp_path, monkeypatch):
+        raiz = tmp_path
+        (raiz / "src").mkdir()
+        pasta_dados = raiz / "resources" / "data"
+        pasta_dados.mkdir(parents=True)
+        pd.DataFrame([
+            {
+                "nome_original": "LEITE NINHO",
+                "nome_padrao": "Leite Ninho Integral",
+                "categoria": "Laticínios",
+            },
+        ]).to_excel(pasta_dados / "dicionario_produtos.xlsx", index=False)
+        monkeypatch.setattr(
+            processadorCuponsFiscais,
+            "__file__",
+            str(raiz / "src" / "processadorCuponsFiscais.py"),
+        )
+
+        resultado = ProcessadorDeCupons()._aplicar_normalizacao(
+            pd.DataFrame([{"produto": "LEITE NINHO"}])
+        )
+
+        assert resultado.loc[0, "produto"] == "Leite Ninho Integral"
+        assert resultado.loc[0, "categoria"] == "Laticínios"
+
+
 class TestExportarCsv:
     def test_exporta_produto_raw_mesmo_sem_dicionario(self, tmp_path, monkeypatch):
         raiz = tmp_path

@@ -5,6 +5,19 @@ import pandas as pd
 from pathlib import Path
 
 
+def resolver_caminho_dicionario(raiz: Path) -> Path:
+    """
+    Resolve o caminho do dicionário, priorizando resources/data.
+
+    Mantém leitura do caminho antigo em outputData para compatibilidade.
+    """
+    caminho_atual = raiz / 'resources' / 'data' / 'dicionario_produtos.xlsx'
+    caminho_legado = raiz / 'resources' / 'outputData' / 'dicionario_produtos.xlsx'
+    if caminho_atual.exists() or not caminho_legado.exists():
+        return caminho_atual
+    return caminho_legado
+
+
 def format_currency(value: float) -> str:
     """
     Formata um valor numérico como moeda brasileira (R$).

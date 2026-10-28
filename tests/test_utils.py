@@ -4,7 +4,7 @@ Testes para src/utils.py — filtrar_produtos() e resolver_danfe()
 import pandas as pd
 import pytest
 from pathlib import Path
-from utils import filtrar_produtos, resolver_danfe
+from utils import filtrar_produtos, resolver_caminho_dicionario, resolver_danfe
 
 
 # ── Fixture ────────────────────────────────────────────────────────────────────
@@ -93,6 +93,32 @@ class TestMultiplosTokens:
         resultado_2 = filtrar_produtos(df_produtos, "leite ninho")
         resultado_3 = filtrar_produtos(df_produtos, "leite ninho 750")
         assert len(resultado_1) >= len(resultado_2) >= len(resultado_3)
+
+
+# ── resolver_danfe ─────────────────────────────────────────────────────────────
+
+class TestResolverCaminhoDicionario:
+    def test_prioriza_dicionario_em_data(self, tmp_path):
+        atual = tmp_path / 'resources' / 'data' / 'dicionario_produtos.xlsx'
+        legado = tmp_path / 'resources' / 'outputData' / 'dicionario_produtos.xlsx'
+        atual.parent.mkdir(parents=True)
+        legado.parent.mkdir(parents=True)
+        atual.touch()
+        legado.touch()
+
+        assert resolver_caminho_dicionario(tmp_path) == atual
+
+    def test_usa_caminho_legado_quando_arquivo_atual_nao_existe(self, tmp_path):
+        legado = tmp_path / 'resources' / 'outputData' / 'dicionario_produtos.xlsx'
+        legado.parent.mkdir(parents=True)
+        legado.touch()
+
+        assert resolver_caminho_dicionario(tmp_path) == legado
+
+    def test_retorna_caminho_atual_se_nao_houver_arquivo(self, tmp_path):
+        atual = tmp_path / 'resources' / 'data' / 'dicionario_produtos.xlsx'
+
+        assert resolver_caminho_dicionario(tmp_path) == atual
 
 
 # ── resolver_danfe ─────────────────────────────────────────────────────────────

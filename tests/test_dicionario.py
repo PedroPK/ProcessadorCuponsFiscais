@@ -110,12 +110,13 @@ class TestAtualizarDicionario:
         pd.DataFrame([
             {"produto": "Leite Integral", "produto_raw": "LEITE INTEGRAL UHT 1L"},
         ]).to_csv(pasta_saida / "minha_inflacao.csv", index=False, sep=";", encoding="utf-8-sig")
+        (raiz / "resources" / "data").mkdir(parents=True)
 
         monkeypatch.setattr(dicionario, "__file__", str(raiz / "src" / "dicionario.py"))
 
         atualizar_dicionario()
 
-        df = pd.read_excel(pasta_saida / "dicionario_produtos.xlsx")
+        df = pd.read_excel(raiz / "resources" / "data" / "dicionario_produtos.xlsx")
         assert list(df["nome_original"]) == ["LEITE INTEGRAL UHT 1L"]
         assert list(df["categoria"]) == ["Nova"]
 
@@ -128,10 +129,37 @@ class TestAtualizarDicionario:
         pd.DataFrame([
             {"produto": "LEITE INTEGRAL UHT 1L"},
         ]).to_csv(pasta_saida / "minha_inflacao.csv", index=False, sep=";", encoding="utf-8-sig")
+        (raiz / "resources" / "data").mkdir(parents=True)
 
         monkeypatch.setattr(dicionario, "__file__", str(raiz / "src" / "dicionario.py"))
 
         atualizar_dicionario()
 
-        df = pd.read_excel(pasta_saida / "dicionario_produtos.xlsx")
+        df = pd.read_excel(raiz / "resources" / "data" / "dicionario_produtos.xlsx")
         assert list(df["nome_original"]) == ["LEITE INTEGRAL UHT 1L"]
+
+    def test_migra_dicionario_do_caminho_legado(self, tmp_path, monkeypatch):
+        raiz = tmp_path
+        pasta_saida = raiz / "resources" / "outputData"
+        pasta_saida.mkdir(parents=True)
+        (raiz / "src").mkdir()
+
+        pd.DataFrame([
+            {"produto": "LEITE INTEGRAL UHT 1L"},
+        ]).to_csv(pasta_saida / "minha_inflacao.csv", index=False, sep=";", encoding="utf-8-sig")
+        legado = pasta_saida / "dicionario_produtos.xlsx"
+        pd.DataFrame([
+            {
+                "nome_original": "LEITE INTEGRAL UHT 1L",
+                "nome_padrao": "Leite Integral",
+                "categoria": "Laticínios",
+            },
+        ]).to_excel(legado, index=False)
+        monkeypatch.setattr(dicionario, "__file__", str(raiz / "src" / "dicionario.py"))
+
+        atualizar_dicionario()
+
+        novo = raiz / "resources" / "data" / "dicionario_produtos.xlsx"
+        assert novo.exists()
+        assert legado.exists()
+        assert pd.read_excel(novo).iloc[0]["nome_padrao"] == "Leite Integral"

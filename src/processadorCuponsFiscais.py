@@ -5,6 +5,7 @@ import zipfile
 from pathlib import Path
 from extratorXml import extrair_itens_do_xml, extrair_chave_do_xml
 from metricas import MetricasProcessamento, medir_etapa
+from utils import resolver_caminho_dicionario
 
 class ProcessadorDeCupons:
     def __init__(self):
@@ -352,7 +353,7 @@ class ProcessadorDeCupons:
     @medir_etapa('normalizacao')
     def _aplicar_normalizacao(self, df):
         raiz = Path(__file__).resolve().parent.parent
-        caminho_dic = raiz / 'resources' / 'outputData' / 'dicionario_produtos.xlsx'
+        caminho_dic = resolver_caminho_dicionario(raiz)
         df['produto_raw'] = df['produto']
         
         if caminho_dic.exists():

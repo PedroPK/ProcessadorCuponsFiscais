@@ -1,6 +1,8 @@
 import argparse
+import shutil
 import pandas as pd
 from pathlib import Path
+from utils import resolver_caminho_dicionario
 
 def carregar_dados_existentes(caminho_dic):
     """Carrega o dicionário atual para não perder nada."""
@@ -58,17 +60,21 @@ def identificar_duplicatas_por_ean(df_raw):
 def atualizar_dicionario(apenas_auditar_duplicatas=False):
     raiz = Path(__file__).resolve().parent.parent
     
-    # --- MUDANÇA DE CAMINHO AQUI ---
-    # Agora ambos ficam dentro de outputData
     pasta_saida = raiz / 'resources' / 'outputData'
     arquivo_dados = pasta_saida / 'minha_inflacao.csv'
-    arquivo_dicionario = pasta_saida / 'dicionario_produtos.xlsx'
+    arquivo_dicionario = raiz / 'resources' / 'data' / 'dicionario_produtos.xlsx'
+    caminho_dicionario_existente = resolver_caminho_dicionario(raiz)
 
     print("--- INICIANDO ATUALIZAÇÃO DO DICIONÁRIO ---")
 
     if not arquivo_dados.exists():
         print("Erro: CSV de dados não encontrado em outputData.")
         return
+
+    arquivo_dicionario.parent.mkdir(parents=True, exist_ok=True)
+    if caminho_dicionario_existente != arquivo_dicionario:
+        shutil.copy2(caminho_dicionario_existente, arquivo_dicionario)
+        print(f"Dicionário legado copiado para: {arquivo_dicionario}")
     
     df_raw = pd.read_csv(
         arquivo_dados,

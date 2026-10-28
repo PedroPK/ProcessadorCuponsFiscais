@@ -46,10 +46,11 @@ MEU_PROJETO/
 │   ├── test_processador.py          # Testes do processador e deduplicação
 │   └── test_dicionario.py           # Testes do dicionário de produtos
 ├── resources/
+│   ├── data/           # Dicionário de produtos e outros dados de referência
+│   │   └── dicionario_produtos.xlsx
 │   ├── notas_fiscais/  # COLOQUE SEUS ARQUIVOS AQUI (.xml, .pdf ou .zip)
 │   └── outputData/     # AQUI SERÃO GERADOS OS RESULTADOS
 │       ├── minha_inflacao.csv      # CSV de dados extraídos
-│       ├── dicionario_produtos.xlsx # Dicionário de normalização
 │       └── danfe/                  # DANFEs em PDF gerados a partir de XMLs
 ├── .venv/            # Ambiente virtual Python (recomendado)
 └── README.md
@@ -163,13 +164,13 @@ python3 src/dicionario.py
 **O que faz:**
 - Lê o arquivo CSV gerado pelo processador
 - Sugere nomes padrão usando Fuzzy Matching
-- Cria/atualiza `resources/outputData/dicionario_produtos.numbers` (ou Excel)
+- Cria/atualiza `resources/data/dicionario_produtos.xlsx`
 - Facilita a análise em "produtos iguais com nomes diferentes"
 
-✅ Resultado: Vai criar/atualizar resources/outputData/dicionario_produtos.xlsx.
+✅ Resultado: Vai criar/atualizar resources/data/dicionario_produtos.xlsx. Se existir um dicionário antigo em `resources/outputData/`, ele será copiado para o novo local na primeira atualização.
 
 > **⚠️ Atenção ao fluxo:** O dicionário **não é aplicado em tempo real**. Ele é lido pelo processador no momento da exportação do CSV. Isso significa que:
-> 1. Edite o arquivo `dicionario_produtos.xlsx` manualmente (corrija `nome_padrao`, `categoria`, etc.);
+> 1. Edite o arquivo `resources/data/dicionario_produtos.xlsx` manualmente (corrija `nome_padrao`, `categoria`, etc.);
 > 2. **Re-execute o Passo 2** (`python3 src/processadorCuponsFiscais.py`) para gerar um novo CSV com os mapeamentos aplicados;
 > 3. Só então abra o Dashboard — ele sempre exibirá os dados do último CSV gerado.
 

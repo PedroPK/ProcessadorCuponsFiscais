@@ -53,10 +53,12 @@ Para encerrar depois, use o botão **"Encerrar serviço e fechar aba"** na próp
 ## 5. Estrutura de saída
 
 ```
+resources/data/
+└── dicionario_produtos.xlsx  # Dicionário editável de normalização
+
 resources/outputData/
-├── minha_inflacao.csv          # Dados extraídos de todas as notas
-├── dicionario_produtos.numbers # Dicionário de normalização de nomes
-└── danfe/                      # PDFs gerados a partir de XMLs
+├── minha_inflacao.csv  # Dados extraídos de todas as notas
+└── danfe/              # PDFs gerados a partir de XMLs
 ```
 
 ---

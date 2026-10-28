@@ -8,6 +8,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 ## [Não lançado]
 
 ### Adicionado
+- `resources/data/` — passa a armazenar `dicionario_produtos.xlsx`, separado dos resultados gerados em `resources/outputData/`; instalações antigas são migradas automaticamente na atualização
 - `src/dicionario.py` — identifica e lista possíveis duplicatas com descrições diferentes associadas ao mesmo EAN; `--auditar-duplicatas` executa a análise sem alterar arquivos
 - `src/metricas.py`, `src/processadorCuponsFiscais.py` e `src/extratorXml.py` — métricas agregadas de duração, chamadas por etapa, itens extraídos e erros (incluindo XML malformado), persistidas localmente em `resources/outputData/metrics/processamento.jsonl`
 - `src/dashboard.py` — resumo da duração e detalhes por etapa da última execução do processamento; seção de métricas visível também antes da primeira execução
@@ -38,6 +39,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
   - Exportação XLSX (Citizen) passa a tentar montar endereço quando as colunas estiverem disponíveis
 
 ### Alterado
+- `src/processadorCuponsFiscais.py` — lê o dicionário de produtos em `resources/data/`, mantendo fallback para instalações antigas em `resources/outputData/`
 - `readme.md` — documentação ampliada das abas de junho (**🗺️ Onde Comprar Melhor** e **📍 Mapa de Compras (NF)**)
   - Inclusão de descrição de filtros, métricas e campos/tabelas de cada aba
   - Tabela de prévia do dashboard atualizada com screenshots reais das abas 5, 6 e 7
