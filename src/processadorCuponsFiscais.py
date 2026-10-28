@@ -6,6 +6,7 @@ from pathlib import Path
 from extratorXml import extrair_itens_do_xml, extrair_chave_do_xml
 from metricas import MetricasProcessamento, medir_etapa
 from utils import resolver_caminho_dicionario
+from dicionario import carregar_dados_existentes
 
 class ProcessadorDeCupons:
     def __init__(self):
@@ -359,8 +360,8 @@ class ProcessadorDeCupons:
         if caminho_dic.exists():
             print("Aplicando dicionário de produtos...")
             try:
-                # Lê o Excel
-                df_dic = pd.read_excel(caminho_dic)
+                # Lê o dicionário (JSON, ou XLSX legado)
+                df_dic = carregar_dados_existentes(caminho_dic)
                 
                 # Cria um dicionário Python { 'Nome Sujo': 'Nome Limpo' }
                 mapa_nomes = dict(zip(df_dic['nome_original'], df_dic['nome_padrao']))

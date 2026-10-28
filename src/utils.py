@@ -7,15 +7,22 @@ from pathlib import Path
 
 def resolver_caminho_dicionario(raiz: Path) -> Path:
     """
-    Resolve o caminho do dicionário, priorizando resources/data.
+    Resolve o caminho do dicionário de produtos.
 
-    Mantém leitura do caminho antigo em outputData para compatibilidade.
+    Prioriza ``resources/data/dicionario_produtos.json``. Se ele não existir,
+    devolve um XLSX legado (em ``resources/data`` ou ``resources/outputData``)
+    para que possa ser convertido; sem nenhum arquivo, devolve o caminho do JSON.
     """
-    caminho_atual = raiz / 'resources' / 'data' / 'dicionario_produtos.xlsx'
-    caminho_legado = raiz / 'resources' / 'outputData' / 'dicionario_produtos.xlsx'
-    if caminho_atual.exists() or not caminho_legado.exists():
-        return caminho_atual
-    return caminho_legado
+    pasta_dados = raiz / 'resources' / 'data'
+    caminho_json = pasta_dados / 'dicionario_produtos.json'
+    if caminho_json.exists():
+        return caminho_json
+
+    legados = [
+        pasta_dados / 'dicionario_produtos.xlsx',
+        raiz / 'resources' / 'outputData' / 'dicionario_produtos.xlsx',
+    ]
+    return next((c for c in legados if c.exists()), caminho_json)
 
 
 def format_currency(value: float) -> str:

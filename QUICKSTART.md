@@ -46,7 +46,7 @@ Para encerrar depois, use o botão **"Encerrar serviço e fechar aba"** na próp
 | `python3 src/processadorCuponsFiscais.py` | Extrai notas e gera o CSV manualmente |
 | `python3 src/dicionario.py` | Atualiza o dicionário de normalização de nomes |
 | `python3 src/gerador_danfe.py` | Gera PDFs legíveis (DANFE) a partir dos XMLs |
-| `python -m pytest tests/ -v` | Roda a suíte de testes (102 testes) |
+| `python -m pytest tests/ -v` | Roda a suíte de testes (118 testes) |
 
 ---
 
@@ -54,7 +54,7 @@ Para encerrar depois, use o botão **"Encerrar serviço e fechar aba"** na próp
 
 ```
 resources/data/
-└── dicionario_produtos.xlsx  # Dicionário editável de normalização
+└── dicionario_produtos.json  # Dicionário editável de normalização
 
 resources/outputData/
 ├── minha_inflacao.csv  # Dados extraídos de todas as notas

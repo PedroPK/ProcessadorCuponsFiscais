@@ -2,6 +2,7 @@
 Testes para src/processadorCuponsFiscais.py
 """
 import io
+import json
 import zipfile
 import pandas as pd
 import pytest
@@ -196,13 +197,12 @@ class TestAplicarNormalizacao:
         (raiz / "src").mkdir()
         pasta_dados = raiz / "resources" / "data"
         pasta_dados.mkdir(parents=True)
-        pd.DataFrame([
-            {
-                "nome_original": "LEITE NINHO",
-                "nome_padrao": "Leite Ninho Integral",
+        (pasta_dados / "dicionario_produtos.json").write_text(json.dumps({
+            "Leite Ninho Integral": {
                 "categoria": "Laticínios",
+                "nomes_originais": ["LEITE NINHO", "L PO NINHO"],
             },
-        ]).to_excel(pasta_dados / "dicionario_produtos.xlsx", index=False)
+        }, ensure_ascii=False), encoding="utf-8")
         monkeypatch.setattr(
             processadorCuponsFiscais,
             "__file__",

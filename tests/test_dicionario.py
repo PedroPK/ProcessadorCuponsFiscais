@@ -1,6 +1,7 @@
 """
 Testes para src/dicionario.py
 """
+import json
 import pandas as pd
 import pytest
 from pathlib import Path
@@ -8,7 +9,9 @@ import dicionario
 from dicionario import (
     atualizar_dicionario,
     carregar_dados_existentes,
+    dicionario_json_para_dataframe,
     identificar_duplicatas_por_ean,
+    salvar_dicionario,
     sugerir_padrao,
 )
 
@@ -34,6 +37,73 @@ class TestCarregarDadosExistentes:
         df = carregar_dados_existentes(xlsx)
         assert len(df) == 1
         assert df.iloc[0]["nome_padrao"] == "Leite Integral"
+
+
+class TestDicionarioJson:
+    def test_salvar_agrupa_por_nome_padrao_e_ordena(self, tmp_path):
+        df = pd.DataFrame([
+            {"nome_original": "L PO NINHO", "nome_padrao": "Leite Ninho", "categoria": "Nova"},
+            {"nome_original": "ARROZ T1", "nome_padrao": "Arroz", "categoria": "Grãos"},
+            {"nome_original": "LEITE NINHO", "nome_padrao": "Leite Ninho", "categoria": "Laticínios"},
+            {"nome_original": "LEITE NINHO", "nome_padrao": "Leite Ninho", "categoria": "Laticínios"},
+        ])
+        caminho = tmp_path / "dic.json"
+
+        salvar_dicionario(df, caminho)
+
+        assert json.loads(caminho.read_text(encoding="utf-8")) == {
+            "Arroz": {"categoria": "Grãos", "nomes_originais": ["ARROZ T1"]},
+            "Leite Ninho": {
+                "categoria": "Laticínios",
+                "nomes_originais": ["L PO NINHO", "LEITE NINHO"],
+            },
+        }
+        assert list(json.loads(caminho.read_text(encoding="utf-8"))) == ["Arroz", "Leite Ninho"]
+
+    def test_salvar_preserva_acentos(self, tmp_path):
+        df = pd.DataFrame([
+            {"nome_original": "CAFE", "nome_padrao": "Café", "categoria": "Bebidas"},
+        ])
+        caminho = tmp_path / "dic.json"
+        salvar_dicionario(df, caminho)
+        assert "Café" in caminho.read_text(encoding="utf-8")
+
+    def test_ida_e_volta_preserva_mapeamentos(self, tmp_path):
+        df = pd.DataFrame([
+            {"nome_original": "A", "nome_padrao": "Produto 1", "categoria": "X"},
+            {"nome_original": "B", "nome_padrao": "Produto 1", "categoria": "X"},
+            {"nome_original": "C", "nome_padrao": "Produto 2", "categoria": "Y"},
+        ])
+        caminho = tmp_path / "dic.json"
+        salvar_dicionario(df, caminho)
+
+        carregado = carregar_dados_existentes(caminho).set_index("nome_original")
+        assert carregado.loc["B", "nome_padrao"] == "Produto 1"
+        assert carregado.loc["C", "categoria"] == "Y"
+
+    def test_categoria_ausente_usa_nova(self):
+        df = dicionario_json_para_dataframe({"Leite": {"nomes_originais": ["LEITE"]}})
+        assert df.iloc[0]["categoria"] == "Nova"
+
+    def test_nome_original_em_dois_grupos_gera_erro(self):
+        dados = {
+            "Leite A": {"categoria": "Nova", "nomes_originais": ["LEITE"]},
+            "Leite B": {"categoria": "Nova", "nomes_originais": ["LEITE"]},
+        }
+        with pytest.raises(ValueError, match="LEITE"):
+            dicionario_json_para_dataframe(dados)
+
+    def test_estrutura_invalida_gera_erro(self):
+        with pytest.raises(ValueError, match="nomes_originais"):
+            dicionario_json_para_dataframe({"Leite": {"categoria": "Nova"}})
+        with pytest.raises(ValueError):
+            dicionario_json_para_dataframe(["não é objeto"])
+
+    def test_json_malformado_informa_arquivo_e_linha(self, tmp_path):
+        caminho = tmp_path / "dic.json"
+        caminho.write_text('{\n  "Leite": {\n    "nomes_originais": ["A",]\n  }\n}', encoding="utf-8")
+        with pytest.raises(ValueError, match=r"dic\.json.*linha 3"):
+            carregar_dados_existentes(caminho)
 
 
 # ── sugerir_padrao ─────────────────────────────────────────────────────────────
@@ -116,7 +186,7 @@ class TestAtualizarDicionario:
 
         atualizar_dicionario()
 
-        df = pd.read_excel(raiz / "resources" / "data" / "dicionario_produtos.xlsx")
+        df = carregar_dados_existentes(raiz / "resources" / "data" / "dicionario_produtos.json")
         assert list(df["nome_original"]) == ["LEITE INTEGRAL UHT 1L"]
         assert list(df["categoria"]) == ["Nova"]
 
@@ -135,10 +205,10 @@ class TestAtualizarDicionario:
 
         atualizar_dicionario()
 
-        df = pd.read_excel(raiz / "resources" / "data" / "dicionario_produtos.xlsx")
+        df = carregar_dados_existentes(raiz / "resources" / "data" / "dicionario_produtos.json")
         assert list(df["nome_original"]) == ["LEITE INTEGRAL UHT 1L"]
 
-    def test_migra_dicionario_do_caminho_legado(self, tmp_path, monkeypatch):
+    def test_migra_dicionario_xlsx_legado_para_json(self, tmp_path, monkeypatch):
         raiz = tmp_path
         pasta_saida = raiz / "resources" / "outputData"
         pasta_saida.mkdir(parents=True)
@@ -159,7 +229,35 @@ class TestAtualizarDicionario:
 
         atualizar_dicionario()
 
-        novo = raiz / "resources" / "data" / "dicionario_produtos.xlsx"
+        novo = raiz / "resources" / "data" / "dicionario_produtos.json"
         assert novo.exists()
         assert legado.exists()
-        assert pd.read_excel(novo).iloc[0]["nome_padrao"] == "Leite Integral"
+        assert json.loads(novo.read_text(encoding="utf-8")) == {
+            "Leite Integral": {
+                "categoria": "Laticínios",
+                "nomes_originais": ["LEITE INTEGRAL UHT 1L"],
+            }
+        }
+
+    def test_preserva_edicoes_manuais_do_json(self, tmp_path, monkeypatch):
+        raiz = tmp_path
+        pasta_saida = raiz / "resources" / "outputData"
+        pasta_saida.mkdir(parents=True)
+        (raiz / "resources" / "data").mkdir(parents=True)
+        (raiz / "src").mkdir()
+
+        pd.DataFrame([
+            {"produto": "LEITE INTEGRAL UHT 1L"},
+            {"produto": "ARROZ BRANCO 5KG"},
+        ]).to_csv(pasta_saida / "minha_inflacao.csv", index=False, sep=";", encoding="utf-8-sig")
+        caminho = raiz / "resources" / "data" / "dicionario_produtos.json"
+        caminho.write_text(json.dumps({
+            "Leite Integral": {"categoria": "Laticínios", "nomes_originais": ["LEITE INTEGRAL UHT 1L"]},
+        }, ensure_ascii=False), encoding="utf-8")
+        monkeypatch.setattr(dicionario, "__file__", str(raiz / "src" / "dicionario.py"))
+
+        atualizar_dicionario()
+
+        dados = json.loads(caminho.read_text(encoding="utf-8"))
+        assert dados["Leite Integral"]["categoria"] == "Laticínios"
+        assert "ARROZ BRANCO 5KG" in sum((v["nomes_originais"] for v in dados.values()), [])

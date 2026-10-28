@@ -8,7 +8,9 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 ## [Não lançado]
 
 ### Adicionado
-- `resources/data/` — passa a armazenar `dicionario_produtos.xlsx`, separado dos resultados gerados em `resources/outputData/`; instalações antigas são migradas automaticamente na atualização
+- `resources/data/dicionario_produtos.json` — o dicionário de produtos passa a ser um JSON agrupado por nome padrão (`categoria` + `nomes_originais`), mais legível, editável à mão e com diffs claros no Git; fica em `resources/data/`, separado dos resultados de `resources/outputData/`
+  - O carregamento valida a estrutura, rejeita nome original repetido em mais de um grupo e informa arquivo/linha em JSON malformado
+  - Dicionários `.xlsx` antigos (em `resources/data/` ou `resources/outputData/`) são convertidos automaticamente na primeira atualização
 - `src/dicionario.py` — identifica e lista possíveis duplicatas com descrições diferentes associadas ao mesmo EAN; `--auditar-duplicatas` executa a análise sem alterar arquivos
 - `src/metricas.py`, `src/processadorCuponsFiscais.py` e `src/extratorXml.py` — métricas agregadas de duração, chamadas por etapa, itens extraídos e erros (incluindo XML malformado), persistidas localmente em `resources/outputData/metrics/processamento.jsonl`
 - `src/dashboard.py` — resumo da duração e detalhes por etapa da última execução do processamento; seção de métricas visível também antes da primeira execução
@@ -39,7 +41,8 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
   - Exportação XLSX (Citizen) passa a tentar montar endereço quando as colunas estiverem disponíveis
 
 ### Alterado
-- `src/processadorCuponsFiscais.py` — lê o dicionário de produtos em `resources/data/`, mantendo fallback para instalações antigas em `resources/outputData/`
+- `src/processadorCuponsFiscais.py` — lê o dicionário de produtos em JSON a partir de `resources/data/`, com fallback para `.xlsx` legado
+- `.gitignore` — passa a ignorar apenas `resources/notas_fiscais/` e `resources/outputData/`, versionando o dicionário
 - `readme.md` — documentação ampliada das abas de junho (**🗺️ Onde Comprar Melhor** e **📍 Mapa de Compras (NF)**)
   - Inclusão de descrição de filtros, métricas e campos/tabelas de cada aba
   - Tabela de prévia do dashboard atualizada com screenshots reais das abas 5, 6 e 7

@@ -1,0 +1,4706 @@
+{
+  "Abacate Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ABACATE CRFO KG",
+      "ABACATE KG",
+      "ABACATE kg"
+    ]
+  },
+  "Abacaxi Perola": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ABACAXI PEROLA CRFO"
+    ]
+  },
+  "Abacaxi Unidade": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ABACAXI UN"
+    ]
+  },
+  "Abobora Pta Jacar.": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ABOBORA PTA JACAR."
+    ]
+  },
+  "Abobora Seca Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ABOBORA SECA CRFO KG",
+      "ABOBORA SECA kg",
+      "ABOBORA SECA PD"
+    ]
+  },
+  "Absorvente Sempre Livre Adapt C/16": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ABS S LIVRADAPT /16"
+    ]
+  },
+  "Absorvente Sempre Livre C/8 Sv": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ABS S LIVRE C/8 SV"
+    ]
+  },
+  "Absorvente Sempre Livre Noturno C/32": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ABS S LIVRE NOT C/32"
+    ]
+  },
+  "Ácido Acetil Salicílico 100Mg Comprimido": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AC ACETIL 100MG CPD"
+    ]
+  },
+  "Acafrao Kitano 50G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ACAFRAO KITANO 50G"
+    ]
+  },
+  "Achocolatado 10 Capsulas - Tres Corações - Caixa com 110G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ACHO CA TRES CH 110G"
+    ]
+  },
+  "Achocolatado Pó Low 210G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ACHOC PO LOW 210G"
+    ]
+  },
+  "Acricor - Cola Relevo Brilhante 20G Branco": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ACRICOR C RELEVO B 20G BRANCO"
+    ]
+  },
+  "Acricor - Cola Relevo Brilhante 20G Preto": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ACRICOR C RELEVO B 20G PRETO"
+    ]
+  },
+  "Activia 1000G Ameixa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ACTIVIA 1000G AMEIXA"
+    ]
+  },
+  "Agua Coco Recife 300Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AGUA COCO RECIFE 300ML"
+    ]
+  },
+  "Agua Coco Recife 500Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AGUA COCO RECIFE 500ML"
+    ]
+  },
+  "Agua Coco Resfriada Garra": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AGUA COCO RESF GARRA"
+    ]
+  },
+  "Agua Crystal com gás 500Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AG CRYSTAL C/G 500ML"
+    ]
+  },
+  "Agua Indaia com gás 500Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AG INDAIA C/G 500ML"
+    ]
+  },
+  "Agua Sanitaria Clorito 1Lt": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AG SANIT CLORITO 1LT",
+      "AGUA SANIT CLORITO 1"
+    ]
+  },
+  "Agua Sanitaria Olimpo 1Lt": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AGUA SANIT OLIMP 1LT"
+    ]
+  },
+  "Alface Crespa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ALFACE CRESPA"
+    ]
+  },
+  "Algodao York 50G Bola": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ALGODAO YORK 50G BOL"
+    ]
+  },
+  "Alho a Granel Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ALHO A GRANEL kg",
+      "ALHO Kg A GRANEL"
+    ]
+  },
+  "Amaciante Roupa Sonho Lavanda": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AMAC.ROUPA SONHO LAV"
+    ]
+  },
+  "Ameixa Fresca Importada Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AMEIXA FRESCA IM KG",
+      "AMEIXA IMPORT CRFO K",
+      "AMEIXA IMP kg",
+      "AMEIXA IMPORTADA",
+      "AMEIXA IMPORTADA KG"
+    ]
+  },
+  "Ameixa Rosa Nacional Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AMEIXA ROS NAC KG"
+    ]
+  },
+  "Ameixa Seca Sem Caroço": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AMEIXA SECA S CAROC",
+      "AMEIXA SECA S/C EXCE"
+    ]
+  },
+  "Ameixa Seca sem caroço 100G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AMEIXA S/C COND 100G"
+    ]
+  },
+  "Ameixa Seca sem caroço Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AMEIX SECA SEM CAROR",
+      "AMEIXA SECA S/CAR kg",
+      "HF.AMEIXA SECA SEM C"
+    ]
+  },
+  "Amendoa Cast De Caju": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AMENDOA CAST DE CAJU"
+    ]
+  },
+  "Anti-Impacto Redondo Pp Scotch 3M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ANTI-IMPACTO REDONDO PP SCOTCH 3M"
+    ]
+  },
+  "Anti-Risco Redondo Preto G Scotch 3M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ANTI-RISCO REDONDO PRETO G SCOTCH 3M"
+    ]
+  },
+  "Antisseptico Even": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ANTISSEPTICO EVEN"
+    ]
+  },
+  "Ap Bic Comf Nor C/1": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AP BIC COMF NOR C/1"
+    ]
+  },
+  "Arr Pop Bc Lf T1 1Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ARR POP BC LF T1 1kg"
+    ]
+  },
+  "Arroz Mariano P.T.1": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ARROZ MARIANO P.T.1"
+    ]
+  },
+  "Arroz Parb Tio Joao": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ARROZ PARB TIO JOAO"
+    ]
+  },
+  "Arroz Pop": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ARROZ POP"
+    ]
+  },
+  "Arroz Pop Parbolizado Tipo 2 1Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ARR POP PARB T2 1kg"
+    ]
+  },
+  "At Sol Ol Robs 120G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AT SOL OL ROBS 120G"
+    ]
+  },
+  "Atum Solido em Óleo Gomes da Costa 120G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ATUM S OL GCOS 120G"
+    ]
+  },
+  "Aveia Nest 170G Fino": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AVEIA NEST 170G FINO"
+    ]
+  },
+  "Aveia Quaker 165G Flocos": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AVEIA QUAKER 165G FL"
+    ]
+  },
+  "Aveia Quaker 450G Flocos": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AVEIA QUAK 450G FINO"
+    ]
+  },
+  "Avental Infantil": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AVENTAL INFANTIL"
+    ]
+  },
+  "Az Manos Ev Vd 500Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AZ MANOS EV VD 500ML"
+    ]
+  },
+  "Azeite Ando Po 500Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AZEITE ANDO PO 500ML"
+    ]
+  },
+  "Azeite Esp Ev Borges": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "AZEITE ESP EV BORGES"
+    ]
+  },
+  "B Amant Capr 288G Le": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "B AMANT CAPR 288G LE"
+    ]
+  },
+  "B Mamma 301,5G Orig": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "B MAMMA 301,5G ORIG"
+    ]
+  },
+  "Balao 6,5 Liso C50 Amarelo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BALAO 6,5 LISO C50 AMARELO"
+    ]
+  },
+  "Banana Ana": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BANANA ANA"
+    ]
+  },
+  "Banana Comprida Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BANANA COMPRIDA kg"
+    ]
+  },
+  "Banana Maca Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BANANA MACA kg"
+    ]
+  },
+  "Banana Nanica Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BANANA NANICA kg"
+    ]
+  },
+  "Banana Pacovan Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BANANA PACOVAM kg",
+      "BANANA PACOVAN",
+      "BANANA PACOVAN CRFO"
+    ]
+  },
+  "Banana Prata Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BANANA PRATA",
+      "BANANA PRATA COMUM C",
+      "BANANA PRATA KG",
+      "BANANA PRATA kg"
+    ]
+  },
+  "Bastonete Topz C/150": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BASTONETE TOPZ C/150"
+    ]
+  },
+  "Batata Doce Rosa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BATATA DOCE",
+      "BATATA DOCE ROSA"
+    ]
+  },
+  "Batata Doce Roxa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BATATA DOCE ROXA CRF"
+    ]
+  },
+  "Batata G Pr": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Batata G Pr"
+    ]
+  },
+  "Batata Inglesa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BATATA INGLESA"
+    ]
+  },
+  "Batata Lavada": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BATATA LAVADA"
+    ]
+  },
+  "Batata M Pr": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Batata M Pr"
+    ]
+  },
+  "Batata Media": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Batata Media"
+    ]
+  },
+  "Batata Monali Lav Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BATATA MONALI LAV kg"
+    ]
+  },
+  "Bateria Lithium Button Cell 2Pcs - Ref: Cr20": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BATERIA LITHIUM BUTTON CELL 2PCS - REF: CR20"
+    ]
+  },
+  "Beb Alc Mist Smirnoff Ice Reg 269Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BEB ALC MIST SMIRNOFF ICE REG 269ML"
+    ]
+  },
+  "Beb Elege 1150G S/F": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BEB ELEGE 1150G S/F"
+    ]
+  },
+  "Beb Lac Ameixa 900Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BEB LAC AMEIXA 900ML"
+    ]
+  },
+  "Beb Lac Betania Amei": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BEB LAC BETANIA AMEI"
+    ]
+  },
+  "Beb Lac Betania Sal": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BEB LAC BETANIA SAL"
+    ]
+  },
+  "Beb Lac Fer Fr Vm 90": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BEB LAC FER FR VM 90"
+    ]
+  },
+  "Beb Lac Ferm Ameixa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BEB LAC FERM AMEIXA"
+    ]
+  },
+  "Beb Lact Bom Leite Ameixa 900G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BEB LACT BOM LEITE AMEIXA 900G"
+    ]
+  },
+  "Beb Lactea Bom Leite Light Gf 900Ml Ameixa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BEB LACTEA BOM LEITE LIGHT GF 900ML AMEIXA"
+    ]
+  },
+  "Bebida Lactea Carolina 1250G Salada de Frutas": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BEB CARO 1250G SALAD"
+    ]
+  },
+  "Bebida Lactea Carolina A caminho": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BEB LACT CAROLINA AC"
+    ]
+  },
+  "Benalet Mel Limao Pa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BENALET MEL LIMAO PA"
+    ]
+  },
+  "Berinjela Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BERINJELA kg"
+    ]
+  },
+  "Bermuda Ciclista Tex": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BERMUDA CICLISTA TEX"
+    ]
+  },
+  "Bermuda Fardamento Helanca Pop Ebizo M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BERMUDA FARDAMENTO HELANCA POP EBIZO M"
+    ]
+  },
+  "Beterraba Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BETERRABA CRFO KG",
+      "BETERRABA kg"
+    ]
+  },
+  "Bico Lillo Design Bi": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BICO LILLO DESIGN BI"
+    ]
+  },
+  "Bife Frago Temperado Nato Fc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BIFE FGO TEMP NAT FC"
+    ]
+  },
+  "Bisc Teens 30G Choc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BISC TEENS 30G CHOC"
+    ]
+  },
+  "Bisc.Marilan": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BISC.MARILAN"
+    ]
+  },
+  "Bisnaguinha Pancrist": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BISNAGUINHA PANCRIST"
+    ]
+  },
+  "Bisteca Pale Mast Fc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BISTECA PALE MAST FC"
+    ]
+  },
+  "Bolacha Cream Cracker Vitarela 350g": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BISC CREAM CRAC VITA",
+      "C CRA VITARELLA 350G"
+    ]
+  },
+  "Bolo Noiva Frutas 15": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BOLO NOIVA FRUTAS 15"
+    ]
+  },
+  "Bomba Galao Agua Recarregavel Pc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BOMBA GALAO AGUA RECARREGAVEL PC"
+    ]
+  },
+  "Bov.Bisteq.Acem Rese": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BOV.BISTEQ.ACEM RESE"
+    ]
+  },
+  "Bov.Minga Ped.Reserv": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BOV.MINGA PED.RESERV"
+    ]
+  },
+  "Brocolis Japones": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BROCOLIS JAPONES"
+    ]
+  },
+  "Brocolis Ninja 250G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BROCOLIS NINJA 250G"
+    ]
+  },
+  "Brocolis Ninja 300G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BROCOLIS NINJA 300G"
+    ]
+  },
+  "Brocolis Premio Sola": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BROCOLIS PREMIO SOLA"
+    ]
+  },
+  "Bucha Red 3/4X1/2 Tigre Und": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BUCHA RED 3/4X1/2 TIGRE UND"
+    ]
+  },
+  "Buffet Almoco Fds": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BUFFET ALMOCO FDS"
+    ]
+  },
+  "Buffet Ceia": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BUFFET CEIA"
+    ]
+  },
+  "C Blend Alm 250G Sup": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "C BLEND ALM 250G SUP"
+    ]
+  },
+  "Cad Auto Mun 360 Inf Pt": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAD AUTO MUN 360 INF PT"
+    ]
+  },
+  "Caderno Esp Flex 96F Mais+ - Ref: 143472": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CADERNO ESP FLEX 96F MAIS+ - REF: 143472"
+    ]
+  },
+  "Caf Petinho Torrra Média 250G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAF PETINH TOR/M250G"
+    ]
+  },
+  "Cafe 3 Corações Tradicional Vácuo 250G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAFE 3COR TRAD V250G"
+    ]
+  },
+  "Cafe Almofada Santa Clara 250G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAFE ALMOFADA SANTA CLARA 250GR"
+    ]
+  },
+  "Cafe em Capsula Nescafe Esp": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAFE CAP NESCAFE ESP"
+    ]
+  },
+  "Cafe Marata 250G Almofada": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAFE MARATA 250G ALM"
+    ]
+  },
+  "Cafe Ourovde Vacuo 250": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAFE OUROVDE VAC250"
+    ]
+  },
+  "Cafe Vacuo Puro Nord": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAFE VACUO PURO NORD"
+    ]
+  },
+  "Café em Capsula Tres Corações Leite 90G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CA CAP TRES LTE 90G"
+    ]
+  },
+  "Caju Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAJU kg"
+    ]
+  },
+  "Calabresa Frango Defiada Sadia 480G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CALABRESA FR DEF SADIA 480G"
+    ]
+  },
+  "Camarão Natto Empanado 300G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAM NATTO EMP 300G"
+    ]
+  },
+  "Canja De Galinha": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CANJA DE GALINHA"
+    ]
+  },
+  "Caps 3Cor 10X11G Cla": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAPS 3COR 10X11G CLA"
+    ]
+  },
+  "Capsul 3Cor Caf/Leit": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAPSUL 3COR CAF/LEIT"
+    ]
+  },
+  "Cara Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CARA kg"
+    ]
+  },
+  "Carangueijo Interati": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CARANGUEIJO INTERATI"
+    ]
+  },
+  "Cart Cset 66X96 C1": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CART CSET 66X96 C1"
+    ]
+  },
+  "Cartela Cetiqueta De Papel C10Fls Adesiva Ref-120-90": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CARTELA CETIQUETA DE PAPEL C10FLS ADESIVA REF-120-90"
+    ]
+  },
+  "Cartolina 66X48Cm Guache Cart": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CARTOLINA 66X48CM GUACHE CART"
+    ]
+  },
+  "Cast Para Dun 120G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CAST PARA DUN 120G"
+    ]
+  },
+  "Castanha De Caju Cas": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CASTANHA DE CAJU CAS"
+    ]
+  },
+  "Catchup Heinz Pet": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CATCHUP HEINZ PET"
+    ]
+  },
+  "Ceb, Al Sa Quero 40G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CEB, AL SA QUERO 40G"
+    ]
+  },
+  "Cebola Atacadao": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CEBOLA ATACADAO"
+    ]
+  },
+  "Cebola Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CEBOLA KG"
+    ]
+  },
+  "Cebola Nacional Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CEBOLA NAC kg"
+    ]
+  },
+  "Cebolinha Un": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CEBOLINHA UN",
+      "CEBOLINHA UND"
+    ]
+  },
+  "Cenoura Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CENOURA",
+      "CENOURA kg"
+    ]
+  },
+  "Cerveja Budweiser": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CERVEJA BUDWEISER"
+    ]
+  },
+  "Ch Hersh 85G Dark": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CH HERSH 85G DARK"
+    ]
+  },
+  "Chi Elite Prm": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Chi Elite PrM"
+    ]
+  },
+  "Chickbac Alc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ChickBac ALC"
+    ]
+  },
+  "Chicken Duplo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Chicken Duplo"
+    ]
+  },
+  "Chimeltbcg Pr": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ChiMeltBcG Pr"
+    ]
+  },
+  "Chimichurri Kita 12G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CHIMICHURRI KITA 12G"
+    ]
+  },
+  "Chin Masc Rider Feel": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CHIN MASC RIDER FEEL"
+    ]
+  },
+  "Choc Lacta 85G Cafe": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CHOC LACTA 85G CAFE"
+    ]
+  },
+  "Choc.Lacta Intense": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CHOC.LACTA INTENSE"
+    ]
+  },
+  "Chocolate Hersh 85G Cafe": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CH HERSH 85G CAFE E"
+    ]
+  },
+  "Chocolate Lacta 70% 85G Cac": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CH LACTA 70% 85G CAC"
+    ]
+  },
+  "Chocottone Bauducco 400Gr": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CHOCOTTONE BAUDUCCO 400GR"
+    ]
+  },
+  "Chuchu Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CHUCHU kg"
+    ]
+  },
+  "Coalho B Leit Lan Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COALHO B LEIT LAN kg"
+    ]
+  },
+  "Coca Cola M Pr": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Coca Cola M Pr"
+    ]
+  },
+  "Coca Cola S/Ac 2Lt": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COCA COLA S/AC 2LT"
+    ]
+  },
+  "Coentro": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COENTRO"
+    ]
+  },
+  "Coentro Unidade": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COENTRO UN",
+      "COENTRO UND"
+    ]
+  },
+  "Cola Colorida C4 Cores": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COLA COLORIDA C4 CORES"
+    ]
+  },
+  "Cola Em Bastao 40G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COLA EM BASTAO 40G"
+    ]
+  },
+  "Colg Gel Dent Min 100G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COLG GEL DENT MIN 100G"
+    ]
+  },
+  "Colher De Silicone Az": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COLHER DE SILICONE AZ"
+    ]
+  },
+  "Comp.Lacteo Ninho": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COMP.LACTEO NINHO"
+    ]
+  },
+  "Cone": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CONE"
+    ]
+  },
+  "Conj P Cab Rosa 7258": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CONJ P CAB ROSA 7258"
+    ]
+  },
+  "Conj. De Panos De Microfibra C04Pc 30X30Cm": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CONJ. DE PANOS DE MICROFIBRA C04PC 30X30CM"
+    ]
+  },
+  "Cookie Chocolate P Cris": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COOKIE CHOC P CRIS"
+    ]
+  },
+  "Cookie Tradicional P Cris": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COOKIE TRAD P CRIS"
+    ]
+  },
+  "Copo De Vidro Pagua - Ref: Tl95": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COPO DE VIDRO PAGUA - REF: TL95"
+    ]
+  },
+  "Copo Plastico Facilita": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COPO PLAST FACILITA"
+    ]
+  },
+  "Cordao Prolong 3X2,50X3M Ate 220V": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CORDAO PROLONG 3X2,50X3M ATE 220V"
+    ]
+  },
+  "Couvert": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COUVERT"
+    ]
+  },
+  "Coxa S/Coxa Frango": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COXA S/COXA FRANGO"
+    ]
+  },
+  "Coxa/Sobrecoxa Nato Fc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COXA/SOBRECX NAT FC"
+    ]
+  },
+  "Coxao De Frango C/Cat 110G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COXAO DE FRANGO C/CAT 110G"
+    ]
+  },
+  "Coxao Mole Bovino Fc Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COXAO MOLE BOV FC kg"
+    ]
+  },
+  "Coxinha Asa Natto Fc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COXINHA ASA NATTO FC"
+    ]
+  },
+  "Coxinha De Frango": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COXINHA DE FRANGO"
+    ]
+  },
+  "Coxinha De Galinha Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COXINHA DE GALINHA KG"
+    ]
+  },
+  "Coxinha Frango Catupiry": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COXINHA FRANGO CATUPIRY"
+    ]
+  },
+  "Cp Cristalcopo 180Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CP CRISTALCOPO 180ML"
+    ]
+  },
+  "Cp Marata150Ml C/100": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CP MARATA150ML C/100"
+    ]
+  },
+  "Cr Colg 4X120G Tripl": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CR COLG 4X120G TRIPL"
+    ]
+  },
+  "Cr Huggies 80G Supre": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CR HUGGIES 80G SUPRE"
+    ]
+  },
+  "Cr Lei Nest 300G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CR LEI NEST 300G"
+    ]
+  },
+  "Cr Leite Pirac 200G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CR LEITE PIRAC 200G"
+    ]
+  },
+  "Cr Ricota Tirol 200G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CR RICOTA TIROL 200G"
+    ]
+  },
+  "Cr.D.Colgate T.Acao": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CR.D.COLGATE T.ACAO"
+    ]
+  },
+  "Cr.Leite Nestle Lta": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CR.LEITE NESTLE LTA"
+    ]
+  },
+  "Creme De Ricota Pres": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CREME DE RICOTA PRES"
+    ]
+  },
+  "Creme De Ricota Regi": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CREME DE RICOTA REGI"
+    ]
+  },
+  "Creme Leite Be.Tp": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CREME LEITE BE.TP"
+    ]
+  },
+  "Crepe 24Mm X 50M 3M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CREPE 24MM X 50M 3M"
+    ]
+  },
+  "Crock Vitarella 350G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CROCK VITARELLA 350G"
+    ]
+  },
+  "Cx Mole Masterboi Fc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "CX MOLE MASTERBOI FC"
+    ]
+  },
+  "D Pato Gel Rf 38G Ma": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "D PATO GEL RF 38G MA"
+    ]
+  },
+  "D Pinho Bril 1Lt Lav": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "D PINHO BRIL 1LT LAV"
+    ]
+  },
+  "Damasco Seco Fruity": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DAMASCO SECO FRUITY"
+    ]
+  },
+  "Danone Liquido Vitam": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DANONE LIQUIDO VITAM"
+    ]
+  },
+  "Des.Above Aero": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DES.ABOVE AERO"
+    ]
+  },
+  "Descanso Universal Silicone Ref-P3604": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DESCANSO UNIVERSAL SILICONE REF-P3604"
+    ]
+  },
+  "Desinf.Dragao": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DESINF.DRAGAO"
+    ]
+  },
+  "Desinf.Urca": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DESINF.URCA"
+    ]
+  },
+  "Desinfetante Dragão 2L Camp": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DESINF DRAG 2L CAMP"
+    ]
+  },
+  "Desinfetante Uso Ger Lysoc B 1L": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DESINFETANTE USO GER LYSOC B 1L"
+    ]
+  },
+  "Desodorante Axe 200Ml Black": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DEO AXE 200ML BLACK"
+    ]
+  },
+  "Det Limpol 500Ml Lim": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DET LIMPOL 500ML LIM"
+    ]
+  },
+  "Det Ype 500Ml Limao": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DET YPE 500ML LIMAO"
+    ]
+  },
+  "Det.Liq.Ype": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DET.LIQ.YPE"
+    ]
+  },
+  "Det.Po Ala": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DET.PO ALA"
+    ]
+  },
+  "Deterg Po Maq Ype Co": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DETERG PO MAQ YPE CO"
+    ]
+  },
+  "Detergente Brilux 500Ml Ne": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DET BRILUX 500ML NE"
+    ]
+  },
+  "Detergente Brilux Neutro 500ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DETERG BRILUX NEUTRO"
+    ]
+  },
+  "Detergente Limpol Neutro 500ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "DET LIMPOL 500ML NEU",
+      "DET LIMPOL NEU 500ML"
+    ]
+  },
+  "Energ.Red Bull Acai": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ENERG.RED BULL ACAI"
+    ]
+  },
+  "Enroladinho Calabre": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ENROLADINHO CALABRE"
+    ]
+  },
+  "Enroladinho Cro Fgo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ENROLADINHO CRO FGO"
+    ]
+  },
+  "Enroladinho De Salsi": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ENROLADINHO DE SALSI"
+    ]
+  },
+  "Esc Bett Esfregona": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESC BETT ESFREGONA"
+    ]
+  },
+  "Esc Bett Skova": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESC BETT SKOVA"
+    ]
+  },
+  "Esc.Sanit.Condor C/P": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESC.SANIT.CONDOR C/P"
+    ]
+  },
+  "Escolinha Prim Palavras Cores": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESCOLINHA PRIM PALAVRAS CORES"
+    ]
+  },
+  "Escolinha Prim Palavras Formas": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESCOLINHA PRIM PALAVRAS FORMAS"
+    ]
+  },
+  "Escova Dental Infantil Ccerd Flex": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESCOVA DENTAL INFANTIL CCERD FLEX"
+    ]
+  },
+  "Escova Lavad.Precios": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESCOVA LAVAD.PRECIOS"
+    ]
+  },
+  "Espaguete Ao Molho D": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESPAGUETE AO MOLHO D"
+    ]
+  },
+  "Espatula De Silicone Hove - Ref: Kc607": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESPATULA DE SILICONE HOVE - REF: KC607"
+    ]
+  },
+  "Espinafre": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESPINAFRE"
+    ]
+  },
+  "Esponja Extrema L4P3": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESPONJA EXTREMA L4P3"
+    ]
+  },
+  "Esponja Scotch Multi Uso C/4": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESP SCOTCH M USO C/4"
+    ]
+  },
+  "Esponja Scotch-Brite": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESPONJA SCOTCH-BRITE"
+    ]
+  },
+  "Estac.": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESTAC."
+    ]
+  },
+  "Estilete Lamina 0.5Mm Ref-K-500": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESTILETE LAMINA 0.5MM REF-K-500"
+    ]
+  },
+  "Estojo Escolar Em Nylon - Ref: 230426-E": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ESTOJO ESCOLAR EM NYLON - REF: 230426-E"
+    ]
+  },
+  "Ext Elef 300G Trad": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "EXT ELEF 300G TRAD"
+    ]
+  },
+  "Ext Elef So Tom 300G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "EXT ELEF SO TOM 300G"
+    ]
+  },
+  "Ext Julieta 340G Sac": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "EXT JULIETA 340G SAC"
+    ]
+  },
+  "Extensao Elettrica 3 Tomadas 3,0Metros 10Amperes Pt 2P+T Forceline": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "EXTENSAO ELET.3TOM 3,0M 10A PT 2P+T FORCELINE"
+    ]
+  },
+  "Extrato Quero Tomate": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "EXTRATO QUERO TOMATE"
+    ]
+  },
+  "F.Peito Fgo Formoso": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "F.PEITO FGO FORMOSO"
+    ]
+  },
+  "Fardamento Helanca Pop Ebizo M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FARDAMENTO HELANCA POP EBIZO M"
+    ]
+  },
+  "Farelo Aveia Quaker 450G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "F AVEIA QUAKER 450G"
+    ]
+  },
+  "Farof Yoki 200G Cost": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FAROF YOKI 200G COST"
+    ]
+  },
+  "Farofa Sora 300G Cas": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FAROFA SORA 300G CAS"
+    ]
+  },
+  "Farofa Sora 300G Pro": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FAROFA SORA 300G PRO"
+    ]
+  },
+  "Feijao Car.Turq.T 1": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FEIJAO CAR.TURQ.T 1"
+    ]
+  },
+  "Feijao Corda Turq.": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FEIJAO CORDA TURQ."
+    ]
+  },
+  "Feijao Preto Kicaldo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FEIJAO PRETO KICALDO"
+    ]
+  },
+  "Feijao Pto.Turquesa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FEIJAO PTO.TURQUESA"
+    ]
+  },
+  "Feijão Carioca Tio Neco 1K": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FEIJ CAR TIO NECO 1K"
+    ]
+  },
+  "Feijão Preto Camil 1Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FEIJ PTO CAMIL 1kg"
+    ]
+  },
+  "File De Peito Fgo Natto Cubo 400G Ervas Finas": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILE DE PEITO FGO NATTO CUBO 400G ERVAS FINAS"
+    ]
+  },
+  "File Peito Fgo Seara": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILE PEITO FGO SEARA"
+    ]
+  },
+  "File Peito Frango Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILE PEITO FRANGO KG"
+    ]
+  },
+  "File Peito Natto Fc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILE PEITO NATTO FC"
+    ]
+  },
+  "File Peito S/Osso": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILE PEITO S/OSSO"
+    ]
+  },
+  "File Tilapia Auro 800G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILE TILAP AURO 800G"
+    ]
+  },
+  "File Tilapia Fish 800G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILE TILAP FISH 800G"
+    ]
+  },
+  "Filezin Emp Nat 700G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILEZIN EMP NAT 700G"
+    ]
+  },
+  "Filezinho Empanado N": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILEZINHO EMPANADO N"
+    ]
+  },
+  "Filme Pvc Picotado": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILME PVC PICOTADO"
+    ]
+  },
+  "Filtrar Itens... Ag Sanit Clorito 1Lt": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Filtrar itens... AG SANIT CLORITO 1LT"
+    ]
+  },
+  "Filtrar Itens... Cebola Branca Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Filtrar itens... CEBOLA BRANCA kg"
+    ]
+  },
+  "Filtrar Itens... Fralda Cremer C/52 X": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Filtrar itens... FRALDA CREMER C/52 X"
+    ]
+  },
+  "Filtrar Itens... Fralda Cremer C/60 G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Filtrar itens... FRALDA CREMER C/60 G"
+    ]
+  },
+  "Filtrar Itens... L R Btv 1,6Kg Lav": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Filtrar itens... L R BTV 1,6kg LAV"
+    ]
+  },
+  "Filtrar Itens... Maca Nac Gala Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Filtrar itens... MACA NAC GALA kg"
+    ]
+  },
+  "Filtrar Itens... Melao Amarelo Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Filtrar itens... MELAO AMARELO kg"
+    ]
+  },
+  "Filtrar Itens... Salame Sadia Hamb Fa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Filtrar itens... SALAME SADIA HAMB FA"
+    ]
+  },
+  "Filtro Aroma Max 103": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILTRO AROMA MAX 103"
+    ]
+  },
+  "Filtro De Linha 6 Tomadas Preto": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILTRO DE LINHA 6 TOMADAS PRETO"
+    ]
+  },
+  "Filtro De Papel 103": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILTRO DE PAPEL 103"
+    ]
+  },
+  "Filtro Papel Santa Clara 102 30Un": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILTRO PAPEL SANTA CLARA 102 30UN"
+    ]
+  },
+  "Filtro Sta Clara 103": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FILTRO STA CLARA 103"
+    ]
+  },
+  "Fita Adesiva 18Mmx40Mx40Mic Color - Ref: Flc-18X40": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FITA ADESIVA 18MMX40MX40MIC COLOR - REF: FLC-18X40"
+    ]
+  },
+  "Fita Crepe Eurocel 48Mm X 50M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FITA CREPE EUROCEL 48MM X 50M"
+    ]
+  },
+  "Fita Dupla Face 12Mmx20Mx80Mic Ades. - Ref: Fdf-12X20": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FITA DUPLA FACE 12MMX20MX80MIC ADES. - REF: FDF-12X20"
+    ]
+  },
+  "Fita Isolant 19Mmx10M Scotch33+ 3M Und": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FITA ISOLANT 19MMX10M SCOTCH33+ 3M UND"
+    ]
+  },
+  "Fita Larga 48Mmx50Mx50Mic Transp Ades. - Ref: Flt-48X50": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FITA LARGA 48MMX50MX50MIC TRANSP ADES. - REF: FLT-48X50"
+    ]
+  },
+  "Fita Vedarosca 18Mmx10M Tigre Und": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FITA VEDAROSCA 18MMX10M TIGRE UND"
+    ]
+  },
+  "Flan Alklin 28X38 C3": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FLAN ALKLIN 28X38 C3"
+    ]
+  },
+  "Flanela Algob 38X58": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FLANELA ALGOB 38X58"
+    ]
+  },
+  "Flocao D Clara 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FLOCAO D CLARA 500G"
+    ]
+  },
+  "Flocao De Milho Sao Braz 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FLOCAO DE MILHO SAO BRAZ 500G"
+    ]
+  },
+  "Flocao Forte 400G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FLOCAO FORTE 400G"
+    ]
+  },
+  "Flocao Vitamilho500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FLOCAO VITAMILHO500G"
+    ]
+  },
+  "Folha De Eva 40X60Cm Cglitter - Ref: 40X60Gl(003-Glitter)": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FOLHA DE EVA 40X60CM CGLITTER - REF: 40X60GL(003-GLITTER)"
+    ]
+  },
+  "Folha Eva 40X60Cm - Ref: 40X60(60X40)(60X40Cm)": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FOLHA EVA 40X60CM - REF: 40X60(60X40)(60X40CM)"
+    ]
+  },
+  "Folhado Diversos Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FOLHADO DIVERSOS KG"
+    ]
+  },
+  "Forma De Papel C50Pcs Pairfryer Quadrada -": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FORMA DE PAPEL C50PCS PAIRFRYER QUADRADA -"
+    ]
+  },
+  "Forma De Silicone - Ref: Yh-301": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FORMA DE SILICONE - REF: YH-301"
+    ]
+  },
+  "Forro Bompack C/25": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FORRO BOMPACK C/25"
+    ]
+  },
+  "Fp Torre Potes Color": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FP TORRE POTES COLOR"
+    ]
+  },
+  "Fralda Babysec G C/32": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRAL BABYSEC G C/32"
+    ]
+  },
+  "Fralda Babysec Meg Xg 30Un": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FR BABYSEC MEG XG 30UN"
+    ]
+  },
+  "Fralda Carrefour": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRAL INF TRAD CRF MY",
+      "FRALDA DESC CRF MY B",
+      "FRALDA INF CRF MY",
+      "FRALDA INF TRAD CRF"
+    ]
+  },
+  "Fralda Cremer C/52 X": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRALDA CREMER C/52 X"
+    ]
+  },
+  "Fralda Cremer C/60 G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRALDA CREMER C/60 G"
+    ]
+  },
+  "Fralda Cremer Shortinho Jumbo Xg C26": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRALDA CREMER SHORTINHO JUMBO XG C26"
+    ]
+  },
+  "Fralda Descartável Babysec Ult": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FDA DESC BABYSEC ULT"
+    ]
+  },
+  "Fralda Huggies Hiper C/66": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRAL HUGG HIPER C/66"
+    ]
+  },
+  "Fralda Huggies P Dia C24": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "F HUGGIES P DIA C24"
+    ]
+  },
+  "Fralda Pampers Splashers": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FD PAMPERS SPLASHERS"
+    ]
+  },
+  "Fralda Short G C/24": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRAL SHORT G C/24"
+    ]
+  },
+  "Fralda Tm Short C/30 G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRAL TM SHORT C/30 G"
+    ]
+  },
+  "Frango Cubos Coz Sad": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRANGO CUBOS COZ SAD"
+    ]
+  },
+  "Frango Desf Coz Cong": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRANGO DESF COZ CONG"
+    ]
+  },
+  "Frigideira Alum 22Cm Turim Chu": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRIGIDEIRA ALUM 22CM TURIM CHU"
+    ]
+  },
+  "Frisabor Picole Choc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "FRISABOR PICOLE CHOC"
+    ]
+  },
+  "Garrafa Lima 1,2.L Pagua Plast. - Ref: 2202": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GARRAFA LIMA 1,2.L PAGUA PLAST. - REF: 2202"
+    ]
+  },
+  "Garrafa Termica 350Ml Aco 304 - Ref: H-Bw-1480": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GARRAFA TERMICA 350ML ACO 304 - REF: H-BW-1480"
+    ]
+  },
+  "Garrafa Termica 420Ml Aco 304 - Ref: Zs-9301": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GARRAFA TERMICA 420ML ACO 304 - REF: ZS-9301"
+    ]
+  },
+  "Gasolina C Comum": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GASOLINA C COMUM"
+    ]
+  },
+  "Gasolina Comum": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GASOLINA COMUM"
+    ]
+  },
+  "Gdp Econob 22X20 50U": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GDP ECONOB 22X20 50U"
+    ]
+  },
+  "Gel Colg 100G Smiles": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GEL COLG 100G SMILES"
+    ]
+  },
+  "Gel Dentário Infantil Colgate": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GEL DENT INF COLGATE"
+    ]
+  },
+  "Geleia Classic Queen": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GELEIA CLASSIC QUEEN"
+    ]
+  },
+  "Geleia Org Crf Bio": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GELEIA ORG CRF BIO"
+    ]
+  },
+  "Geleia Queen 320G Amo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GELE QUEEN 320G AMO"
+    ]
+  },
+  "Gergelim Bco Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GERGELIM BCO kg"
+    ]
+  },
+  "Goiaba Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GOIABA KG"
+    ]
+  },
+  "Goiaba Verm Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GOIABA VERM kg"
+    ]
+  },
+  "Goiaba Vermelha Crfo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GOIABA VERMELHA CRFO"
+    ]
+  },
+  "Goma Verdfrut 1Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GOMA VERDFRUT 1KG"
+    ]
+  },
+  "Gran Box Baixa 8,59,3": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GRAN BOX BAIXA 8,59,3"
+    ]
+  },
+  "Gran T Son 400G Trad": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GRAN T SON 400G TRAD"
+    ]
+  },
+  "Grao De Bico Kicaldo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GRAO DE BICO KICALDO"
+    ]
+  },
+  "Graxa Branca 200 Ml - Ref: 828": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GRAXA BRANCA 200 ML - REF: 828"
+    ]
+  },
+  "Guardanapo Absoluto": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "GUARDANAPO ABSOLUTO"
+    ]
+  },
+  "Hamb Fgo Sadia 900G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "HAMB FGO SADIA 900G"
+    ]
+  },
+  "Hamb Frango Perdigao Envelope 56G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "HAMB FRANGO PERDIGAO ENVELOPE 56G"
+    ]
+  },
+  "Hast Cottonb C/150": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "HAST COTTONB C/150"
+    ]
+  },
+  "Hf.Uva Rubi Bdj": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "HF.UVA RUBI BDJ"
+    ]
+  },
+  "Inhame Crfo Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "INHAME CRFO KG"
+    ]
+  },
+  "Inhame Da Costa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "INHAME DA COSTA"
+    ]
+  },
+  "Inhame Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "INHAME kg"
+    ]
+  },
+  "Iog Activia Ameixa D": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG ACTIVIA AMEIXA D"
+    ]
+  },
+  "Iog Bat C/Mel 900Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG BAT C/MEL 900ML"
+    ]
+  },
+  "Iog Danone 1250G Vit": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG DANONE 1250G VIT"
+    ]
+  },
+  "Iog Desn Betania Ame": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG DESN BETANIA AME"
+    ]
+  },
+  "Iog Desn Z Lact Mor": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG DESN Z LACT MOR"
+    ]
+  },
+  "Iog Integral Betania": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG INTEGRAL BETANIA"
+    ]
+  },
+  "Iog Liq Betania Desn": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG LIQ BETANIA DESN"
+    ]
+  },
+  "Iog Liq Coco 1150Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG LIQ COCO 1150KG"
+    ]
+  },
+  "Iog Liq Vita 1150Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG LIQ VITA 1150KG"
+    ]
+  },
+  "Iog Nat Nestle 170G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG NAT NESTLE 170G"
+    ]
+  },
+  "Iog Natural Nestle I": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG NATURAL NESTLE I"
+    ]
+  },
+  "Iog Natural Tradicio": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG NATURAL TRADICIO"
+    ]
+  },
+  "Iog Nestle 340G Int": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG NESTLE 340G INT"
+    ]
+  },
+  "Iog urteNestle 1250G Vitamina": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG NESTLE 1250G VIT"
+    ]
+  },
+  "Iog.Batavo Cereal": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG.BATAVO CEREAL"
+    ]
+  },
+  "Iog.Betania Mgo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG.BETANIA MGO"
+    ]
+  },
+  "Iog.Itambe": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG.ITAMBE"
+    ]
+  },
+  "Iog.Parc Desn Betani": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG.PARC DESN BETANI"
+    ]
+  },
+  "Iog.Parc.Desn Betani": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG.PARC.DESN BETANI"
+    ]
+  },
+  "Iog.Parc.Desn.Betani": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG.PARC.DESN.BETANI"
+    ]
+  },
+  "Iogurte Batavo 1150G Cereal": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG BAT 1150G CEREAL"
+    ]
+  },
+  "Iogurte Batavo 1250G Cereal": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG LIQ CEREAL BATAVO 1250G"
+    ]
+  },
+  "Iogurte Betania900Ml Mel": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG BETANIA900ML MEL"
+    ]
+  },
+  "Iogurte Betânia 1250G Morango": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG BETA 1250G MOR"
+    ]
+  },
+  "Iogurte Betânia 1250G Salada": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG BET 1250G SALADA"
+    ]
+  },
+  "Iogurte Betânia 900Ml Ameixa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG BETAN 900ML AMEI"
+    ]
+  },
+  "Iogurte Corpus 800G Morango": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG CORPUS 800G MOR"
+    ]
+  },
+  "Iogurte Corpus Morango 800G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG CORPUS LIQ MORANGO 800G"
+    ]
+  },
+  "Iogurte Grf Betania": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG LIQ GRF BETANIA"
+    ]
+  },
+  "Iogurte Liquido Beta": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOGURTE LIQUIDO BETA"
+    ]
+  },
+  "Iogurte Liquido Vigo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOGURTE LIQUIDO VIGO"
+    ]
+  },
+  "Iogurte Nat Lar Cen Mel Itambe 170G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG NAT LAR CEN MEL ITAMBE 170G"
+    ]
+  },
+  "Iogurte Nestle 170G Vitamina": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG NEST 170G VIT"
+    ]
+  },
+  "Iogurte Vitamina Frutas": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "IOG VITAMINA FRUTAS"
+    ]
+  },
+  "Jarra Morango": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "JARRA MORANGO"
+    ]
+  },
+  "Jerk P Ag Friboi 500": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "JERK P AG FRIBOI 500"
+    ]
+  },
+  "Jerk Sui Seara 400G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "JERK SUI SEARA 400G"
+    ]
+  },
+  "Jerked Beef Dianteir": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "JERKED BEEF DIANTEIR",
+      "JERKEED B.DIANTEIRO"
+    ]
+  },
+  "Keppra Sol Oral 100M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "KEPPRA SOL ORAL 100M"
+    ]
+  },
+  "Ketchup Picles Heinz 397G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "KETCHUP HEINZ 397G",
+      "KETCHUP PICLES HEINZ 397G"
+    ]
+  },
+  "Kit Inf.Xuxinha Shc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "KIT INF.XUXINHA SHC"
+    ]
+  },
+  "Kit Pviagem C5Pcs Plast - Ref: 36161-4": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "KIT PVIAGEM C5PCS PLAST - REF: 36161-4"
+    ]
+  },
+  "Kiwi": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "KIWI"
+    ]
+  },
+  "Kiwi Ignel Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "KIWI IGNEL KG"
+    ]
+  },
+  "Kiwi Importado Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "KIWI IMPORTADO KG"
+    ]
+  },
+  "Kiwi Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "KIWI KG",
+      "KIWI kg"
+    ]
+  },
+  "L Louca Maq Ype 450G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "L LOUCA MAQ YPE 450G"
+    ]
+  },
+  "L Po Camp 200G Inst": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "L PO CAMP 200G INST"
+    ]
+  },
+  "L Po Pirac 1Kg Int": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "L PO PIRAC 1kg INT"
+    ]
+  },
+  "L R Btv 1,6Kg Lav": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "L R BTV 1,6kg LAV"
+    ]
+  },
+  "L R Btv 800G Lav": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "L R BTV 800G LAV"
+    ]
+  },
+  "L Roupa Ola 1L Bebe": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "L ROUPA OLA 1L BEBE"
+    ]
+  },
+  "La Aco Bombril": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LA ACO BOMBRIL"
+    ]
+  },
+  "Laran Pera Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LARAN PERA kg",
+      "LARANJA PERA KG",
+      "LARANJA PERA Kg"
+    ]
+  },
+  "Laranja Pera Crfo Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LARANJA PERA CRFO KG"
+    ]
+  },
+  "Lava Louca Finish Power Powd Adv Po Msl": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LAVA LOUCA FINISH POWER POWD ADV PO MSL"
+    ]
+  },
+  "Lava Roupa Liq Omo D": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LAVA ROUPA LIQ OMO D"
+    ]
+  },
+  "Lava Roupas Po Bem T": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LAVA ROUPAS PO BEM T"
+    ]
+  },
+  "Leite Em Po Integral": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LEITE EM PO INTEGRAL"
+    ]
+  },
+  "Leite em Po Itambe Integral 750g": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "L PO ITAMB 750G INT"
+    ]
+  },
+  "Leite L. Vida Ninho": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LEITE L. VIDA NINHO"
+    ]
+  },
+  "Leite Ninho Integral 750g": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "L PO NINHO 750G INST",
+      "LEITE NINHO 750G INT",
+      "LEITE PO INT NINHO F",
+      "LEITE PO INT NINHO SCH 750G",
+      "LEITE PO INT NINHO SH 750G",
+      "LEITE PO NINHO INT."
+    ]
+  },
+  "Leite Po Int Itambe Pac 200G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LEITE PO INT ITAMBE PAC 200G"
+    ]
+  },
+  "Leite Po Int Piracan": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LEITE PO INT PIRACAN"
+    ]
+  },
+  "Leite Uht Integral N": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LEITE UHT INTEGRAL N"
+    ]
+  },
+  "Lenco De Papel Soft C500Fl - Ref: 350G (120G)": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LENCO DE PAPEL SOFT C500FL - REF: 350G (120G)"
+    ]
+  },
+  "Levotirox 125 Mk 30Cp": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LEVOTIROX 125 MK 30CP"
+    ]
+  },
+  "Levotiroxina Sod 112": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LEVOTIROXINA SOD 112"
+    ]
+  },
+  "Lim Ype Cr 300Ml Ori": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LIM YPE CR 300ML ORI"
+    ]
+  },
+  "Limao Tahiti Crfo Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LIMAO TAHITI CRFO KG"
+    ]
+  },
+  "Limao Taiti Tropical": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LIMAO TAITI TROPICAL"
+    ]
+  },
+  "Limao Thaiti Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LIMAO THAITI kg"
+    ]
+  },
+  "Limp Beck 500Ml Orig": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LIMP BECK 500ML ORIG"
+    ]
+  },
+  "Limp.Veja M.Uso Orig": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LIMP.VEJA M.USO ORIG"
+    ]
+  },
+  "Limpeza Up Perf C Citronela P 120Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LIMPEZA UP PERF C CITRONELA P 120ML"
+    ]
+  },
+  "Linhaca Dourada Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LINHACA DOURADA kg"
+    ]
+  },
+  "Livro Ponto 16X22 Work Color Tilibra 160F": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LIVRO PONTO 16X22 WORK COLOR TILIBRA 160F"
+    ]
+  },
+  "Lixa Pmadeira Urs.Grana 100": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LIXA PMADEIRA URS.GRANA 100"
+    ]
+  },
+  "Lr Absoluto 400G Lav": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LR ABSOLUTO 400G LAV"
+    ]
+  },
+  "Lr Ala 400G Lavanda": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LR ALA 400G LAVANDA"
+    ]
+  },
+  "Lr Sonho 400G Lav": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "LR SONHO 400G LAV"
+    ]
+  },
+  "M Aji No Shoyu 500Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "M AJI NO SHOYU 500ML"
+    ]
+  },
+  "M Sakura Yaki 500Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "M SAKURA YAKI 500ML"
+    ]
+  },
+  "M Tare Sakura 180Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "M SAKURA TERI 180ML",
+      "M TARE SAKURA 180ML"
+    ]
+  },
+  "M Tom Tamb 300G Bol": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "M TOM TAMB 300G BOL"
+    ]
+  },
+  "M Tom Tamb 300G Manj": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "M TOM TAMB 300G MANJ"
+    ]
+  },
+  "M Tom Tamb 300G Parm": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "M TOM TAMB 300G PARM"
+    ]
+  },
+  "Mac Brand Econ Paraf": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAC BRAND ECON PARAF"
+    ]
+  },
+  "Mac Urb 500G P Nosso": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAC URB 500G P NOSSO"
+    ]
+  },
+  "Mac Urb 500G Person": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAC URB 500G PERSON"
+    ]
+  },
+  "Mac Vitar 400G Fetuc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAC VITAR 400G FETUC"
+    ]
+  },
+  "Mac Vitar400G Lingui": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAC VITAR400G LINGUI"
+    ]
+  },
+  "Mac Vitare Esp 400G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAC VITARE ESP 400G"
+    ]
+  },
+  "Mac.Vitarella": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAC.VITARELLA"
+    ]
+  },
+  "Mac.Vitarella Parafu": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAC.VITARELLA PARAFU"
+    ]
+  },
+  "Maca Fuji Crfo Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MACA FUJI CRFO KG"
+    ]
+  },
+  "Maca Gala Crfo Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MACA GALA CRFO KG"
+    ]
+  },
+  "Maca Nac Gala Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MACA NAC GALA kg",
+      "MACA NAC.GALA"
+    ]
+  },
+  "Maca Nac Vermelha": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MACA NAC VERMELHA"
+    ]
+  },
+  "Maca Nacional Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MACA NACIONAL KG"
+    ]
+  },
+  "Macaxei Cong Un": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MACAXEI CONG UN"
+    ]
+  },
+  "Macaxeira Crfo Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MACAXEIRA CRFO KG"
+    ]
+  },
+  "Mamao Comum": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAMAO COMUM"
+    ]
+  },
+  "Mamao Formosa": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAMAO FORMOSA"
+    ]
+  },
+  "Mamao Formosa Crfo K": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAMAO FORMOSA CRFO K"
+    ]
+  },
+  "Mamao Formosa Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MAMAO FORMOSA KG",
+      "MAMAO FORMOSA kg"
+    ]
+  },
+  "Mandioca Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANDIOCA kg"
+    ]
+  },
+  "Mandioca Trebes 400G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANDIOCA TREBES 400G"
+    ]
+  },
+  "Mandioca-Aipim": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANDIOCA-AIPIM"
+    ]
+  },
+  "Manga Espada Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANGA ESPADA KG"
+    ]
+  },
+  "Manga Palmer Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANGA PALMER KG",
+      "MANGA PALMER kg"
+    ]
+  },
+  "Manga Tommy": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANGA TOMMY"
+    ]
+  },
+  "Manga Tommy Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANGA TOMMY kg"
+    ]
+  },
+  "Manga Tomy Inatura": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANGA TOMY INATURA"
+    ]
+  },
+  "Manga Tomy Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANGA TOMY KG"
+    ]
+  },
+  "Manjeric Kitano 7G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANJERIC KITANO 7G"
+    ]
+  },
+  "Mant Betania 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANT BETANIA 500G"
+    ]
+  },
+  "Mant Italac C/S 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANT ITALAC C/S 500G"
+    ]
+  },
+  "Mant Itambe Pt 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANT ITACOL PT 500G",
+      "MANT ITAMBE PT 500G"
+    ]
+  },
+  "Mant Pirac 500G C/S": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANT PIRAC 500G C/S"
+    ]
+  },
+  "Manteiga Itacolomy 5": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MANTEIGA ITACOLOMY 5"
+    ]
+  },
+  "Marca Texto Cores Pasteis - Ref: Hf60300": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MARCA TEXTO CORES PASTEIS - REF: HF60300"
+    ]
+  },
+  "Masc Inoar 250G Blen": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MASC INOAR 250G BLEN"
+    ]
+  },
+  "Massinha Soft 15 Cores": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MASSINHA SOFT 15 CORES"
+    ]
+  },
+  "Melancia Baby Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MELANCIA BABY kg"
+    ]
+  },
+  "Melancia Kodama Crfo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MELANCIA CRFO KG",
+      "MELANCIA KODAMA CRFO"
+    ]
+  },
+  "Melancia Un": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MELANCIA UN"
+    ]
+  },
+  "Melao Amarelo Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MELAO AMARELO",
+      "MELAO AMARELO kg"
+    ]
+  },
+  "Melao Espanhol Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MELAO ESPANHOL KG",
+      "MELAO ESPANHOL kg"
+    ]
+  },
+  "Melao Portugues Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MELAO PORTUGUES kg"
+    ]
+  },
+  "Mentos Kiss Mint 35G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MENTOS KISS MINT 35G"
+    ]
+  },
+  "Milho Pip.Micro Yoki": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MILHO PIP.MICRO YOKI"
+    ]
+  },
+  "Milho Pipoca Micro": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MILHO PIPOCA MICRO"
+    ]
+  },
+  "Milho Trebeschi 450G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MILHO TREBESCHI 450G"
+    ]
+  },
+  "Milho Verde Fugini": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MILHO VERDE FUGINI"
+    ]
+  },
+  "Mini Arco Serra Metasul": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MINI ARCO SERRA METASUL"
+    ]
+  },
+  "Molho Quero Sc 240G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MOLHO QUERO SC 240G"
+    ]
+  },
+  "Molho Tom.Tambau": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MOLHO TOM.TAMBAU"
+    ]
+  },
+  "Molho Tom.Tarantella": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MOLHO TOM.TARANTELLA"
+    ]
+  },
+  "Morango Cong Santa C": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MORANGO CONG SANTA C"
+    ]
+  },
+  "Morango Congelado Fr": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MORANGO CONGELADO FR"
+    ]
+  },
+  "Muss Davaca Ft": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MUSS DAVACA FT"
+    ]
+  },
+  "Muss Girolanda Ft": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MUSS GIROLANDA FT"
+    ]
+  },
+  "Muss Piracanjuba Ft": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MUSS PIRACANJUBA FT"
+    ]
+  },
+  "Mussarel Fami Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MUSSAREL FAMI KG"
+    ]
+  },
+  "Muzz Buf B Dest T500": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "MUZZ BUF B DEST T500"
+    ]
+  },
+  "Ninho 975G Int Inst": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "NINHO 975G INT INST"
+    ]
+  },
+  "Nipel Rosca 1/2 Tigre Und": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "NIPEL ROSCA 1/2 TIGRE UND"
+    ]
+  },
+  "Novica Pa Colet Plast Ccabo 1X6": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "NOVICA PA COLET PLAST CCABO 1X6"
+    ]
+  },
+  "Nugg.Trad.Sadia": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "NUGG.TRAD.SADIA"
+    ]
+  },
+  "Nuggets Fgo Croc 300": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "NUGGETS FGO CROC 300"
+    ]
+  },
+  "Nuggets Sadia 300G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "NUGGETS SADIA 300G"
+    ]
+  },
+  "Nuggets Sadia 700G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "NUGGETS SADIA 700G"
+    ]
+  },
+  "Oleo Coco C Cia 200M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OLEO COCO C CIA 200M"
+    ]
+  },
+  "Oleo Coco Purilev": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OLEO COCO PURILEV"
+    ]
+  },
+  "Oleo De Coco Ex Virg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OLEO DE COCO EX VIRG"
+    ]
+  },
+  "Oreg Kitano 10G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OREG KITANO 10G"
+    ]
+  },
+  "Oscal 500Mg 60''S": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OSCAL 500MG 60''S"
+    ]
+  },
+  "Ovo Bc Ex Sonov 30Un": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVO BC EX SONOV 30UN"
+    ]
+  },
+  "Ovo Bc Ext Mauri 30U": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVO BC EXT MAURI 30U"
+    ]
+  },
+  "Ovo Bco Enavis Gran": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVO BCO ENAVIS GRAN"
+    ]
+  },
+  "Ovo Bco Extra 30Und": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVO BCO EXTRA 30UND"
+    ]
+  },
+  "Ovo Bco Gd Pvc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVO BCO GD PVC"
+    ]
+  },
+  "Ovo Gde Branco Bulne": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVO GDE BRANCO BULNE"
+    ]
+  },
+  "Ovo Gran Ferrer 365G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVO GRAN FERRER 365G"
+    ]
+  },
+  "Ovo Pvc Extra": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVO PVC EXTRA"
+    ]
+  },
+  "Ovo Tortug Brig 120G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVO TORTUG BRIG 120G"
+    ]
+  },
+  "Ovo Tortug Form 100G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVO TORTUG FORM 100G"
+    ]
+  },
+  "Ovos Bco Gd Favorito C30": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVOS BCO GD FAVORITO C30"
+    ]
+  },
+  "Ovos Bco Sonovo Grande C/12 Un": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVOS BCO SONOVO GRANDE C/12 UN"
+    ]
+  },
+  "Ovos G Br C15 Mjs": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVOS G BR C15 MJS"
+    ]
+  },
+  "Ovos G Br C30 Mjs": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVOS G BR C30 MJS"
+    ]
+  },
+  "Ovos G C 30 Verdfru": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "OVOS G C 30 VERDFRU"
+    ]
+  },
+  "P Fgo Sad 400G Cubos": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "P FGO SAD 400G CUBOS"
+    ]
+  },
+  "P Fgo Sad 400G Tiras": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "P FGO SAD 400G TIRAS"
+    ]
+  },
+  "P Hamb Plus C/G 280G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "P HAMB PLUS C/G 280G"
+    ]
+  },
+  "P Hig Neve C L12 P11": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "P HIG NEVE C L12 P11"
+    ]
+  },
+  "P Hig Neve C L16 P15": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "P HIG NEVE C L16 P15"
+    ]
+  },
+  "Painel De Pintura 20X20Cm": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAINEL DE PINTURA 20X20CM"
+    ]
+  },
+  "Palha Elma 215G Trad": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PALHA ELMA 215G TRAD"
+    ]
+  },
+  "Palha Yoki 105G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "BAT PALHA YOKI 105G"
+    ]
+  },
+  "Palha Yoki 195G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PALHA YOKI 195G"
+    ]
+  },
+  "Palito Bambu Fiat Lu": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PALITO BAMBU FIAT LU"
+    ]
+  },
+  "Palito Parana C/100": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PALITO PARANA C/100"
+    ]
+  },
+  "Palito Ponta Quad Natural C100": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PALITO PONTA QUAD NATURAL C100"
+    ]
+  },
+  "Pane Visc Gotas 400G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PANE VISC GOTAS 400G"
+    ]
+  },
+  "Panetone Gotas Choc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PANETONE GOTAS CHOC"
+    ]
+  },
+  "Pano Plimpeza 20X40Cm Rolo C50 Folhas - Ref: 8803 Azvd": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PANO PLIMPEZA 20X40CM ROLO C50 FOLHAS - REF: 8803 AZVD"
+    ]
+  },
+  "Pano Scotch Rol C/25": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PANO SCOTCH ROL C/25"
+    ]
+  },
+  "Pao 12 Gr Plus 450G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO 12 GR PLUS 450G"
+    ]
+  },
+  "Pao 12 Graos Plus Vi": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO 12 GRAOS PLUS VI"
+    ]
+  },
+  "Pao Artesa Aust 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO ARTESA AUST 500G"
+    ]
+  },
+  "Pao Artesan Integral": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO ARTESAN INTEGRAL"
+    ]
+  },
+  "Pao Australiano Pcri": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO AUSTRALIANO PCRI"
+    ]
+  },
+  "Pao Batata P Cris": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO BATATA P CRIS"
+    ]
+  },
+  "Pao Crem Coc Panc Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO CREM COC PANC kg"
+    ]
+  },
+  "Pao Crioulo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO CRIOULO"
+    ]
+  },
+  "Pao De Hamburgue Ger": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO DE HAMBURGUE GER"
+    ]
+  },
+  "Pao De Queijo Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO DE QUEIJO KG"
+    ]
+  },
+  "Pao Delicia De Queij": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO DELICIA DE QUEIJ"
+    ]
+  },
+  "Pao Delicia Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO DELICIA KG"
+    ]
+  },
+  "Pao Fazenda P Cris": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO FAZENDA P CRIS"
+    ]
+  },
+  "Pao Form Artesan Plus Vita Int 500G(Código: Vl. Total 26745) 10,98 Qtde.: 1 Un: Un Vl. Unit.: 10,98 Kiwi Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO FORM ARTESAN PLUS VITA INT 500G(Código: Vl. Total 26745) 10,98 Qtde.: 1 UN: UN Vl. Unit.: 10,98 KIWI kg"
+    ]
+  },
+  "Pao Forma 12 Graos I": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO FORMA 12 GRAOS I"
+    ]
+  },
+  "Pao Forma Leite Bell": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO FORMA LEITE BELL"
+    ]
+  },
+  "Pao Frances Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO FRANCES KG"
+    ]
+  },
+  "Pao Frances P Cris": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO FRANCES P CRIS",
+      "PAO FRANCES QJ  P C"
+    ]
+  },
+  "Pao Graos Castanhas": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO GRAOS CASTANHAS"
+    ]
+  },
+  "Pao Integral 100 Nu": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO INTEGRAL 100 NU"
+    ]
+  },
+  "Pao Integral Cem Por": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO INTEGRAL CEM POR"
+    ]
+  },
+  "Pao Milho P Cris": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO MILHO P CRIS"
+    ]
+  },
+  "Pao Nutr 350G 100%": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO NUTR 350G 100%"
+    ]
+  },
+  "Pao Plus Art Int 400": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO PLUS ART INT 400"
+    ]
+  },
+  "Pao Plus Vita": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO PLUS VITA"
+    ]
+  },
+  "Pao Rap10 297G Int": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO RAP10 297G INT"
+    ]
+  },
+  "Pao Rec Pancri Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAO REC PANCRI kg"
+    ]
+  },
+  "Papa Leguas": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPA LEGUAS"
+    ]
+  },
+  "Papanado": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPANADO"
+    ]
+  },
+  "Papel 40Kg 66X96 C1": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL 40KG 66X96 C1"
+    ]
+  },
+  "Papel 66X96Cm 80G Kraft Natural": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL 66X96CM 80G KRAFT NATURAL"
+    ]
+  },
+  "Papel Celofane 80X100Cm Color. C3Fls Plast. - Ref: 10449-10 (21423-2)": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL CELOFANE 80X100CM COLOR. C3FLS PLAST. - REF: 10449-10 (21423-2)"
+    ]
+  },
+  "Papel Contatoadesivo 45Cmx2Mx0.08Mm Colorido Ref-Sortido Gravado": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL CONTATOADESIVO 45CMX2MX0.08MM COLORIDO REF-SORTIDO GRAVADO"
+    ]
+  },
+  "Papel Crepom 50X200Cm - Ref: A-8": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL CREPOM 50X200CM - REF: A-8"
+    ]
+  },
+  "Papel Hig Fd Mimmo 3": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL HIG FD MIMMO 3"
+    ]
+  },
+  "Papel Hig Folha Dupla Neve Lv12 Pg11 30M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL HIG FOLHA DUPLA NEVE LV12 PG11 30M"
+    ]
+  },
+  "Papel Hig.Dama": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL HIG.DAMA"
+    ]
+  },
+  "Papel Lamin 45X55 C1": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL LAMIN 45X55 C1"
+    ]
+  },
+  "Papel Lamin. Prata 45X55 Unid.": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL LAMIN. PRATA 45X55 UNID."
+    ]
+  },
+  "Papel Stencil Azul C5 Fls": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL STENCIL AZUL C5 FLS"
+    ]
+  },
+  "Papel Toalha Caprice": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPEL TOALHA CAPRICE",
+      "TOALHA PAPEL CAPRICE"
+    ]
+  },
+  "Paprica D Kitano 50G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPRICA D KITANO 50G"
+    ]
+  },
+  "Paprica Defumada Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PAPRICA DEFUMADA kg"
+    ]
+  },
+  "Pasta Amendo 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PASTA AMENDO 500G"
+    ]
+  },
+  "Pasta Amendoim Int A": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PASTA AMENDOIM INT A"
+    ]
+  },
+  "Pasta Cristal R 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PASTA CRISTAL R 500G"
+    ]
+  },
+  "Pasta Fit 450G Crem": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PASTA FIT 450G CREM"
+    ]
+  },
+  "Pasta Pp Aba Elastico Of Fina Amarela - Ref: 501Pp-Am": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PASTA PP ABA ELASTICO OF FINA AMARELA - REF: 501PP-AM"
+    ]
+  },
+  "Pasta Pp Aba Elastico Of Fina Vermelha - Ref: 501Pp-Vm": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PASTA PP ABA ELASTICO OF FINA VERMELHA - REF: 501PP-VM"
+    ]
+  },
+  "Pate Atum Azeit 150G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PATE ATUM AZEIT 150G"
+    ]
+  },
+  "Pate G Costa 150G Tr": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PATE G COSTA 150G TR"
+    ]
+  },
+  "Patinho Bov Fc Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PATINHO BOV FC kg"
+    ]
+  },
+  "Patinho Masterboi Fc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PATINHO MASTERBOI FC"
+    ]
+  },
+  "Pato Gel 38G Gts Ap": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PATO GEL 38G GTS AP"
+    ]
+  },
+  "Pe Fgo Natto Fc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PE FGO NATTO FC"
+    ]
+  },
+  "Peg Lax Macrogol4000": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PEG LAX MACROGOL4000"
+    ]
+  },
+  "Peito De Frango Natto Temp Tiras Cong Pct 400G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PEITO DE FRANGO NATTO TEMP TIRAS CONG PCT 400G"
+    ]
+  },
+  "Peito Frango Sadia Tiras Natur 400G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PEITO FRANGO SADIA TIRAS NATUR 400G"
+    ]
+  },
+  "Peito T Sadia 400G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PEITO T SADIA 400G"
+    ]
+  },
+  "Peneir Sanrem 10,7Cm": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PENEIR SANREM 10,7CM"
+    ]
+  },
+  "Peperone Haciendas F": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PEPERONE HACIENDAS F"
+    ]
+  },
+  "Pepino Comum": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PEPINO COMUM"
+    ]
+  },
+  "Pepperoni Seara": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PEPPERONI SEARA"
+    ]
+  },
+  "Pera Import.": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PERA IMPORT."
+    ]
+  },
+  "Pessego Ikg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PESSEGO IKG"
+    ]
+  },
+  "Pf Bolo Laranja Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PF BOLO LARANJA kg"
+    ]
+  },
+  "Pilha Pan P L+P- C/8": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PILHA PAN P L+P- C/8"
+    ]
+  },
+  "Pilha Pan Pal L+P-": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PILHA PAN PAL L+P-"
+    ]
+  },
+  "Pim Biq Tem 100G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PIM BIQ TEM 100G"
+    ]
+  },
+  "Pimenta Cheiro Sel.": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PIMENTA CHEIRO SEL."
+    ]
+  },
+  "Pimentao Verde": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PIMENTAO VERDE"
+    ]
+  },
+  "Pimentao Verde Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PIMENTAO VERDE kg"
+    ]
+  },
+  "Pinha Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PINHA KG"
+    ]
+  },
+  "Pitaya": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PITAYA"
+    ]
+  },
+  "Pitaya Amarela Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PITAYA AMARELA KG"
+    ]
+  },
+  "Pitaya Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PITAYA kg"
+    ]
+  },
+  "Pitaya Rosada Nac Gr": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PITAYA ROSADA NAC GR"
+    ]
+  },
+  "Pitaya Vermelha Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PITAYA VERMELHA KG"
+    ]
+  },
+  "Pizza B Cala 260G Sv": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PIZZA B CALA 260G SV"
+    ]
+  },
+  "Pizza Com Refrigerante": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PIZZA COM REFRIGERANTE"
+    ]
+  },
+  "Porta Filtro P/Cafe Plasutil Retro": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PORTA FILTRO P/CAFE PLASUTIL RETRO"
+    ]
+  },
+  "Prendedor Plastico Psaco C04 Uni. - Ref: 5": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PRENDEDOR PLASTICO PSACO C04 UNI. - REF: 5"
+    ]
+  },
+  "Presunto Cozido Magr": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PRESUNTO COZIDO MAGR"
+    ]
+  },
+  "Prot Sol Sundown Fps": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PROT SOL SUNDOWN FPS"
+    ]
+  },
+  "Pt Gel Rf 38G Lv 50%": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "PT GEL RF 38G LV 50%"
+    ]
+  },
+  "Qj Coalho Art Olho D": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ COALHO ART OLHO D"
+    ]
+  },
+  "Qj Coalho Sao Franci": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ COALHO SAO FRANCI"
+    ]
+  },
+  "Qj Fres Faco Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ FRES FACO kg"
+    ]
+  },
+  "Qj M Padrao Davaca K": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ M PADRAO DAVACA K"
+    ]
+  },
+  "Qj Minas Frescal Faco": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ MINAS FRESCAL FAC",
+      "QJ MINAS FRESCAL FACO"
+    ]
+  },
+  "Qj Muss Ioga Ft": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ MUSS IOGA FT"
+    ]
+  },
+  "Qj Mussarela Natul": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ MUSSARELA NATUL"
+    ]
+  },
+  "Qj Padr M L Scala Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ PADR M L SCALA kg"
+    ]
+  },
+  "Qj Par Ral Pres 100": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ PAR RAL PRES 100"
+    ]
+  },
+  "Qj Parm Ralado President 50G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ PARM RALADO PRESIDENT 50G"
+    ]
+  },
+  "Qj Prato Davaca Ft": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ PRATO DAVACA FT"
+    ]
+  },
+  "Qj Prato Natville Ft": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ PRATO NATVILLE FT"
+    ]
+  },
+  "Qj Prato Valelac Ft": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJ PRATO VALELAC FT"
+    ]
+  },
+  "Qjo Coalho": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJO COALHO"
+    ]
+  },
+  "Qjo.Muss.Jucurutu": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QJO.MUSS.JUCURUTU"
+    ]
+  },
+  "Queijo Coalho Faco K": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QUEIJO COALHO FACO K"
+    ]
+  },
+  "Queijo Coalho Isis": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QUEIJO COALHO ISIS"
+    ]
+  },
+  "Queijo Coalho Valelac T 500g": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COLAHO VALELAC T500"
+    ]
+  },
+  "Queijo Coalho Valelac Tipo B": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "COALH VALELAC TIPO B"
+    ]
+  },
+  "Queijo M.Meia Cura": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QUEIJO M.MEIA CURA"
+    ]
+  },
+  "Queijo Minas Padrao": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QUEIJO MINAS PADRAO"
+    ]
+  },
+  "Queijo Mnas Pad Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QUEIJO MNAS PAD KG"
+    ]
+  },
+  "Queijo Ricota Faco Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QUEIJO RICOTA FACO kg"
+    ]
+  },
+  "Red Bull Coco Edit": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "RED BULL COCO EDIT"
+    ]
+  },
+  "Refri": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Refri"
+    ]
+  },
+  "Rep Off Kids 200Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "REP OFF KIDS 200ML"
+    ]
+  },
+  "Repel Off Family 200": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "REPEL OFF FAMILY 200"
+    ]
+  },
+  "Req Trad Pocos De Caldas 200G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "REQ TRAD POCOS DE CALDAS 200G"
+    ]
+  },
+  "Req.Betania Trad.Cp": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "REQ.BETANIA TRAD.CP"
+    ]
+  },
+  "Requeijao Nestle Tra": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "REQUEIJAO NESTLE TRA"
+    ]
+  },
+  "Revitam Junior 120Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "REVITAM JUNIOR 120ML"
+    ]
+  },
+  "Rexona 200Ml Active": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "REXONA 200ML ACTIVE"
+    ]
+  },
+  "Rf.Iog.Itambe": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "RF.IOG.ITAMBE"
+    ]
+  },
+  "Rf.Iog.Nestle Natura": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "RF.IOG.NESTLE NATURA"
+    ]
+  },
+  "Ric Fres Buf Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "RIC FRES BUF kg"
+    ]
+  },
+  "Ricota Bom Leite Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "RICOTA BOM LEITE kg"
+    ]
+  },
+  "Ricota Faco Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "RICOTA FACO kg"
+    ]
+  },
+  "Ricota Valelac Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "RICOTA VALELAC kg"
+    ]
+  },
+  "Rodeio Duplo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "Rodeio Duplo"
+    ]
+  },
+  "Rolo Ades Scotch Br": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ROLO ADES SCOTCH BR"
+    ]
+  },
+  "Rosq Capri 300G Coco": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "ROSQ CAPRI 300G COCO"
+    ]
+  },
+  "Rq Pocos 200G Trad": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "RQ POCOS 200G TRAD"
+    ]
+  },
+  "Rq Tirolez 200G Trad": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "RQ TIROLEZ 200G TRAD"
+    ]
+  },
+  "Rucula Und": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "RUCULA UND"
+    ]
+  },
+  "Sab Jj Baby Hora Son": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SAB JJ BABY HORA SON"
+    ]
+  },
+  "Sab.Even Suave": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SAB.EVEN SUAVE"
+    ]
+  },
+  "Sab.Liq.Johnsons B.": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SAB.LIQ.JOHNSONS B."
+    ]
+  },
+  "Sab.Pdc Bem Te Vi": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SAB.PDC BEM TE VI"
+    ]
+  },
+  "Sabao Pdc Urca Coco": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SABAO PDC URCA COCO"
+    ]
+  },
+  "Sabao Ype Neutro": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SABAO YPE NEUTRO"
+    ]
+  },
+  "Sabonete Liq Dex 1900Ml Pessego": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SABONETE LIQ DEX 1900ML PESSEGO"
+    ]
+  },
+  "Sac Assa Vd Po 58X70": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SAC ASSA VD PO 58X70"
+    ]
+  },
+  "Sac Inst.Bio 60X70": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SAC INST.BIO 60X70"
+    ]
+  },
+  "Sacola Banco De Alimentos 50X60": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SACOLA BANCO DE ALIMENTOS 50X60"
+    ]
+  },
+  "Sacola Ret.Atacadao": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SACOLA RET.ATACADAO"
+    ]
+  },
+  "Sacola Tradicoes": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SACOLA TRADICOES"
+    ]
+  },
+  "Sal Lebre Sal100G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SAL LEBRE SAL100G"
+    ]
+  },
+  "Sal Parrila Brspices": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SAL PARRILA BRSPICES"
+    ]
+  },
+  "Sal Turquesa Ref 1Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SAL TURQUESA REF 1kg"
+    ]
+  },
+  "Salame Ceratti 100G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SALAME CERATTI 100G"
+    ]
+  },
+  "Salamitos Sadia Sabo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SALAMITOS SADIA SABO"
+    ]
+  },
+  "Salsa Kitano 8G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SALSA KITANO 8G"
+    ]
+  },
+  "Salsa Un": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SALSA UN"
+    ]
+  },
+  "Sap Rad  450Ml Limao": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SAP RAD  450ML LIMAO"
+    ]
+  },
+  "Sardinha Tomate Coqueiro 250G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SARDINHA TOMATE COQUEIRO 250G"
+    ]
+  },
+  "Sb Minua 5X160G Glic": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SB MINUA 5X160G GLIC"
+    ]
+  },
+  "Sb Pasta Assolan 500": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SB PASTA ASSOLAN 500"
+    ]
+  },
+  "Sb Pasta Urca 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SB PASTA URCA 500G"
+    ]
+  },
+  "Sb Ype 5X160G Neutro": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SB YPE 5X160G NEUTRO"
+    ]
+  },
+  "Sbt Even 85G Lavanda": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SBT EVEN 85G LAVANDA"
+    ]
+  },
+  "Sbt Phebo 90G Amazon": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SBT PHEBO 90G AMAZON"
+    ]
+  },
+  "Sbt Xuxinha 400Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SBT XUXINHA 400ML"
+    ]
+  },
+  "Sbt Xuxinha 400Ml So": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SBT XUXINHA 400ML SO"
+    ]
+  },
+  "Sbt Xuxinha 750Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SBT XUXINHA 750ML"
+    ]
+  },
+  "Sc Tub Rl 50L C/50": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SC TUB RL 50L C/50"
+    ]
+  },
+  "Schweppes 220Ml Rose": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SCHWEPPES 220ML ROSE"
+    ]
+  },
+  "Schweppes Vodka 269": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SCHWEPPES VODKA 269"
+    ]
+  },
+  "Semente D Abobora Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SEMENTE D ABOBORA kg"
+    ]
+  },
+  "Semplice Medio 180G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SEMPLICE MEDIO 180G"
+    ]
+  },
+  "Semplice Pequeno 140G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SEMPLICE PEQUENO 140G"
+    ]
+  },
+  "Sh Granado 250Ml Lav": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SH GRANADO 250ML LAV"
+    ]
+  },
+  "Sh Head 650Ml Old": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SH HEAD 650ML OLD"
+    ]
+  },
+  "Sh Xuxa Sono 400Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SH XUXA SONO 400ML"
+    ]
+  },
+  "Shamp.Head Shoulders": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SHAMP.HEAD SHOULDERS"
+    ]
+  },
+  "Shampoo Dove Bond In": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SHAMPOO DOVE BOND IN"
+    ]
+  },
+  "Short Shape Shine Strom M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SHORT SHAPE SHINE STROM M"
+    ]
+  },
+  "Short Viscolycra Adriana Diversos M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SHORT VISCOLYCRA ADRIANA DIVERSOS M"
+    ]
+  },
+  "Sifao Sanf.Pls Maq.Lav. 030301 Blukit Hidrauli": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SIFAO SANF.PLS MAQ.LAV. 030301 BLUKIT HIDRAULI"
+    ]
+  },
+  "Skol Beats 269 Caip": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SKOL BEATS 269 CAIP"
+    ]
+  },
+  "Sobrecoxa Natto Fc": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SOBRECOXA NATTO FC"
+    ]
+  },
+  "Soda Caustica Escama Soecia 300G Cx": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SODA CAUSTICA ESCAMA SOECIA 300G CX"
+    ]
+  },
+  "Sonho Creme Panc Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SONHO CREME PANC kg"
+    ]
+  },
+  "Sopa De Carne C/ Legumes": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SOPA DE CARNE C/ LEGUMES"
+    ]
+  },
+  "Soro Fisiol Pmenos 0": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SORO FISIOL PMENOS 0"
+    ]
+  },
+  "Sorv Cornetto Crocan": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SORV CORNETTO CROCAN"
+    ]
+  },
+  "Sorv Sundae Leite Tr": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SORV SUNDAE LEITE TR"
+    ]
+  },
+  "Steak Frango Sadia Env 100G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "STEAK FRANGO SADIA ENV 100G"
+    ]
+  },
+  "Steak Sadia": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "STEAK SADIA"
+    ]
+  },
+  "Steak Sadia 100G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "STEAK SADIA 100G"
+    ]
+  },
+  "Suavie Sab Liq 140Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SUAVIE SAB LIQ 140ML"
+    ]
+  },
+  "Suco Laranja": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SUCO LARANJA"
+    ]
+  },
+  "Sumaxpro 50+500Mg Cp": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SUMAXPRO 50+500MG CP"
+    ]
+  },
+  "Sumaxpro 500+50Mg 2'S": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SUMAXPRO 500+50MG 2'S"
+    ]
+  },
+  "Suposit Granado Glic": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SUPOSIT GRANADO GLIC"
+    ]
+  },
+  "Sweet Milho Cb 450G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "SWEET MILHO CB 450G"
+    ]
+  },
+  "T Pap Malu 50F C/2Rl": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "T PAP MALU 50F C/2RL"
+    ]
+  },
+  "Taca De Vidro 460Ml Cpe Ref-3116": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TACA DE VIDRO 460ML CPE REF-3116"
+    ]
+  },
+  "Taca Plincor De Vidro Sort 65Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TACA PLINCOR DE VIDRO SORT 65ML"
+    ]
+  },
+  "Tamaras Khalas Date": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TAMARAS KHALAS DATE"
+    ]
+  },
+  "Tampa Prot. P Microodas": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TAMPA PROT. P MICROODAS"
+    ]
+  },
+  "Tanger Import Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TANGER IMPORT kg"
+    ]
+  },
+  "Tapete Pvc Pbox 49X32Cm - Ref: Wy8804-M": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TAPETE PVC PBOX 49X32CM - REF: WY8804-M"
+    ]
+  },
+  "Tapioca Kicaldo 1Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TAPIOCA KICALDO 1kg"
+    ]
+  },
+  "Tapioca Nor Goma 1Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TAPIOCA NOR GOMA 1kg"
+    ]
+  },
+  "Taxa De Entrega": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TAXA DE ENTREGA"
+    ]
+  },
+  "Tekitos Seara Cong.": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TEKITOS SEARA CONG."
+    ]
+  },
+  "Temp.Kitano Chimichu": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TEMP.KITANO CHIMICHU"
+    ]
+  },
+  "Tempera Guache C6": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TEMPERA GUACHE C6"
+    ]
+  },
+  "Termometro 246 Omron": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TERMOMETRO 246 OMRON"
+    ]
+  },
+  "Texas Burger Seara": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TEXAS BURGER SEARA"
+    ]
+  },
+  "Tilapia File Fres": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TILAPIA FILE FRES"
+    ]
+  },
+  "Tinta Guache 250Ml Verm.Fogo": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TINTA GUACHE 250ML VERM.FOGO"
+    ]
+  },
+  "Tirinhas Fg Perd 1Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TIRINHAS FG PERD 1kg"
+    ]
+  },
+  "Tnt Blister Violeta 3Mx140Cm": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TNT BLISTER VIOLETA 3MX140CM"
+    ]
+  },
+  "Toa Hug Tri Pro C/88": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TOA HUG TRI PRO C/88"
+    ]
+  },
+  "Toal Hugg C/48 L4 P3": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TOAL HUGG C/48 L4 P3"
+    ]
+  },
+  "Toalha Absol Bco 60F": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TOALHA ABSOL BCO 60F"
+    ]
+  },
+  "Toalha De Papel Snob Decorada C/2": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TOALHA DE PAPEL SNOB DECORADA C/2"
+    ]
+  },
+  "Toalha Hug T P C/120": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TOALHA HUG T P C/120"
+    ]
+  },
+  "Tomate Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TOMATE kg"
+    ]
+  },
+  "Tomate Rasteiro Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TOMATE RASTEIRO CRFO",
+      "TOMATE RASTEIRO kg",
+      "TOMATE REGIAO KG"
+    ]
+  },
+  "Tomate Salada": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TOMATE SALADA"
+    ]
+  },
+  "Tomate Salada Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TOMATE SALADA kg"
+    ]
+  },
+  "Tomatinho Grape Mel Trebeschi 180G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TOMATINHO GRAPE MEL TREBESCHI 180G"
+    ]
+  },
+  "Torrada Panet P Cris": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "TORRADA PANET P CRIS"
+    ]
+  },
+  "Usapel Pap Criat 8 Cores 85G A3 32F": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "USAPEL PAP CRIAT 8 CORES 85G A3 32F"
+    ]
+  },
+  "Uva Branca Bj 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "UVA BRANCA BJ 500G"
+    ]
+  },
+  "Uva Preta Sem Sement": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "UVA PRETA SEM SEMENT"
+    ]
+  },
+  "Uva Vermelh S/S 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "QA UVA VERM SS 500G",
+      "UVA VERMELH S/S 500G"
+    ]
+  },
+  "Uva Vitor Gourm 400G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "UVA VITOR GOURM 400G"
+    ]
+  },
+  "Uva Vitoria Bj 500G": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "UVA VITORIA BJ 500G",
+      "UVA VITORIA ROXA 500"
+    ]
+  },
+  "V Reserv Carme 750Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "V RESERV CARME 750ML"
+    ]
+  },
+  "V Smirnof Ice 269Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "V SMIRNOF ICE 269ML"
+    ]
+  },
+  "Vagem Mac.": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VAGEM MAC."
+    ]
+  },
+  "Vassoura Suave Ccabo - Ref: 226(406)": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VASSOURA SUAVE CCABO - REF: 226(406)"
+    ]
+  },
+  "Vassoura Varry 1000": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VASSOURA VARRY 1000"
+    ]
+  },
+  "Veja Mult 500Ml Azul": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VEJA MULT 500ML AZUL"
+    ]
+  },
+  "Vent 40Cm Col Mallory Eolo 6P Pt Gr 220V": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VENT 40CM COL MALLORY EOLO 6P PT GR 220V"
+    ]
+  },
+  "Ventilador Mondial V": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VENTILADOR MONDIAL V"
+    ]
+  },
+  "Vest Longuete Graziela Verde Desbotado": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VEST LONGUETE GRAZIELA VERDE DESBOTADO"
+    ]
+  },
+  "Vh Cabal 750 Sauv Bl": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VH CABAL 750 SAUV BL"
+    ]
+  },
+  "Vh Chilan Pink 750Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VH CHILAN PINK 750ML"
+    ]
+  },
+  "Vh Chilano 750Ml Cha": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VH CHILANO 750ML CHA"
+    ]
+  },
+  "Vh Chilano 750Ml Mos": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VH CHILANO 750ML MOS",
+      "VH CHILANO 750ML ROS"
+    ]
+  },
+  "Vh Tierra 750Ml Rose": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VH TIERRA 750ML ROSE"
+    ]
+  },
+  "Vho Carol 750Ml Rose": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VHO CAROL 750ML ROSE"
+    ]
+  },
+  "Vho Carol 750Ml Sauv": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VHO CAROL 750ML SAUV"
+    ]
+  },
+  "Vho Toro 750Ml Rose": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VHO TORO 750ML ROSE"
+    ]
+  },
+  "Vin.Chil.Concha": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VIN.CHIL.CONCHA"
+    ]
+  },
+  "Vinag Alc Leto 500Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VINAG ALC LETO 500ML"
+    ]
+  },
+  "Vinagre Sadio 500Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VINAGRE SADIO 500ML"
+    ]
+  },
+  "Vinho Chil.Chilano": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VINHO CHIL.CHILANO"
+    ]
+  },
+  "Vnh Travessia Selec 750Ml. Branco(Código: Vl. Total 31845) 24,90 Qtde.: 1 Un: Un Vl. Unit.: 24,9 Goiaba Kg": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VNH TRAVESSIA SELEC 750ML. BRANCO(Código: Vl. Total 31845) 24,90 Qtde.: 1 UN: UN Vl. Unit.: 24,9 GOIABA kg"
+    ]
+  },
+  "Vod Smirn Ice 275Ml": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VOD SMIRN ICE 275ML"
+    ]
+  },
+  "Vodka Smirnoff Ice L": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "VODKA SMIRNOFF ICE L"
+    ]
+  },
+  "Wh J Daniel Honey 1L": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "WH J DANIEL HONEY 1L"
+    ]
+  },
+  "Xilofone C3Pcs De Madeira - Ref: 3189": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "XILOFONE C3PCS DE MADEIRA - REF: 3189"
+    ]
+  },
+  "Yp Emu 500Ml Clas": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "YP EMU 500ML CLAS"
+    ]
+  },
+  "Ype Crem 300Ml Cit": {
+    "categoria": "Nova",
+    "nomes_originais": [
+      "YPE CREM 300ML CIT"
+    ]
+  }
+}

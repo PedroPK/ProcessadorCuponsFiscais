@@ -216,7 +216,40 @@ python -m pytest tests/ -v
 |---|---|
 | Arquivo `.xlsx` inexistente | Retorna `DataFrame` vazio (não lança exceção) |
 | Colunas do DataFrame vazio | Sempre `["nome_original", "nome_padrao", "categoria"]` |
-| Arquivo `.xlsx` existente | Carrega corretamente e preserva os dados |
+| Arquivo `.xlsx` existente (legado) | Carrega corretamente e preserva os dados |
+
+---
+
+### `TestDicionarioJson` — dicionário em JSON agrupado por nome padrão
+
+| Cenário | O que verifica |
+|---|---|
+| Salvar | Agrupa por `nome_padrao`, ordena chaves e listas, remove duplicatas |
+| Acentuação | Grava em UTF-8 sem escapar (`Café`, não `Caf\u00e9`) |
+| Ida e volta | Salvar e recarregar preserva todos os mapeamentos |
+| Categoria ausente | Assume `"Nova"` |
+| Nome original em dois grupos | Lança `ValueError` citando o nome conflitante |
+| Estrutura inválida | Lança `ValueError` (falta `nomes_originais` ou raiz não é objeto) |
+| JSON malformado | `ValueError` informa arquivo e linha do erro |
+
+---
+
+### `TestIdentificarDuplicatasPorEan` — auditoria de duplicatas por código de barras
+
+| Cenário | O que verifica |
+|---|---|
+| Descrições distintas com o mesmo EAN | Agrupa os nomes e conta as ocorrências |
+| EAN vazio/nulo e coluna `produto` | Ignora EANs vazios e aceita o fallback para `produto` |
+
+---
+
+### `TestAtualizarDicionario` — atualização do arquivo JSON
+
+| Cenário | O que verifica |
+|---|---|
+| CSV com `produto_raw` / só `produto` | Cadastra os nomes originais como `"Nova"` em `resources/data/*.json` |
+| XLSX legado | Converte para JSON sem perder nome padrão nem categoria |
+| JSON já editado | Preserva edições manuais e acrescenta apenas os produtos novos |
 
 ---
 

@@ -47,7 +47,7 @@ MEU_PROJETO/
 │   └── test_dicionario.py           # Testes do dicionário de produtos
 ├── resources/
 │   ├── data/           # Dicionário de produtos e outros dados de referência
-│   │   └── dicionario_produtos.xlsx
+│   │   └── dicionario_produtos.json
 │   ├── notas_fiscais/  # COLOQUE SEUS ARQUIVOS AQUI (.xml, .pdf ou .zip)
 │   └── outputData/     # AQUI SERÃO GERADOS OS RESULTADOS
 │       ├── minha_inflacao.csv      # CSV de dados extraídos
@@ -164,13 +164,26 @@ python3 src/dicionario.py
 **O que faz:**
 - Lê o arquivo CSV gerado pelo processador
 - Sugere nomes padrão usando Fuzzy Matching
-- Cria/atualiza `resources/data/dicionario_produtos.xlsx`
+- Cria/atualiza `resources/data/dicionario_produtos.json`
 - Facilita a análise em "produtos iguais com nomes diferentes"
 
-✅ Resultado: Vai criar/atualizar resources/data/dicionario_produtos.xlsx. Se existir um dicionário antigo em `resources/outputData/`, ele será copiado para o novo local na primeira atualização.
+✅ Resultado: Vai criar/atualizar `resources/data/dicionario_produtos.json`. Se existir um dicionário `.xlsx` antigo (em `resources/data/` ou `resources/outputData/`), ele é convertido para JSON na primeira atualização.
+
+**Formato do dicionário** — agrupado por nome padrão, com todas as variações de nome bruto listadas juntas:
+
+```json
+{
+  "Leite Ninho Integral 750g": {
+    "categoria": "Laticínios",
+    "nomes_originais": ["LEITE NINHO 750G INT", "L PO NINHO 750G INST"]
+  }
+}
+```
+
+Para unir dois produtos, mova o nome bruto de um grupo para a lista `nomes_originais` do outro. Cada nome bruto deve aparecer em um único grupo (caso contrário o carregamento acusa erro), e um JSON malformado é reportado com o arquivo e a linha do problema. Ao atualizar, o script reordena o arquivo alfabeticamente e preserva as suas edições.
 
 > **⚠️ Atenção ao fluxo:** O dicionário **não é aplicado em tempo real**. Ele é lido pelo processador no momento da exportação do CSV. Isso significa que:
-> 1. Edite o arquivo `resources/data/dicionario_produtos.xlsx` manualmente (corrija `nome_padrao`, `categoria`, etc.);
+> 1. Edite o arquivo `resources/data/dicionario_produtos.json` manualmente (corrija `nome_padrao`, `categoria`, etc.);
 > 2. **Re-execute o Passo 2** (`python3 src/processadorCuponsFiscais.py`) para gerar um novo CSV com os mapeamentos aplicados;
 > 3. Só então abra o Dashboard — ele sempre exibirá os dados do último CSV gerado.
 

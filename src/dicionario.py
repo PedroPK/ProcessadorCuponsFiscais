@@ -1,15 +1,92 @@
 import argparse
-import shutil
+import json
 import pandas as pd
 from pathlib import Path
 from utils import resolver_caminho_dicionario
 
+COLUNAS_DICIONARIO = ['nome_original', 'nome_padrao', 'categoria']
+CATEGORIA_PADRAO = 'Nova'
+
+
+def dicionario_json_para_dataframe(dados, origem='dicionário'):
+    """
+    Converte o JSON agrupado por nome padrão em DataFrame (uma linha por nome original).
+
+    Formato esperado:
+        {"Nome Padrão": {"categoria": "...", "nomes_originais": ["NOME A", "NOME B"]}}
+
+    Raises:
+        ValueError: estrutura inválida ou nome original presente em mais de um grupo.
+    """
+    if not isinstance(dados, dict):
+        raise ValueError(f"{origem}: o JSON deve ser um objeto {{nome_padrao: {{...}}}}.")
+
+    linhas = []
+    visto = {}
+    for nome_padrao, info in dados.items():
+        if not isinstance(info, dict) or not isinstance(info.get('nomes_originais'), list):
+            raise ValueError(
+                f"{origem}: '{nome_padrao}' deve conter a lista 'nomes_originais'."
+            )
+        categoria = info.get('categoria') or CATEGORIA_PADRAO
+        for nome_original in info['nomes_originais']:
+            nome_original = str(nome_original)
+            if nome_original in visto and visto[nome_original] != nome_padrao:
+                raise ValueError(
+                    f"{origem}: '{nome_original}' aparece em '{visto[nome_original]}' "
+                    f"e em '{nome_padrao}'."
+                )
+            visto[nome_original] = nome_padrao
+            linhas.append({
+                'nome_original': nome_original,
+                'nome_padrao': nome_padrao,
+                'categoria': categoria,
+            })
+
+    return pd.DataFrame(linhas, columns=COLUNAS_DICIONARIO).drop_duplicates('nome_original')
+
+
+def dataframe_para_dicionario_json(df):
+    """Agrupa o DataFrame por nome padrão, com chaves e listas em ordem alfabética."""
+    df = df.dropna(subset=['nome_original', 'nome_padrao']).drop_duplicates('nome_original')
+    resultado = {}
+    for nome_padrao in sorted(df['nome_padrao'].unique(), key=lambda x: (x.lower(), x)):
+        grupo = df[df['nome_padrao'] == nome_padrao]
+        categorias = [c for c in grupo['categoria'].fillna('') if c.strip()]
+        # Prefere uma categoria já classificada à marcação provisória "Nova"
+        categoria = next((c for c in categorias if c != CATEGORIA_PADRAO), None) \
+            or (categorias[0] if categorias else CATEGORIA_PADRAO)
+        resultado[nome_padrao] = {
+            'categoria': categoria,
+            'nomes_originais': sorted(grupo['nome_original'], key=lambda x: (x.lower(), x)),
+        }
+    return resultado
+
+
+def salvar_dicionario(df, caminho_dic):
+    """Grava o dicionário em JSON legível (UTF-8, indentado)."""
+    caminho_dic.parent.mkdir(parents=True, exist_ok=True)
+    with open(caminho_dic, 'w', encoding='utf-8') as arquivo:
+        json.dump(dataframe_para_dicionario_json(df), arquivo, ensure_ascii=False, indent=2)
+        arquivo.write('\n')
+
+
 def carregar_dados_existentes(caminho_dic):
-    """Carrega o dicionário atual para não perder nada."""
-    if caminho_dic.exists():
-        return pd.read_excel(caminho_dic, dtype=str)
-    else:
-        return pd.DataFrame(columns=['nome_original', 'nome_padrao', 'categoria'])
+    """Carrega o dicionário atual (JSON ou XLSX legado) para não perder nada."""
+    if not caminho_dic.exists():
+        return pd.DataFrame(columns=COLUNAS_DICIONARIO)
+
+    if caminho_dic.suffix.lower() == '.json':
+        try:
+            with open(caminho_dic, encoding='utf-8') as arquivo:
+                dados = json.load(arquivo)
+        except json.JSONDecodeError as e:
+            raise ValueError(
+                f"JSON inválido em {caminho_dic} (linha {e.lineno}, coluna {e.colno}): {e.msg}"
+            ) from e
+        return dicionario_json_para_dataframe(dados, str(caminho_dic))
+
+    return pd.read_excel(caminho_dic, dtype=str)
 
 def sugerir_padrao(novo_nome, nomes_conhecidos_padrao):
     """Tenta adivinhar o nome padrão usando Fuzzy Matching."""
@@ -62,7 +139,7 @@ def atualizar_dicionario(apenas_auditar_duplicatas=False):
     
     pasta_saida = raiz / 'resources' / 'outputData'
     arquivo_dados = pasta_saida / 'minha_inflacao.csv'
-    arquivo_dicionario = raiz / 'resources' / 'data' / 'dicionario_produtos.xlsx'
+    arquivo_dicionario = raiz / 'resources' / 'data' / 'dicionario_produtos.json'
     caminho_dicionario_existente = resolver_caminho_dicionario(raiz)
 
     print("--- INICIANDO ATUALIZAÇÃO DO DICIONÁRIO ---")
@@ -71,11 +148,6 @@ def atualizar_dicionario(apenas_auditar_duplicatas=False):
         print("Erro: CSV de dados não encontrado em outputData.")
         return
 
-    arquivo_dicionario.parent.mkdir(parents=True, exist_ok=True)
-    if caminho_dicionario_existente != arquivo_dicionario:
-        shutil.copy2(caminho_dicionario_existente, arquivo_dicionario)
-        print(f"Dicionário legado copiado para: {arquivo_dicionario}")
-    
     df_raw = pd.read_csv(
         arquivo_dados,
         sep=';',
@@ -96,7 +168,9 @@ def atualizar_dicionario(apenas_auditar_duplicatas=False):
     if apenas_auditar_duplicatas:
         return
 
-    df_dic = carregar_dados_existentes(arquivo_dicionario)
+    df_dic = carregar_dados_existentes(caminho_dicionario_existente)
+    # XLSX legado encontrado: converte para JSON mesmo sem produtos novos
+    migrar_formato = caminho_dicionario_existente != arquivo_dicionario and not df_dic.empty
     
     ja_cadastrados = set(df_dic['nome_original'].values) if not df_dic.empty else set()
     nomes_padrao_existentes = list(df_dic['nome_padrao'].dropna().unique()) if not df_dic.empty else []
@@ -118,17 +192,13 @@ def atualizar_dicionario(apenas_auditar_duplicatas=False):
             })
             contagem_novos += 1
 
-    if novos_itens:
-        print(f"Encontrados {contagem_novos} novos produtos. Adicionando e ordenando...")
-        
-        df_novos = pd.DataFrame(novos_itens)
-        df_final = pd.concat([df_dic, df_novos], ignore_index=True)
-        
-        # Ordena alfabeticamente ignorando maiúsculas/minúsculas
-        df_final = df_final.sort_values(by='nome_original', key=lambda col: col.str.lower())
-        
-        df_final.to_excel(arquivo_dicionario, index=False)
-        print("✅ Dicionário atualizado e salvo em outputData!")
+    if novos_itens or migrar_formato:
+        if novos_itens:
+            print(f"Encontrados {contagem_novos} novos produtos. Adicionando e ordenando...")
+            df_dic = pd.concat([df_dic, pd.DataFrame(novos_itens)], ignore_index=True)
+
+        salvar_dicionario(df_dic, arquivo_dicionario)
+        print(f"✅ Dicionário atualizado e salvo em {arquivo_dicionario}!")
     else:
         print("✅ Nenhuma novidade encontrada.")
 

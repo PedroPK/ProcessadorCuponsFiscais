@@ -95,30 +95,37 @@ class TestMultiplosTokens:
         assert len(resultado_1) >= len(resultado_2) >= len(resultado_3)
 
 
-# ── resolver_danfe ─────────────────────────────────────────────────────────────
+# ── resolver_caminho_dicionario ────────────────────────────────────────────────
 
 class TestResolverCaminhoDicionario:
-    def test_prioriza_dicionario_em_data(self, tmp_path):
-        atual = tmp_path / 'resources' / 'data' / 'dicionario_produtos.xlsx'
-        legado = tmp_path / 'resources' / 'outputData' / 'dicionario_produtos.xlsx'
-        atual.parent.mkdir(parents=True)
-        legado.parent.mkdir(parents=True)
-        atual.touch()
-        legado.touch()
+    def _arquivo(self, raiz, *partes):
+        caminho = raiz.joinpath(*partes)
+        caminho.parent.mkdir(parents=True, exist_ok=True)
+        caminho.touch()
+        return caminho
 
-        assert resolver_caminho_dicionario(tmp_path) == atual
+    def test_prioriza_json_em_data(self, tmp_path):
+        json_ = self._arquivo(tmp_path, 'resources', 'data', 'dicionario_produtos.json')
+        self._arquivo(tmp_path, 'resources', 'data', 'dicionario_produtos.xlsx')
+        self._arquivo(tmp_path, 'resources', 'outputData', 'dicionario_produtos.xlsx')
 
-    def test_usa_caminho_legado_quando_arquivo_atual_nao_existe(self, tmp_path):
-        legado = tmp_path / 'resources' / 'outputData' / 'dicionario_produtos.xlsx'
-        legado.parent.mkdir(parents=True)
-        legado.touch()
+        assert resolver_caminho_dicionario(tmp_path) == json_
+
+    def test_usa_xlsx_legado_em_data_sem_json(self, tmp_path):
+        xlsx = self._arquivo(tmp_path, 'resources', 'data', 'dicionario_produtos.xlsx')
+        self._arquivo(tmp_path, 'resources', 'outputData', 'dicionario_produtos.xlsx')
+
+        assert resolver_caminho_dicionario(tmp_path) == xlsx
+
+    def test_usa_xlsx_legado_em_output_data(self, tmp_path):
+        legado = self._arquivo(tmp_path, 'resources', 'outputData', 'dicionario_produtos.xlsx')
 
         assert resolver_caminho_dicionario(tmp_path) == legado
 
-    def test_retorna_caminho_atual_se_nao_houver_arquivo(self, tmp_path):
-        atual = tmp_path / 'resources' / 'data' / 'dicionario_produtos.xlsx'
+    def test_retorna_caminho_do_json_se_nao_houver_arquivo(self, tmp_path):
+        esperado = tmp_path / 'resources' / 'data' / 'dicionario_produtos.json'
 
-        assert resolver_caminho_dicionario(tmp_path) == atual
+        assert resolver_caminho_dicionario(tmp_path) == esperado
 
 
 # ── resolver_danfe ─────────────────────────────────────────────────────────────
