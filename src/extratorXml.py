@@ -10,6 +10,7 @@ e contém dados muito mais ricos e confiáveis do que os PDFs DANFE:
   - Valores precisos sem necessidade de regex
 """
 
+from collections.abc import Callable
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from pathlib import Path
@@ -96,7 +97,11 @@ def extrair_chave_do_xml(conteudo_xml: bytes | str) -> str | None:
     return id_attr.lstrip('NFe') if id_attr else None
 
 
-def extrair_itens_do_xml(conteudo_xml: bytes | str, nome_origem: str) -> list[dict]:
+def extrair_itens_do_xml(
+    conteudo_xml: bytes | str,
+    nome_origem: str,
+    ao_erro: Callable[[], None] | None = None,
+) -> list[dict]:
     """
     Extrai todos os itens de uma NF-e / NFC-e a partir do conteúdo XML.
 
@@ -106,6 +111,8 @@ def extrair_itens_do_xml(conteudo_xml: bytes | str, nome_origem: str) -> list[di
         Conteúdo bruto do arquivo XML (bytes ou string UTF-8).
     nome_origem : str
         Nome do arquivo de origem (para rastreabilidade no CSV).
+    ao_erro : Callable[[], None] | None
+        Callback opcional chamado quando o XML é inválido ou não contém <infNFe>.
 
     Retorna
     -------
@@ -121,12 +128,16 @@ def extrair_itens_do_xml(conteudo_xml: bytes | str, nome_origem: str) -> list[di
         root = ET.fromstring(conteudo_xml)
     except ET.ParseError as e:
         print(f'[ERRO XML] {nome_origem}: XML inválido — {e}')
+        if ao_erro is not None:
+            ao_erro()
         return []
 
     # A NFe pode estar em diferentes níveis dependendo se é "nfeProc" ou "NFe" direta
     nfe = root.find('.//' + _t('infNFe'))
     if nfe is None:
         print(f'[AVISO XML] {nome_origem}: tag <infNFe> não encontrada.')
+        if ao_erro is not None:
+            ao_erro()
         return []
 
     # Chave de acesso: atributo Id sem o prefixo 'NFe' (44 dígitos)

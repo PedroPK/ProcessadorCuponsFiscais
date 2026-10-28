@@ -8,6 +8,8 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 ## [Não lançado]
 
 ### Adicionado
+- `src/metricas.py`, `src/processadorCuponsFiscais.py` e `src/extratorXml.py` — métricas agregadas de duração, chamadas por etapa, itens extraídos e erros (incluindo XML malformado), persistidas localmente em `resources/outputData/metrics/processamento.jsonl`
+- `src/dashboard.py` — resumo da duração e detalhes por etapa da última execução do processamento; seção de métricas visível também antes da primeira execução
 - `src/utils.py` — nova função `format_currency(value: float) -> str` para formatação de valores monetários em Reais (R$)
   - Exemplo: `format_currency(1234.56)` retorna `"R$ 1.234,56"`
   - Suporta valores com milhares, decimais e valores negativos

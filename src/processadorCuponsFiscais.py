@@ -4,10 +4,12 @@ import re
 import zipfile
 from pathlib import Path
 from extratorXml import extrair_itens_do_xml, extrair_chave_do_xml
+from metricas import MetricasProcessamento, medir_etapa
 
 class ProcessadorDeCupons:
     def __init__(self):
         self.dados_consolidados = []
+        self.metricas = MetricasProcessamento()
         # Conjunto de chaves de acesso NF-e já processadas (44 dígitos).
         # Evita duplicidade quando o mesmo documento existe como XML e como PDF.
         self._chaves_processadas: set[str] = set()
@@ -78,8 +80,10 @@ class ProcessadorDeCupons:
                     'arquivo_origem': nome_arquivo_origem
                 })
                 itens_encontrados += 1
+                self.metricas.registrar_itens(1)
         return itens_encontrados
 
+    @medir_etapa('pdf')
     def processar_arquivo_pdf(self, caminho_arquivo):
         try:
             with pdfplumber.open(caminho_arquivo) as pdf:
@@ -93,8 +97,10 @@ class ProcessadorDeCupons:
                     self._chaves_processadas.add(chave)
                 self._extrair_dados_do_pdf(pdf, caminho_arquivo.name)
         except Exception as e:
+            self.metricas.registrar_erro('pdf')
             print(f"[ERRO] {caminho_arquivo.name}: {e}")
 
+    @medir_etapa('xml')
     def processar_arquivo_xml(self, caminho_arquivo):
         """Processa um único arquivo XML (NF-e / NFC-e) diretamente do disco."""
         try:
@@ -105,12 +111,19 @@ class ProcessadorDeCupons:
                     print(f"  [SKIP XML] {caminho_arquivo.name}: chave duplicada, ignorado")
                     return
                 self._chaves_processadas.add(chave)
-            itens = extrair_itens_do_xml(conteudo, caminho_arquivo.name)
+            itens = extrair_itens_do_xml(
+                conteudo,
+                caminho_arquivo.name,
+                ao_erro=lambda: self.metricas.registrar_erro('xml'),
+            )
             self.dados_consolidados.extend(itens)
+            self.metricas.registrar_itens(len(itens))
             print(f"  [XML] {caminho_arquivo.name}: {len(itens)} item(s)")
         except Exception as e:
+            self.metricas.registrar_erro('xml')
             print(f"[ERRO XML] {caminho_arquivo.name}: {e}")
 
+    @medir_etapa('xlsx')
     def _processar_xlsx_citizen(self, conteudo_bytes: bytes, nome_origem: str) -> int:
         """Processa exportação de Notas Fiscais do app Citizen (XLSX).
 
@@ -207,9 +220,11 @@ class ProcessadorDeCupons:
                         'arquivo_origem': nome_origem,
                     })
                     count += 1
+                    self.metricas.registrar_itens(1)
 
             return count
         except Exception as e:
+            self.metricas.registrar_erro('xlsx')
             print(f"[ERRO XLSX] {nome_origem}: {e}")
             return 0
 
@@ -236,18 +251,24 @@ class ProcessadorDeCupons:
 
         # --- XMLs ---
         for nome_xml in xmls:
-            with z.open(nome_xml) as f:
-                conteudo = f.read()
-            chave = extrair_chave_do_xml(conteudo)
-            origem = f"{nome_zip_raiz}::{nome_xml}"
-            if chave:
-                if chave in self._chaves_processadas:
-                    print(f"  [SKIP XML] {origem}: chave duplicada")
-                    continue
-                self._chaves_processadas.add(chave)
-            itens = extrair_itens_do_xml(conteudo, origem)
-            self.dados_consolidados.extend(itens)
-            print(f"  [XML] {origem}: {len(itens)} item(s)")
+            with self.metricas.medir('xml'):
+                with z.open(nome_xml) as f:
+                    conteudo = f.read()
+                chave = extrair_chave_do_xml(conteudo)
+                origem = f"{nome_zip_raiz}::{nome_xml}"
+                if chave:
+                    if chave in self._chaves_processadas:
+                        print(f"  [SKIP XML] {origem}: chave duplicada")
+                        continue
+                    self._chaves_processadas.add(chave)
+                itens = extrair_itens_do_xml(
+                    conteudo,
+                    origem,
+                    ao_erro=lambda: self.metricas.registrar_erro('xml'),
+                )
+                self.dados_consolidados.extend(itens)
+                self.metricas.registrar_itens(len(itens))
+                print(f"  [XML] {origem}: {len(itens)} item(s)")
 
         # --- XLSXs (Citizen) ---
         for nome_xlsx in xlsxs:
@@ -263,18 +284,20 @@ class ProcessadorDeCupons:
                 pdf_bytes = f.read()
             origem = f"{nome_zip_raiz}::{nome_pdf}"
             try:
-                with pdfplumber.open(_io.BytesIO(pdf_bytes)) as pdf:
-                    texto_p1 = pdf.pages[0].extract_text() or '' if pdf.pages else ''
-                    chave = self._extrair_chave_pdf(texto_p1)
-                    if chave:
-                        if chave in self._chaves_processadas:
-                            print(f"  [SKIP PDF] {origem}: chave já processada")
-                            continue
-                        self._chaves_processadas.add(chave)
-                    n = self._extrair_dados_do_pdf(pdf, origem)
-                    if n > 0:
-                        print(f"  [PDF] {origem}: {n} item(s)")
+                with self.metricas.medir('pdf'):
+                    with pdfplumber.open(_io.BytesIO(pdf_bytes)) as pdf:
+                        texto_p1 = pdf.pages[0].extract_text() or '' if pdf.pages else ''
+                        chave = self._extrair_chave_pdf(texto_p1)
+                        if chave:
+                            if chave in self._chaves_processadas:
+                                print(f"  [SKIP PDF] {origem}: chave já processada")
+                                continue
+                            self._chaves_processadas.add(chave)
+                        n = self._extrair_dados_do_pdf(pdf, origem)
+                        if n > 0:
+                            print(f"  [PDF] {origem}: {n} item(s)")
             except Exception as e:
+                self.metricas.registrar_erro('pdf')
                 print(f"[ERRO PDF] {origem}: {e}")
 
         # --- ZIPs aninhados (recursão) ---
@@ -286,19 +309,24 @@ class ProcessadorDeCupons:
                         print(f"  [ZIP aninhado] abrindo {nome_zip_raiz}::{nome_zip}")
                         self._processar_membros_zip(inner_z, f"{nome_zip_raiz}::{nome_zip}")
                 except Exception as e:
+                    self.metricas.registrar_erro('zip_aninhado')
                     print(f"[ERRO ZIP aninhado] {nome_zip}: {e}")
 
+    @medir_etapa('zip')
     def processar_zip(self, caminho_zip):
         """Processa um ZIP podendo conter PDFs, XMLs, XLSXs e ZIPs aninhados."""
         try:
             with zipfile.ZipFile(caminho_zip, 'r') as z:
                 self._processar_membros_zip(z, caminho_zip.name)
         except Exception as e:
+            self.metricas.registrar_erro('zip')
             print(f"[ERRO ZIP] {caminho_zip.name}: {e}")
 
+    @medir_etapa('varredura')
     def varrer_diretorio(self, pasta_alvo):
         pasta = Path(pasta_alvo)
-        arquivos = list(pasta.glob('*'))
+        with self.metricas.medir('listagem_diretorio'):
+            arquivos = list(pasta.glob('*'))
         print(f"Lendo {len(arquivos)} arquivos em: {pasta}")
 
         # Passo 1: ZIPs e XMLs avulsos primeiro (registram as chaves)
@@ -321,6 +349,7 @@ class ProcessadorDeCupons:
                 self.processar_arquivo_pdf(arquivo)
 
     # --- NOVIDADE: Método para aplicar o dicionário ---
+    @medir_etapa('normalizacao')
     def _aplicar_normalizacao(self, df):
         raiz = Path(__file__).resolve().parent.parent
         caminho_dic = raiz / 'resources' / 'outputData' / 'dicionario_produtos.xlsx'
@@ -343,12 +372,14 @@ class ProcessadorDeCupons:
                 
                 return df
             except Exception as e:
+                self.metricas.registrar_erro('normalizacao')
                 print(f"Erro ao ler dicionário: {e}")
                 return df
         else:
             print("Dicionário não encontrado. Usando nomes originais.")
             return df
 
+    @medir_etapa('exportacao_csv')
     def exportar_csv(self, nome_arquivo="minha_inflacao.csv"):
         df = pd.DataFrame(self.dados_consolidados)
         
@@ -386,5 +417,19 @@ if __name__ == "__main__":
     pasta_cupons = raiz_projeto / 'resources' / 'notas_fiscais'
     
     app = ProcessadorDeCupons()
-    app.varrer_diretorio(pasta_cupons)
-    app.exportar_csv()
+    status = 'sucesso'
+    try:
+        app.varrer_diretorio(pasta_cupons)
+        app.exportar_csv()
+    except Exception:
+        status = 'falha'
+        raise
+    finally:
+        resumo = app.metricas.finalizar(status)
+        print(
+            '[MÉTRICAS] '
+            f"status={resumo['status']} "
+            f"duracao={resumo['duracao_total_segundos']:.3f}s "
+            f"itens={resumo['itens_extraidos']} "
+            f"erros={resumo['total_erros']}"
+        )

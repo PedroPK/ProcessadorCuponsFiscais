@@ -16,6 +16,7 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 from utils import filtrar_produtos, resolver_danfe
+from metricas import CAMINHO_METRICAS, carregar_ultima_execucao
 
 # --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(page_title="Minha Inflação Pessoal", layout="wide")
@@ -271,6 +272,52 @@ def detectar_novos_arquivos(df_base):
     return sorted(arquivos_na_pasta - origens_processadas)
 
 
+def exibir_ultima_execucao():
+    """Renderiza, no rodapé da barra lateral, as métricas da última execução em um acordeão."""
+    with st.sidebar.expander('📊 Métricas do processamento', expanded=False):
+        try:
+            resumo = carregar_ultima_execucao()
+        except (OSError, ValueError) as e:
+            st.warning(f"Não foi possível ler as métricas do processamento: {e}")
+            return
+
+        if resumo is None:
+            st.info(
+                'Ainda não há métricas registradas. Use “Processar e Atualizar” '
+                'ou “Reprocessar tudo” para iniciar uma execução.'
+            )
+            return
+
+        mensagem = (
+            f"{resumo['duracao_total_segundos']:.2f}s · "
+            f"{resumo['itens_extraidos']} itens · "
+            f"{resumo['total_erros']} erro(s) · "
+            f"status {resumo['status']}"
+        )
+        if resumo['status'] == 'sucesso':
+            st.success(mensagem)
+        else:
+            st.warning(mensagem)
+
+        st.caption(f"Finalizada em: {resumo['finalizada_em']}")
+        st.caption(f"ID: {resumo['execucao_id']}")
+        if resumo['etapas']:
+            dados_etapas = [
+                {
+                    'Etapa': nome,
+                    'Chamadas': dados['chamadas'],
+                    'Total (s)': round(dados['duracao_total_segundos'], 3),
+                    'Média (s)': round(dados['duracao_media_segundos'], 3),
+                }
+                for nome, dados in resumo['etapas'].items()
+            ]
+            st.dataframe(pd.DataFrame(dados_etapas), hide_index=True, use_container_width=True)
+        if resumo['erros_por_etapa']:
+            st.write('Erros por etapa:')
+            st.json(resumo['erros_por_etapa'])
+        st.caption(f"Histórico local: {CAMINHO_METRICAS}")
+
+
 def fechar_aba_navegador():
     components.html(
         """
@@ -517,7 +564,6 @@ def forcar_fechamento_aba_apos_desligamento(
 
 # --- BARRA LATERAL (REPROCESSAMENTO) ---
 st.sidebar.header("🔄 Atualizar Dados")
-
 novos = detectar_novos_arquivos(df)
 
 if novos:
@@ -576,16 +622,24 @@ st.sidebar.header("Filtros")
 
 if df is None:
     st.error("Arquivo CSV não encontrado. Use o botão **Processar e Atualizar** na barra lateral.")
+    st.sidebar.divider()
+    exibir_ultima_execucao()
     st.stop()
 
 if df.empty:
     st.warning("O arquivo CSV existe, mas está vazio.")
+    st.sidebar.divider()
+    exibir_ultima_execucao()
     st.stop()
 
 mercados = st.sidebar.multiselect("Filtrar por Mercado (Origem)", df['arquivo_origem'].unique())
 
 if mercados:
     df = df[df['arquivo_origem'].isin(mercados)]
+
+# --- BARRA LATERAL (RODAPÉ: MÉTRICAS DE EXECUÇÃO) ---
+st.sidebar.divider()
+exibir_ultima_execucao()
 
 # --- CRIAÇÃO DAS ABAS ---
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["📈 Evolução de Preços", "💰 Análise Pareto (ABC)", "📋 Dados Brutos", "📊 Índice de Inflação Pessoal", "🏆 Produtos Mais Comprados", "🗺️ Onde Comprar Melhor", "📍 Mapa de Compras (NF)"])

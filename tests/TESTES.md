@@ -7,7 +7,7 @@ Execute a qualquer momento com:
 python -m pytest tests/ -v
 ```
 
-> **95 testes · 0 falhas** *(atualizado em 2026-06-24)*
+> **102 testes · 0 falhas** *(atualizado em 2026-10-27)*
 
 ---
 
@@ -16,7 +16,9 @@ python -m pytest tests/ -v
 | Arquivo | Módulo testado | Testes |
 |---|---|---|
 | `test_extrator_xml.py` | `src/extratorXml.py` | 29 |
-| `test_processador.py` | `src/processadorCuponsFiscais.py` | 17 |
+| `test_processador.py` | `src/processadorCuponsFiscais.py` | 19 |
+| `test_metricas.py` | `src/metricas.py` | 5 |
+| `test_gerador_danfe.py` | `src/gerador_danfe.py` | 18 |
 | `test_dicionario.py` | `src/dicionario.py` | 9 |
 | `test_utils.py` | `src/utils.py` | 22 |
 

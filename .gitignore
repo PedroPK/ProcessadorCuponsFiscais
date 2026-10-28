@@ -4,6 +4,7 @@
 *.csv
 *.xlsx
 *.numbers
+resources/outputData/metrics/
 
 # Arquivos do sistema
 .DS_Store

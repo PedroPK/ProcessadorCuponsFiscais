@@ -147,6 +147,12 @@ python3 src/processadorCuponsFiscais.py
 
 ✅ Resultado: Vai criar/atualizar o arquivo resources/outputData/minha_inflacao.csv.
 
+### Métricas do processamento
+
+Cada execução registra um resumo agregado em `resources/outputData/metrics/processamento.jsonl`. O histórico inclui a duração total, tempos e quantidade de chamadas por etapa (listagem, XML, PDF, XLSX, ZIP, normalização e exportação), itens extraídos e erros. O dashboard mostra o resumo da execução mais recente e os tempos por etapa. Como algumas etapas abrangem operações internas, suas durações podem se sobrepor e não devem ser somadas para calcular a duração total.
+
+O arquivo é local e ignorado pelo Git; não armazena nomes de arquivos nem conteúdo das notas fiscais.
+
 ### 3️⃣ Normalizar Nomes (Limpeza)
 Rode este comando para padronizar nomes (ex: transformar "LEITE PARMALAT CX" em "Leite Integral"):
 

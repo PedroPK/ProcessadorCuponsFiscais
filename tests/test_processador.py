@@ -102,9 +102,40 @@ class TestProcessarArquivoXml:
 
     def test_arquivo_inexistente_nao_lanca_excecao(self, tmp_path):
         p = ProcessadorDeCupons()
+        p.metricas.caminho = tmp_path / "processamento.jsonl"
         # Não deve propagar exceção — apenas logar o erro
         p.processar_arquivo_xml(tmp_path / "nao_existe.xml")
         assert p.dados_consolidados == []
+        resumo = p.metricas.finalizar("sucesso")
+        assert resumo["status"] == "parcial"
+        assert resumo["erros_por_etapa"] == {"xml": 1}
+
+    def test_registra_tempo_e_itens_extraidos(self, tmp_path):
+        xml_file = tmp_path / "nota.xml"
+        xml_file.write_text(XML_VALIDO, encoding="utf-8")
+
+        p = ProcessadorDeCupons()
+        p.metricas.caminho = tmp_path / "processamento.jsonl"
+        p.processar_arquivo_xml(xml_file)
+
+        resumo = p.metricas.finalizar("sucesso")
+
+        assert resumo["etapas"]["xml"]["chamadas"] == 1
+        assert resumo["itens_extraidos"] == 2
+        assert resumo["status"] == "sucesso"
+
+    def test_xml_malformado_registra_erro_parcial(self, tmp_path):
+        xml_file = tmp_path / "nota.xml"
+        xml_file.write_text("XML inválido", encoding="utf-8")
+
+        p = ProcessadorDeCupons()
+        p.metricas.caminho = tmp_path / "processamento.jsonl"
+        p.processar_arquivo_xml(xml_file)
+
+        resumo = p.metricas.finalizar("sucesso")
+
+        assert resumo["status"] == "parcial"
+        assert resumo["erros_por_etapa"] == {"xml": 1}
 
 
 # ── processar_zip — prioridade XML sobre PDF ───────────────────────────────────
