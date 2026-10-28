@@ -8,6 +8,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 ## [Não lançado]
 
 ### Adicionado
+- `src/dicionario.py` — identifica e lista possíveis duplicatas com descrições diferentes associadas ao mesmo EAN; `--auditar-duplicatas` executa a análise sem alterar arquivos
 - `src/metricas.py`, `src/processadorCuponsFiscais.py` e `src/extratorXml.py` — métricas agregadas de duração, chamadas por etapa, itens extraídos e erros (incluindo XML malformado), persistidas localmente em `resources/outputData/metrics/processamento.jsonl`
 - `src/dashboard.py` — resumo da duração e detalhes por etapa da última execução do processamento; seção de métricas visível também antes da primeira execução
 - `src/utils.py` — nova função `format_currency(value: float) -> str` para formatação de valores monetários em Reais (R$)

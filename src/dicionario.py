@@ -1,6 +1,6 @@
+import argparse
 import pandas as pd
 from pathlib import Path
-from thefuzz import process, fuzz
 
 def carregar_dados_existentes(caminho_dic):
     """Carrega o dicionário atual para não perder nada."""
@@ -11,6 +11,8 @@ def carregar_dados_existentes(caminho_dic):
 
 def sugerir_padrao(novo_nome, nomes_conhecidos_padrao):
     """Tenta adivinhar o nome padrão usando Fuzzy Matching."""
+    from thefuzz import process, fuzz
+
     if not nomes_conhecidos_padrao:
         return str(novo_nome).title()
     
@@ -26,7 +28,34 @@ def sugerir_padrao(novo_nome, nomes_conhecidos_padrao):
     
     return str(novo_nome).title()
 
-def atualizar_dicionario():
+
+def identificar_duplicatas_por_ean(df_raw):
+    """Identifica descrições distintas de produtos associadas ao mesmo EAN."""
+    col_nome = 'produto_raw' if 'produto_raw' in df_raw.columns else 'produto'
+    colunas = ['ean', 'nomes_originais', 'ocorrencias']
+
+    if 'ean' not in df_raw.columns or col_nome not in df_raw.columns:
+        return pd.DataFrame(columns=colunas)
+
+    df_validos = df_raw[['ean', col_nome]].dropna(subset=['ean', col_nome]).copy()
+    df_validos['ean'] = df_validos['ean'].astype(str).str.strip()
+    df_validos[col_nome] = df_validos[col_nome].astype(str).str.strip()
+    df_validos = df_validos[(df_validos['ean'] != '') & (df_validos[col_nome] != '')]
+
+    duplicatas = []
+    for ean, grupo in df_validos.groupby('ean', sort=True):
+        nomes = list(dict.fromkeys(grupo[col_nome]))
+        if len(nomes) > 1:
+            duplicatas.append({
+                'ean': ean,
+                'nomes_originais': nomes,
+                'ocorrencias': len(grupo)
+            })
+
+    return pd.DataFrame(duplicatas, columns=colunas)
+
+
+def atualizar_dicionario(apenas_auditar_duplicatas=False):
     raiz = Path(__file__).resolve().parent.parent
     
     # --- MUDANÇA DE CAMINHO AQUI ---
@@ -41,9 +70,25 @@ def atualizar_dicionario():
         print("Erro: CSV de dados não encontrado em outputData.")
         return
     
-    df_raw = pd.read_csv(arquivo_dados, sep=';', decimal=',', encoding='utf-8-sig')
+    df_raw = pd.read_csv(
+        arquivo_dados,
+        sep=';',
+        decimal=',',
+        encoding='utf-8-sig',
+        dtype={'ean': str}
+    )
     col_nome = 'produto_raw' if 'produto_raw' in df_raw.columns else 'produto'
     produtos_novos_detectados = df_raw[col_nome].dropna().unique()
+
+    duplicatas_ean = identificar_duplicatas_por_ean(df_raw)
+    if not duplicatas_ean.empty:
+        print(f"Possíveis duplicatas encontradas por EAN: {len(duplicatas_ean)}")
+        for _, item in duplicatas_ean.iterrows():
+            nomes = ' | '.join(item['nomes_originais'])
+            print(f"  EAN {item['ean']}: {nomes} ({item['ocorrencias']} ocorrências)")
+
+    if apenas_auditar_duplicatas:
+        return
 
     df_dic = carregar_dados_existentes(arquivo_dicionario)
     
@@ -82,4 +127,11 @@ def atualizar_dicionario():
         print("✅ Nenhuma novidade encontrada.")
 
 if __name__ == "__main__":
-    atualizar_dicionario()
+    parser = argparse.ArgumentParser(description="Atualiza ou audita o dicionário de produtos.")
+    parser.add_argument(
+        '--auditar-duplicatas',
+        action='store_true',
+        help='Lista produtos com descrições distintas e o mesmo EAN, sem alterar arquivos.'
+    )
+    args = parser.parse_args()
+    atualizar_dicionario(apenas_auditar_duplicatas=args.auditar_duplicatas)

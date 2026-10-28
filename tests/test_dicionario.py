@@ -5,7 +5,12 @@ import pandas as pd
 import pytest
 from pathlib import Path
 import dicionario
-from dicionario import atualizar_dicionario, carregar_dados_existentes, sugerir_padrao
+from dicionario import (
+    atualizar_dicionario,
+    carregar_dados_existentes,
+    identificar_duplicatas_por_ean,
+    sugerir_padrao,
+)
 
 
 # ── carregar_dados_existentes ──────────────────────────────────────────────────
@@ -64,6 +69,35 @@ class TestSugerirPadrao:
         nomes_conhecidos = ["Integral Leite"]
         resultado = sugerir_padrao("LEITE INTEGRAL", nomes_conhecidos)
         assert resultado == "Integral Leite"
+
+
+class TestIdentificarDuplicatasPorEan:
+    def test_retorna_descricoes_distintas_com_mesmo_ean(self):
+        df = pd.DataFrame([
+            {"produto_raw": "LEITE NINHO 750G", "ean": "7891000325896"},
+            {"produto_raw": "LEITE PO NINHO", "ean": "7891000325896"},
+            {"produto_raw": "ARROZ", "ean": "7890000000000"},
+            {"produto_raw": "LEITE NINHO 750G", "ean": "7891000325896"},
+        ])
+
+        resultado = identificar_duplicatas_por_ean(df)
+
+        assert resultado.to_dict("records") == [{
+            "ean": "7891000325896",
+            "nomes_originais": ["LEITE NINHO 750G", "LEITE PO NINHO"],
+            "ocorrencias": 3,
+        }]
+
+    def test_ignora_eans_vazios_e_aceita_coluna_produto(self):
+        df = pd.DataFrame([
+            {"produto": "PRODUTO A", "ean": ""},
+            {"produto": "PRODUTO B", "ean": None},
+        ])
+
+        resultado = identificar_duplicatas_por_ean(df)
+
+        assert resultado.empty
+        assert list(resultado.columns) == ["ean", "nomes_originais", "ocorrencias"]
 
 
 class TestAtualizarDicionario:
