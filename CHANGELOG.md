@@ -12,6 +12,9 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 - Nomes brutos que diferem de um item do dicionário apenas pela caixa (ex.: `BANANA MACA KG` x `BANANA MACA kg`) agora são normalizados para o mesmo produto, no processador e na atualização do dicionário (`chave_nome_produto` em `src/utils.py`)
 
 ### Adicionado
+- `src/processadorCuponsFiscais.py` — suporte a recibos de compra da Drogasil salvos como PDF de email
+  - Extrai data, itens, quantidades, valores pagos, loja, CNPJ, endereço e chave da NFC-e
+  - Reconstrói a chave de acesso mesmo quando os dígitos aparecem em colunas separadas e usa-a na deduplicação com XML
 - `resources/data/dicionario_produtos.json` — o dicionário de produtos passa a ser um JSON agrupado por nome padrão (`categoria` + `nomes_originais`), mais legível, editável à mão e com diffs claros no Git; fica em `resources/data/`, separado dos resultados de `resources/outputData/`
   - O carregamento valida a estrutura, rejeita nome original repetido em mais de um grupo e informa arquivo/linha em JSON malformado
   - Dicionários `.xlsx` antigos (em `resources/data/` ou `resources/outputData/`) são convertidos automaticamente na primeira atualização

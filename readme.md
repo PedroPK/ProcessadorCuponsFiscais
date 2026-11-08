@@ -8,7 +8,7 @@ Este software resolve o problema de rastrear a "inflação real" do consumidor. 
 
 **Funcionalidades:**
 * **Extração via XML (preferencial):** Lê diretamente o XML da NF-e (obtido pelo app de consulta de notas fiscais). Dados estruturados, precisos e sem necessidade de regex — inclui EAN, NCM, CNPJ e nome da loja.
-* **Extração via PDF (legado):** Continua suportando arquivos DANFE em PDF para notas mais antigas.
+* **Extração via PDF:** Suporta DANFEs e recibos de compra da Drogasil salvos como PDF de email, extraindo os itens e os dados da NFC-e.
 * **Deduplicação automática:** Usa a **chave de acesso NF-e (44 dígitos)** para garantir que a mesma nota não seja contada duas vezes, mesmo que exista nos dois formatos ou duplicada dentro de um ZIP.
 * **Normalização de Nomes:** Usa algoritmos de similaridade (*Fuzzy Matching*) para identificar variações de nomes de produtos.
 * **Dashboard Interativo:** Painel visual para analisar variação de preços e Curva ABC (Pareto).
@@ -19,12 +19,13 @@ Este software resolve o problema de rastrear a "inflação real" do consumidor. 
 
 | | XML (NF-e) | PDF (DANFE) |
 |---|---|---|
-| Parsing | Zero regex, 100% confiável | Regex frágil, depende do layout |
+| Parsing | Estruturado, sem regex | Depende do layout; há parser dedicado para recibo da Drogasil |
 | Nome do produto | Exato (dado do sistema da loja) | Abreviado/truncado |
 | Código EAN (barcode) | ✅ | ❌ |
 | Código NCM (fiscal) | ✅ | ❌ |
-| Nome e CNPJ da loja | ✅ | ❌ |
-| Data/hora exata | ✅ ISO 8601 com timezone | Somente data, via regex |
+| Nome e CNPJ da loja | ✅ | ✅ no recibo da Drogasil |
+| Chave de acesso | ✅ | ✅ quando presente no DANFE/recibo |
+| Data/hora exata | ✅ ISO 8601 com timezone | Somente data |
 
 > **Recomendação:** sempre prefira baixar o XML da nota (disponível no app "NFC-e" ou pelo QR Code do cupom). O PDF só é necessário para notas antigas que você não tenha o XML.
 
@@ -99,7 +100,7 @@ Pegue seus arquivos e coloque na pasta `resources/notas_fiscais/`. Os formatos a
 | Formato | Descrição |
 |---|---|
 | `.xml` | XML da NF-e — **formato preferencial**, máxima qualidade de dados |
-| `.pdf` | DANFE em PDF — suporte legado para notas antigas |
+| `.pdf` | DANFE ou recibo de email da Drogasil em PDF |
 | `.zip` | ZIP com XMLs e/ou PDFs. Se o ZIP contiver ambos, apenas os XMLs são usados |
 
 > **Como obter o XML:** leia o QR Code do cupom físico com o app de NFC-e do seu estado (ex.: app da SEFAZ), acesse a nota e baixe o XML. Você pode salvar vários XMLs num único ZIP.

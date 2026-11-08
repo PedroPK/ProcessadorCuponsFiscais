@@ -36,10 +36,117 @@ class ProcessadorDeCupons:
         match = re.search(r'(?<![\d])(\d{44})(?![\d])', texto_sem_espacos)
         return match.group(1) if match else None
 
-    def _extrair_dados_do_pdf(self, pdf, nome_arquivo_origem):
+    def _extrair_chave_pdf_documento(self, pdf) -> str | None:
+        """Localiza a chave NF-e no documento, inclusive quando quebrada em colunas."""
+        for page in pdf.pages:
+            palavras = page.extract_words()
+            for palavra in palavras:
+                if palavra['text'].casefold() != 'chave':
+                    continue
+
+                x_inicio = palavra['x0'] - 5
+                y_inicio = palavra['top']
+                digitos = [
+                    item for item in palavras
+                    if item['text'].isdigit()
+                    and item['x0'] >= x_inicio
+                    and y_inicio <= item['top'] <= y_inicio + 45
+                ]
+                chave = ''.join(
+                    item['text'] for item in sorted(digitos, key=lambda item: (item['top'], item['x0']))
+                )
+                if len(chave) == 44:
+                    return chave
+
+        texto = '\n'.join(page.extract_text() or '' for page in pdf.pages)
+        return self._extrair_chave_pdf(texto)
+
+    @staticmethod
+    def _converter_valor_recibo(valor: str) -> float:
+        """Converte valores monetários com ponto ou vírgula decimal."""
+        limpo = valor.strip()
+        if ',' in limpo and '.' in limpo:
+            limpo = limpo.replace('.', '').replace(',', '.')
+        else:
+            limpo = limpo.replace(',', '.')
+        return float(limpo)
+
+    def _extrair_recibo_drogasil(self, texto: str, nome_arquivo_origem: str, chave_nfe: str | None) -> int:
+        """Converte o recibo de email da Drogasil em itens no formato fiscal unificado."""
+        if not (
+            re.search(r'seu recibo da drogasil', texto, flags=re.IGNORECASE)
+            and re.search(r'PRODUTO\s+QTD\s+VALOR\s+TOTAL', texto, flags=re.IGNORECASE)
+        ):
+            return 0
+
+        match_data = re.search(r'\bdia\s+(\d{2}/\d{2}/\d{4})\b', texto, flags=re.IGNORECASE)
+        data_compra = match_data.group(1) if match_data else 'Data Desconhecida'
+        match_cnpj = re.search(r'\bCNPJ:\s*([\d./-]+)', texto, flags=re.IGNORECASE)
+        cnpj = re.sub(r'\D', '', match_cnpj.group(1)) if match_cnpj else ''
+        match_cep = re.search(r'\bCEP:\s*(\d{5}-?\d{3})', texto, flags=re.IGNORECASE)
+        endereco = ''
+        match_endereco = re.search(
+            r'Consumidor\s+Eletr[oô]nica\s+([^\r\n]+)',
+            texto,
+            flags=re.IGNORECASE,
+        )
+        if match_endereco:
+            endereco = match_endereco.group(1).strip()
+        if match_cep:
+            endereco = ', '.join(filter(None, [endereco, f'CEP {match_cep.group(1)}']))
+
+        linhas = texto.splitlines()
+        itens_encontrados = 0
+        regex_linha_valores = re.compile(
+            r'(?P<qtd>[\d.,]+)\s+R\$\s*(?P<vunit>[\d.,]+)\s+R\$\s*(?P<vtotal>[\d.,]+)',
+            flags=re.IGNORECASE,
+        )
+        for indice, linha in enumerate(linhas[:-1]):
+            match_valores = regex_linha_valores.fullmatch(linhas[indice + 1].strip())
+            nome = linha.strip()
+            if not match_valores or not nome:
+                continue
+
+            try:
+                qtd = self._converter_valor_recibo(match_valores.group('qtd'))
+                preco_unit = self._converter_valor_recibo(match_valores.group('vunit'))
+                preco_total = self._converter_valor_recibo(match_valores.group('vtotal'))
+            except ValueError:
+                continue
+            if preco_total <= 0:
+                continue
+
+            self.dados_consolidados.append({
+                'data': data_compra,
+                'loja': 'Drogasil',
+                'cnpj': cnpj,
+                'endereco': endereco,
+                'produto': nome,
+                'qtd': qtd,
+                'unidade': 'UN',
+                'preco_unit': preco_unit,
+                'preco_total': preco_total,
+                'codigo': '',
+                'ean': '',
+                'ncm': '',
+                'chave_nfe': chave_nfe or '',
+                'arquivo_origem': nome_arquivo_origem,
+            })
+            itens_encontrados += 1
+            self.metricas.registrar_itens(1)
+
+        return itens_encontrados
+
+    def _extrair_dados_do_pdf(self, pdf, nome_arquivo_origem, chave_nfe: str | None = None):
         texto_completo = ""
         for page in pdf.pages:
             texto_completo += page.extract_text() or ""
+
+        if chave_nfe is None:
+            chave_nfe = self._extrair_chave_pdf_documento(pdf)
+        itens_recibo = self._extrair_recibo_drogasil(texto_completo, nome_arquivo_origem, chave_nfe)
+        if itens_recibo:
+            return itens_recibo
 
         match_data = re.search(r'(\d{2}/\d{2}/\d{2,4})', texto_completo)
         data_compra = match_data.group(1) if match_data else "Data Desconhecida"
@@ -91,15 +198,13 @@ class ProcessadorDeCupons:
     def processar_arquivo_pdf(self, caminho_arquivo):
         try:
             with pdfplumber.open(caminho_arquivo) as pdf:
-                # Extrai o texto da primeira página apenas para verificar a chave
-                texto_p1 = pdf.pages[0].extract_text() or '' if pdf.pages else ''
-                chave = self._extrair_chave_pdf(texto_p1)
+                chave = self._extrair_chave_pdf_documento(pdf)
                 if chave:
                     if chave in self._chaves_processadas:
                         print(f"  [SKIP PDF] {caminho_arquivo.name}: chave já processada via XML")
                         return
                     self._chaves_processadas.add(chave)
-                self._extrair_dados_do_pdf(pdf, caminho_arquivo.name)
+                self._extrair_dados_do_pdf(pdf, caminho_arquivo.name, chave_nfe=chave)
         except Exception as e:
             self.metricas.registrar_erro('pdf')
             print(f"[ERRO] {caminho_arquivo.name}: {e}")
@@ -290,14 +395,13 @@ class ProcessadorDeCupons:
             try:
                 with self.metricas.medir('pdf'):
                     with pdfplumber.open(_io.BytesIO(pdf_bytes)) as pdf:
-                        texto_p1 = pdf.pages[0].extract_text() or '' if pdf.pages else ''
-                        chave = self._extrair_chave_pdf(texto_p1)
+                        chave = self._extrair_chave_pdf_documento(pdf)
                         if chave:
                             if chave in self._chaves_processadas:
                                 print(f"  [SKIP PDF] {origem}: chave já processada")
                                 continue
                             self._chaves_processadas.add(chave)
-                        n = self._extrair_dados_do_pdf(pdf, origem)
+                        n = self._extrair_dados_do_pdf(pdf, origem, chave_nfe=chave)
                         if n > 0:
                             print(f"  [PDF] {origem}: {n} item(s)")
             except Exception as e:

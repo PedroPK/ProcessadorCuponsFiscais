@@ -4,6 +4,7 @@ Testes para src/processadorCuponsFiscais.py
 import io
 import json
 import zipfile
+from types import SimpleNamespace
 import pandas as pd
 import pytest
 from conftest import XML_VALIDO, NFE_CHAVE
@@ -57,6 +58,99 @@ class TestExtrairChavePdf:
 
     def test_numero_menor_que_44_nao_e_chave(self):
         assert self.p._extrair_chave_pdf("123456789012345678901234567890") is None
+
+
+# ── Recibo de compra da Drogasil em PDF ────────────────────────────────────────
+
+class TestReciboDrogasilPdf:
+    CHAVE = "26241161585865120130650070003166601390246747"
+    TEXTO = """\
+Gmail - Seu recibo da Drogasil
+Este é o seu cupom da compra que
+você realizou do dia 06/11/2024 no
+valor de R$ 20.21 .
+Resumo do seu pedido
+PRODUTO QTD VALOR TOTAL
+IBUPROFENO 600 FRM 20
+1 R$ 12.57 R$ 12.57
+(De) R$ 22.85 (Por) R$ 12.57
+NEEDS SAL AMARGO 30G
+1 R$ 7.64 R$ 7.64
+(De) R$ 8.99 (Por) R$ 7.64
+Subtotal R$ 20.21
+NFC-e No. Serie Emissão Via do consumidor Chave de Acesso
+262411615858651201306500700031
+66601390246747
+Raia Drogasil S/A
+Consumidor Eletrônica PADRE CARAPUCEIRO
+CEP: 51020-900
+CNPJ: 615.858.651/2013-0
+"""
+
+    def _criar_pdf_falso(self):
+        palavras = [
+            {"text": "Chave", "x0": 369.5, "top": 417.2},
+            {"text": "6605860105", "x0": 39.6, "top": 444.4},
+            {"text": "7", "x0": 130.0, "top": 444.4},
+            {"text": self.CHAVE[:30], "x0": 369.5, "top": 438.4},
+            {"text": self.CHAVE[30:], "x0": 369.5, "top": 450.4},
+        ]
+        pagina = SimpleNamespace(
+            extract_text=lambda: self.TEXTO,
+            extract_words=lambda: palavras,
+        )
+
+        class PdfFalso:
+            pages = [pagina]
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_):
+                return False
+
+        return PdfFalso()
+
+    def test_extrai_itens_e_chave_da_nota_em_colunas(self, tmp_path, monkeypatch):
+        pdf = self._criar_pdf_falso()
+        monkeypatch.setattr(processadorCuponsFiscais.pdfplumber, "open", lambda *_args, **_kwargs: pdf)
+        arquivo = tmp_path / "recibo_drogasil.pdf"
+
+        p = ProcessadorDeCupons()
+        p.processar_arquivo_pdf(arquivo)
+
+        assert p._chaves_processadas == {self.CHAVE}
+        assert len(p.dados_consolidados) == 2
+        ibuprofeno, sal_amargo = p.dados_consolidados
+        assert ibuprofeno["data"] == "06/11/2024"
+        assert ibuprofeno["loja"] == "Drogasil"
+        assert ibuprofeno["cnpj"] == "61585865120130"
+        assert ibuprofeno["endereco"] == "PADRE CARAPUCEIRO, CEP 51020-900"
+        assert ibuprofeno["produto"] == "IBUPROFENO 600 FRM 20"
+        assert ibuprofeno["qtd"] == pytest.approx(1)
+        assert ibuprofeno["unidade"] == "UN"
+        assert ibuprofeno["preco_unit"] == pytest.approx(12.57)
+        assert ibuprofeno["preco_total"] == pytest.approx(12.57)
+        assert ibuprofeno["chave_nfe"] == self.CHAVE
+        assert sal_amargo["produto"] == "NEEDS SAL AMARGO 30G"
+        assert sal_amargo["preco_total"] == pytest.approx(7.64)
+
+        p.processar_arquivo_pdf(arquivo)
+        assert len(p.dados_consolidados) == 2
+
+    def test_zip_deduplica_recibo_quando_xml_tem_a_mesma_chave(self, tmp_path, monkeypatch):
+        pdf = self._criar_pdf_falso()
+        monkeypatch.setattr(processadorCuponsFiscais.pdfplumber, "open", lambda *_args, **_kwargs: pdf)
+        zip_path = tmp_path / "notas.zip"
+        with zipfile.ZipFile(zip_path, "w") as arquivo_zip:
+            arquivo_zip.writestr("nota.xml", XML_VALIDO.replace(NFE_CHAVE, self.CHAVE))
+            arquivo_zip.writestr("recibo.pdf", b"pdf de teste")
+
+        p = ProcessadorDeCupons()
+        p.processar_zip(zip_path)
+
+        assert len(p.dados_consolidados) == 2
+        assert {item["arquivo_origem"] for item in p.dados_consolidados} == {"notas.zip::nota.xml"}
 
 
 # ── Deduplicação por chave ─────────────────────────────────────────────────────
