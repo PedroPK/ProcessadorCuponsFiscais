@@ -12,6 +12,12 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 - PDFs de páginas web impressas: o resíduo "Filtrar itens..." deixa de ser incluído no início do nome do produto
 - Nomes brutos que diferem de um item do dicionário apenas pela caixa (ex.: `BANANA MACA KG` x `BANANA MACA kg`) agora são normalizados para o mesmo produto, no processador e na atualização do dicionário (`chave_nome_produto` em `src/utils.py`)
 
+### Melhorado
+- Dashboard de Gastos: **cards de dias do calendário** com melhor aproveitamento de espaço
+  - Número do dia aumentado de 0.85rem para 1.1rem (↑ 29%) e com weight 600 (bold)
+  - Valor gasto aumentado de 1rem para 1.5rem (↑ 50%)
+  - Layout usando flexbox com order para melhor hierarquia visual
+
 ### Adicionado
 - Detalhes diários agrupam visualmente datas e horas consecutivas iguais, centralizadas verticalmente, mantendo a tabela interativa original disponível.
 - Detalhes diários do Dashboard de Gastos exibem a hora de emissão extraída dos XMLs; CSVs antigos e outras fontes permanecem compatíveis.
