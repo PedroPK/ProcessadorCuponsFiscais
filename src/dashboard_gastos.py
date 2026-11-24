@@ -253,15 +253,28 @@ def exibir_dashboard_gastos(df: pd.DataFrame) -> None:
                 background-color: #f0f2f6;
                 color: #171717;
                 border: 1px solid #dedfe3;
+                position: relative;
             }
-            [class*="st-key-gastos_dia_"] button > div { width: 100%; }
+            [class*="st-key-gastos_dia_"] button > div { 
+                width: 100%; 
+                display: flex;
+                flex-direction: column;
+            }
             [class*="st-key-gastos_dia_"] button p {
                 color: #171717;
                 text-align: left;
-                font-size: 0.85rem;
-                line-height: 1.7;
+                font-size: 1.1rem;
+                line-height: 1.4;
+                margin: 0;
+                font-weight: 600;
+                order: 1;
             }
-            [class*="st-key-gastos_dia_"] button strong { color: #171717; font-size: 1rem; }
+            [class*="st-key-gastos_dia_"] button strong { 
+                color: #171717; 
+                font-size: 1.5rem; 
+                order: 2;
+                margin-top: auto;
+            }
             [class*="st-key-gastos_dia_"] button:hover { border-color: #a52e28; color: #171717; }
             """ + '\n'.join(estilos_dias) + """
             </style>
