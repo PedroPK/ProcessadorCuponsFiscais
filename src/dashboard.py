@@ -38,7 +38,11 @@ def carregar_dados():
         return None
     
     # Lê com padrão brasileiro
-    df = pd.read_csv(caminho_csv, sep=';', decimal=',', encoding='utf-8-sig')
+    colunas_texto = ['codigo', 'ean', 'ncm', 'cnpj', 'chave_nfe', 'hora']
+    df = pd.read_csv(
+        caminho_csv, sep=';', decimal=',', encoding='utf-8-sig',
+        dtype={coluna: str for coluna in colunas_texto},
+    )
     df['data'] = pd.to_datetime(df['data'], format='mixed', dayfirst=True)
     return df.sort_values('data')
 
@@ -753,6 +757,7 @@ with tab3:
     # Renomeia colunas para exibição: remove underscores e capitaliza
     mapa_colunas = {
         'data': 'Data',
+        'hora': 'Hora',
         'loja': 'Loja',
         'cnpj': 'CNPJ',
         'endereco': 'Endereço',

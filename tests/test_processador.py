@@ -334,6 +334,21 @@ class TestAplicarNormalizacao:
         assert resultado.loc[1, "categoria"] == "Outros"
 
 class TestExportarCsv:
+    def test_exporta_hora_xml_e_mantem_vazia_para_outros_itens(self, tmp_path, monkeypatch):
+        (tmp_path / "src").mkdir()
+        monkeypatch.setattr(processadorCuponsFiscais, "__file__", str(tmp_path / "src" / "processadorCuponsFiscais.py"))
+        p = ProcessadorDeCupons()
+        p.dados_consolidados = processadorCuponsFiscais.extrair_itens_do_xml(XML_VALIDO, "nota.xml")
+        p.dados_consolidados.append({
+            "data": "01/03/2026", "produto": "ITEM PDF", "qtd": 1,
+            "unidade": "UN", "preco_unit": 1.0, "preco_total": 1.0,
+            "arquivo_origem": "nota.pdf",
+        })
+        p.exportar_csv("teste.csv")
+        df = pd.read_csv(tmp_path / "resources" / "outputData" / "teste.csv", sep=";", dtype={"hora": str})
+        assert df["hora"].tolist()[:2] == ["13:01:36", "13:01:36"]
+        assert pd.isna(df["hora"].iloc[2])
+
     def test_exporta_produto_raw_mesmo_sem_dicionario(self, tmp_path, monkeypatch):
         raiz = tmp_path
         (raiz / "src").mkdir()

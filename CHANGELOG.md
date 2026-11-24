@@ -8,10 +8,13 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 ## [Não lançado]
 
 ### Corrigido
+- Dashboard: identificadores fiscais são lidos como texto, evitando erro de conversão da chave NF-e na tabela de dados brutos e preservando zeros à esquerda.
 - PDFs de páginas web impressas: o resíduo "Filtrar itens..." deixa de ser incluído no início do nome do produto
 - Nomes brutos que diferem de um item do dicionário apenas pela caixa (ex.: `BANANA MACA KG` x `BANANA MACA kg`) agora são normalizados para o mesmo produto, no processador e na atualização do dicionário (`chave_nome_produto` em `src/utils.py`)
 
 ### Adicionado
+- Detalhes diários agrupam visualmente datas e horas consecutivas iguais, centralizadas verticalmente, mantendo a tabela interativa original disponível.
+- Detalhes diários do Dashboard de Gastos exibem a hora de emissão extraída dos XMLs; CSVs antigos e outras fontes permanecem compatíveis.
 - `src/dashboard.py` e `src/dashboard_gastos.py` — aba **Dashboard de Gastos** com navegação por ano e mês, calendário diário, totais e detalhes por dia ou categoria.
 - `src/processadorCuponsFiscais.py` — suporte a recibos de compra da Drogasil salvos como PDF de email
   - Extrai data, itens, quantidades, valores pagos, loja, CNPJ, endereço e chave da NFC-e
@@ -49,6 +52,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
   - Exportação XLSX (Citizen) passa a tentar montar endereço quando as colunas estiverem disponíveis
 
 ### Alterado
+- `src/dashboard_gastos.py` — calendário com cards coloridos conforme o gasto diário relativo ao mês e valores destacados.
 - `src/processadorCuponsFiscais.py` — lê o dicionário de produtos em JSON a partir de `resources/data/`, com fallback para `.xlsx` legado
 - `.gitignore` — passa a ignorar apenas `resources/notas_fiscais/` e `resources/outputData/`, versionando o dicionário
 - `readme.md` — documentação ampliada das abas de junho (**🗺️ Onde Comprar Melhor** e **📍 Mapa de Compras (NF)**)

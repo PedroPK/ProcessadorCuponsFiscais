@@ -124,6 +124,7 @@ python3 src/processadorCuponsFiscais.py
 | Coluna | Preenchida por | Descrição |
 |---|---|---|
 | `data` | XML e PDF | Data da compra (dd/mm/yyyy) |
+| `hora` | XML | Hora local de emissão (hh:mm:ss), quando informada no XML |
 | `loja` | XML | Nome fantasia ou razão social do emissor |
 | `cnpj` | XML | CNPJ do emissor |
 | `endereco` | XML (e XLSX quando disponível) | Endereço textual do estabelecimento |
@@ -139,6 +140,10 @@ python3 src/processadorCuponsFiscais.py
 | `chave_nfe` | XML | Chave de acesso NF-e de 44 dígitos |
 | `arquivo_origem` | XML e PDF | Nome do arquivo processado |
 | `categoria` | Dicionário | Categoria (após rodar o Passo 3) |
+
+No dashboard, os identificadores `codigo`, `ean`, `ncm`, `cnpj` e `chave_nfe` são lidos como texto para preservar seus dígitos, inclusive zeros à esquerda.
+
+Para preencher a hora nas notas XML já processadas, execute novamente o Passo 2 com os arquivos originais disponíveis. CSVs antigos continuam funcionando; registros sem hora, inclusive os extraídos de PDF ou XLSX, aparecem como **Não informada** no detalhe do dia.
 
 > **Dica — Formatação de valores:** Use a função `format_currency()` do módulo `utils` para exibir valores monetários formatados. Exemplo:
 > ```python
@@ -213,6 +218,8 @@ streamlit run src/dashboard.py
 - **💳 Dashboard de Gastos** — navegue dos gastos anuais aos mensais e ao calendário diário; clique nas barras, pontos de valor zero, dias ou fatias para detalhar gastos.
 
 O dashboard de gastos respeita o filtro geral de origem e soma o `preco_total` dos itens. O total e a pizza por `categoria` correspondem ao período selecionado; itens sem categoria aparecem como **Sem categoria**. Itens sem data são excluídos com aviso. Categorias de valor zero não possuem fatia e, se alguma categoria tiver total negativo, uma tabela substitui a pizza, que não representa valores negativos.
+
+No calendário, a intensidade da cor é proporcional ao maior gasto positivo do mês; dias com total zero ou negativo aparecem em cinza. Clique em qualquer card para ver os itens do dia e a hora de emissão quando disponível. No detalhe, datas e horas consecutivas iguais são mescladas; a seção **Abrir tabela interativa** mantém busca, ordenação e download com todos os valores por linha.
 
 #### Detalhamento das abas novas (Junho/2026)
 

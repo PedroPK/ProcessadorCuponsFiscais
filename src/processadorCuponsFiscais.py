@@ -495,6 +495,7 @@ class ProcessadorDeCupons:
 
     @medir_etapa('exportacao_csv')
     def exportar_csv(self, nome_arquivo="minha_inflacao.csv"):
+        """Exporta itens normalizados, incluindo a hora de emissão quando disponível."""
         df = pd.DataFrame(self.dados_consolidados)
         
         if not df.empty:
@@ -502,7 +503,9 @@ class ProcessadorDeCupons:
             df = self._aplicar_normalizacao(df)
             
             # Reordena — inclui campos extras vindos de XMLs (ean, ncm, loja, cnpj)
-            cols = ['data', 'loja', 'cnpj', 'endereco', 'categoria', 'produto', 'produto_raw', 'qtd', 'unidade',
+            if 'hora' not in df.columns:
+                df['hora'] = ''
+            cols = ['data', 'hora', 'loja', 'cnpj', 'endereco', 'categoria', 'produto', 'produto_raw', 'qtd', 'unidade',
                     'preco_unit', 'preco_total', 'codigo', 'ean', 'ncm', 'chave_nfe', 'arquivo_origem']
             # Garante que as colunas existem (caso o dicionário tenha falhado)
             cols_finais = [c for c in cols if c in df.columns]

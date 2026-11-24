@@ -79,6 +79,16 @@ def _parse_data(dh_emi: str | None) -> str:
         return dh_emi[:10]  # Fallback: apenas a parte da data
 
 
+def _parse_hora(dh_emi: str | None) -> str:
+    """Retorna a hora local informada em dhEmi, ou vazio se não existir."""
+    if not dh_emi or ('T' not in dh_emi and ' ' not in dh_emi):
+        return ''
+    try:
+        return datetime.fromisoformat(dh_emi).strftime('%H:%M:%S')
+    except ValueError:
+        return ''
+
+
 def extrair_chave_do_xml(conteudo_xml: bytes | str) -> str | None:
     """
     Extrai apenas a chave de acesso NF-e (44 dígitos) do XML.
@@ -118,7 +128,7 @@ def extrair_itens_do_xml(
     -------
     list[dict]
         Lista de dicts, um por item da nota, com as chaves:
-          data, produto, qtd, unidade, preco_unit, preco_total,
+          data, hora, produto, qtd, unidade, preco_unit, preco_total,
           codigo, ean, ncm, loja, cnpj, endereco, chave_nfe, arquivo_origem
     """
     if isinstance(conteudo_xml, bytes):
@@ -148,7 +158,9 @@ def extrair_itens_do_xml(
     ide  = nfe.find(_t('ide'))
     emit = nfe.find(_t('emit'))
 
-    data_compra = _parse_data(_get(ide, 'dhEmi') if ide is not None else None)
+    dh_emi = _get(ide, 'dhEmi') if ide is not None else None
+    data_compra = _parse_data(dh_emi)
+    hora_compra = _parse_hora(dh_emi)
 
     cnpj = _get(emit, 'CNPJ') if emit is not None else None
     # Prefere o nome fantasia; cai para razão social se não existir
@@ -182,6 +194,7 @@ def extrair_itens_do_xml(
 
         itens.append({
             'data':           data_compra,
+            'hora':           hora_compra,
             'produto':        nome_produto,
             'qtd':            qtd,
             'unidade':        unidade,

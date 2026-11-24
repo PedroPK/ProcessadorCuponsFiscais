@@ -2,6 +2,8 @@
 
 import calendar
 from datetime import date
+from html import escape
+from itertools import groupby
 
 import altair as alt
 import pandas as pd
@@ -47,8 +49,69 @@ def agrupar_periodos(df: pd.DataFrame, campo: str) -> pd.DataFrame:
     return totais
 
 
+def cor_gasto_dia(valor: float, maior_gasto: float) -> str:
+    """Calcula a cor do card em relação ao maior gasto positivo do mês."""
+    if valor <= 0 or maior_gasto <= 0:
+        return '#f0f2f6'
+    intensidade = min(valor / maior_gasto, 1)
+    claro = (255, 241, 238)
+    escuro = (219, 87, 75)
+    componentes = [round(inicio + (fim - inicio) * intensidade)
+                   for inicio, fim in zip(claro, escuro)]
+    return '#{:02x}{:02x}{:02x}'.format(*componentes)
+
+
+def tabela_dia_mesclada(detalhes: pd.DataFrame) -> str:
+    """Gera uma tabela HTML com data e hora consecutivas mescladas."""
+    registros = detalhes.to_dict('records')
+    spans = {}
+    for coluna, chave in (
+        ('Data', lambda registro: registro['Data']),
+        ('Hora', lambda registro: (registro['Data'], registro['Hora'])),
+    ):
+        for _, grupo in groupby(enumerate(registros), key=lambda item: chave(item[1])):
+            indices = [indice for indice, _ in grupo]
+            spans[(indices[0], coluna)] = len(indices)
+
+    cabecalho = ''.join(f'<th scope="col">{escape(str(coluna))}</th>' for coluna in detalhes.columns)
+    linhas = []
+    for indice, registro in enumerate(registros):
+        celulas = []
+        for coluna, valor in registro.items():
+            if coluna in ('Data', 'Hora'):
+                if (indice, coluna) not in spans:
+                    continue
+                atributo = f' rowspan="{spans[(indice, coluna)]}"'
+            else:
+                atributo = ''
+            if coluna in ('Quantidade', 'Preço unitário', 'Total'):
+                atributo += ' class="valor"'
+            if pd.isna(valor):
+                texto = ''
+            elif coluna in ('Preço unitário', 'Total'):
+                texto = format_currency(valor)
+            else:
+                texto = str(valor)
+            celulas.append(f'<td{atributo}>{escape(texto)}</td>')
+        linhas.append('<tr>' + ''.join(celulas) + '</tr>')
+
+    return (
+        '<style>'
+        '.gastos-dia-tabela { overflow: auto; max-height: 400px; }'
+        '.gastos-dia-tabela table { border-collapse: collapse; width: 100%; font-size: 0.875rem; }'
+        '.gastos-dia-tabela th, .gastos-dia-tabela td { '
+        'border: 1px solid rgba(128, 128, 128, 0.35); padding: 0.5rem; '
+        'text-align: left; vertical-align: middle; white-space: nowrap; }'
+        '.gastos-dia-tabela td.valor { text-align: right; }'
+        '</style>'
+        '<div class="gastos-dia-tabela"><table aria-label="Detalhes dos gastos do dia">'
+        f'<thead><tr>{cabecalho}</tr></thead><tbody>{"".join(linhas)}</tbody>'
+        '</table></div>'
+    )
+
+
 @st.dialog("Detalhes dos gastos", width="large")
-def exibir_detalhes(titulo: str, itens: pd.DataFrame) -> None:
+def exibir_detalhes(titulo: str, itens: pd.DataFrame, mostrar_hora: bool = False) -> None:
     """Exibe os itens e o total do dia ou categoria selecionados."""
     st.subheader(titulo)
     st.metric("Total", format_currency(itens['preco_total'].sum()))
@@ -63,11 +126,26 @@ def exibir_detalhes(titulo: str, itens: pd.DataFrame) -> None:
     }
     detalhes = itens[[c for c in colunas if c in itens.columns]].copy()
     detalhes['data'] = detalhes['data'].dt.strftime('%d/%m/%Y')
+    if mostrar_hora:
+        if 'hora' in itens.columns:
+            horas = itens['hora'].fillna('').astype(str).str.strip()
+            horas = horas.mask(horas == '', 'Não informada')
+        else:
+            horas = 'Não informada'
+        detalhes.insert(1, 'Hora', horas)
     detalhes = detalhes.rename(columns=colunas)
+    if mostrar_hora:
+        st.html(tabela_dia_mesclada(detalhes))
+        with st.expander("Abrir tabela interativa"):
+            _exibir_tabela_interativa(detalhes)
+    else:
+        _exibir_tabela_interativa(detalhes)
+
+
+def _exibir_tabela_interativa(detalhes: pd.DataFrame) -> None:
+    """Exibe a tabela original com busca, ordenação e download."""
     st.dataframe(
-        detalhes,
-        hide_index=True,
-        use_container_width=True,
+        detalhes, hide_index=True, use_container_width=True,
         column_config={
             'Preço unitário': st.column_config.NumberColumn(format="R$ %.2f"),
             'Total': st.column_config.NumberColumn(format="R$ %.2f"),
@@ -157,8 +235,39 @@ def exibir_dashboard_gastos(df: pd.DataFrame) -> None:
         else:
             st.info("Não há gastos neste período para o filtro selecionado.")
     else:
-        st.caption("Clique em um dia para ver os itens, inclusive nos dias sem gastos.")
+        st.caption("Quanto mais escuro o card, maior o gasto em relação aos demais dias do mês. "
+                   "Clique em um dia para ver os itens, inclusive nos dias sem gastos.")
         dias = periodo.groupby(periodo['data'].dt.date)['preco_total'].sum()
+        maior_gasto = max(0, dias.max()) if not dias.empty else 0
+        estilos_dias = []
+        for dia_data, valor in dias.items():
+            cor = cor_gasto_dia(valor, maior_gasto)
+            estilos_dias.append(f'.st-key-gastos_dia_{dia_data} button {{ background-color: {cor}; }}')
+        st.markdown(
+            """
+            <style>
+            [class*="st-key-gastos_dia_"] button {
+                min-height: 84px;
+                justify-content: flex-start;
+                text-align: left;
+                background-color: #f0f2f6;
+                color: #171717;
+                border: 1px solid #dedfe3;
+            }
+            [class*="st-key-gastos_dia_"] button > div { width: 100%; }
+            [class*="st-key-gastos_dia_"] button p {
+                color: #171717;
+                text-align: left;
+                font-size: 0.85rem;
+                line-height: 1.7;
+            }
+            [class*="st-key-gastos_dia_"] button strong { color: #171717; font-size: 1rem; }
+            [class*="st-key-gastos_dia_"] button:hover { border-color: #a52e28; color: #171717; }
+            """ + '\n'.join(estilos_dias) + """
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
         cabecalho = st.columns(7)
         for coluna, nome in zip(cabecalho, ('Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom')):
             coluna.markdown(f"**{nome}**")
@@ -167,10 +276,10 @@ def exibir_dashboard_gastos(df: pd.DataFrame) -> None:
             for coluna, dia in zip(colunas, semana):
                 if dia:
                     data = date(ano, mes, dia)
-                    if coluna.button(f"{dia}\n{format_currency(dias.get(data, 0))}",
+                    if coluna.button(f"{dia}  \n**{format_currency(dias.get(data, 0))}**",
                                      key=f'gastos_dia_{data}', use_container_width=True):
                         itens = periodo.loc[periodo['data'].dt.date == data]
-                        exibir_detalhes(data.strftime('%d/%m/%Y'), itens)
+                        exibir_detalhes(data.strftime('%d/%m/%Y'), itens, mostrar_hora=True)
 
     st.markdown("#### Gastos por categoria")
     categorias = periodo.groupby('categoria', as_index=False)['preco_total'].sum()

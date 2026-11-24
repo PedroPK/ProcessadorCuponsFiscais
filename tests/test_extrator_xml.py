@@ -6,6 +6,7 @@ from conftest import XML_VALIDO, XML_SEM_CHAVE, XML_MALFORMADO, NFE_CHAVE
 from extratorXml import (
     _float,
     _parse_data,
+    _parse_hora,
     extrair_chave_do_xml,
     extrair_itens_do_xml,
 )
@@ -53,6 +54,17 @@ class TestParseData:
 
 # ── extrair_chave_do_xml ───────────────────────────────────────────────────────
 
+@pytest.mark.parametrize(("entrada", "esperado"), [
+    ("2026-03-01T13:01:36-03:00", "13:01:36"),
+    ("2026-03-01T00:00:00-03:00", "00:00:00"),
+    ("2026-03-01", ""),
+    ("2026-03-01T99:99:99", ""),
+    (None, ""),
+])
+def test_parse_hora(entrada, esperado):
+    assert _parse_hora(entrada) == esperado
+
+
 class TestExtrairChaveDoXml:
     def test_xml_valido_retorna_chave(self):
         chave = extrair_chave_do_xml(XML_VALIDO)
@@ -84,7 +96,7 @@ class TestExtrairItensDoXml:
 
     def test_campos_presentes(self):
         campos_esperados = {
-            "data", "produto", "qtd", "unidade", "preco_unit",
+            "data", "hora", "produto", "qtd", "unidade", "preco_unit",
             "preco_total", "codigo", "ean", "ncm", "loja",
             "cnpj", "endereco", "chave_nfe", "arquivo_origem",
         }
@@ -102,6 +114,9 @@ class TestExtrairItensDoXml:
 
     def test_data_formatada(self):
         assert self.itens[0]["data"] == "01/03/2026"
+
+    def test_hora_extraida(self):
+        assert all(item["hora"] == "13:01:36" for item in self.itens)
 
     def test_chave_nfe(self):
         assert self.itens[0]["chave_nfe"] == NFE_CHAVE
