@@ -17,6 +17,7 @@ import urllib.request
 from pathlib import Path
 from utils import filtrar_produtos, resolver_danfe
 from metricas import CAMINHO_METRICAS, carregar_ultima_execucao
+from dashboard_gastos import exibir_dashboard_gastos
 
 # --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(page_title="Minha Inflação Pessoal", layout="wide")
@@ -642,7 +643,10 @@ st.sidebar.divider()
 exibir_ultima_execucao()
 
 # --- CRIAÇÃO DAS ABAS ---
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["📈 Evolução de Preços", "💰 Análise Pareto (ABC)", "📋 Dados Brutos", "📊 Índice de Inflação Pessoal", "🏆 Produtos Mais Comprados", "🗺️ Onde Comprar Melhor", "📍 Mapa de Compras (NF)"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(["📈 Evolução de Preços", "💰 Análise Pareto (ABC)", "📋 Dados Brutos", "📊 Índice de Inflação Pessoal", "🏆 Produtos Mais Comprados", "🗺️ Onde Comprar Melhor", "📍 Mapa de Compras (NF)", "💳 Dashboard de Gastos"])
+
+with tab8:
+    exibir_dashboard_gastos(df)
 
 # ==========================================
 # ABA 1: EVOLUÇÃO (O que você já tinha)

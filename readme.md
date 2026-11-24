@@ -40,7 +40,8 @@ MEU_PROJETO/
 │   ├── extratorXml.py               # Parser de NF-e XML (chamado pelo processador)
 │   ├── gerador_danfe.py             # Converte XML → PDF legível (DANFE simplificado)
 │   ├── dicionario.py                # Script de normalização de nomes
-│   └── dashboard.py                 # Interface visual (Streamlit)
+│   ├── dashboard.py                 # Interface visual (Streamlit)
+│   └── dashboard_gastos.py          # Aba de gastos por período e categoria
 ├── tests/
 │   ├── conftest.py                  # Fixtures e configuração do pytest
 │   ├── test_extrator_xml.py         # Testes do parser XML
@@ -85,7 +86,7 @@ source .venv/bin/activate
 Copie e cole este comando inteiro para baixar tudo o que o projeto precisa:
 
 ```Bash
-pip install pdfplumber pandas openpyxl streamlit plotly thefuzz python-Levenshtein reportlab qrcode
+pip install pdfplumber pandas openpyxl "streamlit>=1.42" plotly thefuzz python-Levenshtein reportlab qrcode
 ```
 
 > **Nota:** o suporte a XML utiliza a biblioteca `xml.etree.ElementTree`, que já vem incluída no Python — nenhum pacote extra é necessário para isso.
@@ -209,6 +210,9 @@ streamlit run src/dashboard.py
 - **🏆 Produtos Mais Comprados** — ranking dos produtos por frequência de aparição nas notas, com gráfico de barras (top-N configurável) e tabela completa
 - **🗺️ Onde Comprar Melhor** — busca por produto e período com ranking de menores preços por estabelecimento e mapa com pins/balões de cada compra
 - **📍 Mapa de Compras (NF)** — mapa com 1 pin por nota fiscal (com endereço), incluindo resumo da nota e lista de itens no tooltip ao passar o mouse
+- **💳 Dashboard de Gastos** — navegue dos gastos anuais aos mensais e ao calendário diário; clique nas barras, pontos de valor zero, dias ou fatias para detalhar gastos.
+
+O dashboard de gastos respeita o filtro geral de origem e soma o `preco_total` dos itens. O total e a pizza por `categoria` correspondem ao período selecionado; itens sem categoria aparecem como **Sem categoria**. Itens sem data são excluídos com aviso. Categorias de valor zero não possuem fatia e, se alguma categoria tiver total negativo, uma tabela substitui a pizza, que não representa valores negativos.
 
 #### Detalhamento das abas novas (Junho/2026)
 
@@ -274,6 +278,13 @@ Tabela de resumo dos endereços plotados:
 | 🗺️ **Onde Comprar Melhor** | ![Onde Comprar Melhor](resources/screenshots/tab6_onde_comprar_melhor.png) |
 | 📍 **Mapa de Compras (NF)** | ![Mapa de Compras por NF](resources/screenshots/tab7_mapa_compras_nf.png) |
 | 📍 **Balão do Mapa de Compras (NF)** | ![Balão com conteúdo por endereço](resources/screenshots/tab7_mapa_nf_balao.png) |
+| 💳 **Gastos — todos os anos** | ![Gastos anuais e categorias](resources/screenshots/tab8_gastos_anos.png) |
+| 💳 **Gastos — meses de um ano** | ![Gastos mensais de 2024](resources/screenshots/tab8_gastos_meses.png) |
+| 💳 **Gastos — calendário do mês** | ![Calendário de gastos de fevereiro de 2024](resources/screenshots/tab8_gastos_calendario.png) |
+| 💳 **Gastos — detalhes de um dia** | ![Detalhes dos gastos de 15 de fevereiro de 2024](resources/screenshots/tab8_gastos_dia.png) |
+| 💳 **Gastos — detalhes de uma categoria** | ![Detalhes da categoria Mercearia em fevereiro de 2024](resources/screenshots/tab8_gastos_categoria.png) |
+
+As imagens do Dashboard de Gastos usam dados fictícios.
 
 ---
 

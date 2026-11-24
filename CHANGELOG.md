@@ -12,6 +12,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 - Nomes brutos que diferem de um item do dicionário apenas pela caixa (ex.: `BANANA MACA KG` x `BANANA MACA kg`) agora são normalizados para o mesmo produto, no processador e na atualização do dicionário (`chave_nome_produto` em `src/utils.py`)
 
 ### Adicionado
+- `src/dashboard.py` e `src/dashboard_gastos.py` — aba **Dashboard de Gastos** com navegação por ano e mês, calendário diário, totais e detalhes por dia ou categoria.
 - `src/processadorCuponsFiscais.py` — suporte a recibos de compra da Drogasil salvos como PDF de email
   - Extrai data, itens, quantidades, valores pagos, loja, CNPJ, endereço e chave da NFC-e
   - Reconstrói a chave de acesso mesmo quando os dígitos aparecem em colunas separadas e usa-a na deduplicação com XML
